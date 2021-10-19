@@ -2,12 +2,19 @@ import { TodoResult, TodoFooter, TodoInput, TodoMessage } from "./component";
 import styled from "@emotion/styled";
 import { css, Global } from "@emotion/react";
 import { COLOR_MAP } from "./constant";
+import CustomAxios from "./utils/api";
 
 export const App = () => {
+  const getList = async () => {
+    const result = await CustomAxios.get("/todo");
+    console.log(result);
+  };
+
   return (
     <>
       <Global styles={globalStyle} />
       <AppContainer>
+        <button onClick={getList}>하이루</button>
         <AppHeader>
           <h1>ToDo List📚</h1>
         </AppHeader>

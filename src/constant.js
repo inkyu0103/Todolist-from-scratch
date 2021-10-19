@@ -6,3 +6,5 @@ export const COLOR_MAP = {
   WHITE: "#FFFFFF",
   GREY: "#9D9D9D",
 };
+
+export const BASE_URL = "http://localhost:8080";
