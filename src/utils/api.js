@@ -17,8 +17,9 @@ class CustomAxios {
     return response.data;
   }
 
-  async post(url, config, body) {
-    const response = await axios.get(url, {
+  async post(url, body, config) {
+    //어라... 꼭 body에서 알아야 하나...?
+    const response = await axios.post(url, body, {
       ...config,
       headers: {
         "Content-Type": "application/json",
@@ -27,8 +28,8 @@ class CustomAxios {
 
     return response.data;
   }
-  async put(url, config, body) {
-    const response = await axios.get(url, {
+  async put(url, body, config) {
+    const response = await axios.put(url, body, {
       ...config,
       headers: {
         "Content-Type": "application/json",
@@ -37,8 +38,9 @@ class CustomAxios {
 
     return response.data;
   }
-  async delete(url, config, body) {
-    const response = await axios.get(url, {
+
+  async delete(url, config) {
+    const response = await axios.delete(url, {
       ...config,
       headers: {
         "Content-Type": "application/json",

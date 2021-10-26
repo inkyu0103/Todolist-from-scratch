@@ -1,27 +1,30 @@
-import { TodoResult, TodoFooter, TodoInput, TodoMessage } from "./component";
+import { TodoResult, TodoFooter, TodoInput } from "./component";
 import styled from "@emotion/styled";
 import { css, Global } from "@emotion/react";
 import { COLOR_MAP } from "./constant";
-import CustomAxios from "./utils/api";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getInitialPosts } from "./store/saga/action";
 
 export const App = () => {
-  const getList = async () => {
-    const result = await CustomAxios.get("/todo");
-    console.log(result);
-  };
+  const dispatch = useDispatch();
+  const todoList = useSelector((state) => state.todoList);
+
+  //useEffect deps 살펴보기
+  useEffect(() => {
+    dispatch(getInitialPosts());
+  }, [todoList?.length]);
 
   return (
     <>
       <Global styles={globalStyle} />
       <AppContainer>
-        <button onClick={getList}>하이루</button>
         <AppHeader>
           <h1>ToDo List📚</h1>
         </AppHeader>
         <TodoInput />
-        <TodoResult />
+        {todoList && <TodoResult posts={todoList} />}
         <TodoFooter />
-        <TodoMessage message={"성공적으로 삭제했습니다."} messageType={1} />
       </AppContainer>
     </>
   );
@@ -49,7 +52,8 @@ const globalStyle = css`
 
 const AppContainer = styled.div`
   width: 390px;
-  height: 844px;
+  // 수정
+  height: 600px;
   position: relative;
   display: flex;
   flex-direction: column;

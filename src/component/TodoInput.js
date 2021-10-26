@@ -1,19 +1,22 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { COLOR_MAP } from "../constant";
+import { addPost } from "../store/saga/action";
 
 const ENTER_KEY_CODE = 13;
 
 export const TodoInput = () => {
-  const [text, setText] = useState(null);
+  const [content, setContent] = useState(null);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     if (e.keyCode === ENTER_KEY_CODE) {
-      // 여기서 서버에 전송한다.
       e.target.value = "";
-      setText("");
+      setContent("");
+      dispatch(addPost(content));
     } else {
-      setText(e.target.value);
+      setContent(e.target.value);
     }
   };
 
