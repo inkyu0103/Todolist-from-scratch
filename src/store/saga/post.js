@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call } from "redux-saga/effects";
+import { put, call, delay } from "redux-saga/effects";
 
 export function* getPostsSaga() {
   try {
@@ -9,7 +9,10 @@ export function* getPostsSaga() {
       todoList,
     });
   } catch (e) {
-    console.log("error", e);
+    yield put({
+      type: "GET_POST_FAIL",
+      todoList: [],
+    });
   }
 }
 
@@ -21,26 +24,59 @@ export function* addPostSaga({ type, content }) {
       type: "ADD_POST_SUCCESS",
       todoList,
     });
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "성공적으로 추가되었습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   } catch (e) {
-    console.log(e);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "추가에 실패하였습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   }
 }
 
 export function* deletePostSaga({ type, id }) {
   try {
     const { count, todoList } = yield call(CustomAxios.delete, `/${id}`);
-    console.log("newData is ", todoList);
     yield put({
       type: "DELETE_POST_SUCCESS",
       todoList,
     });
+
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "성공적으로 삭제되었습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   } catch (e) {
-    console.log(e);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "삭제에 실패하였습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   }
 }
 
 export function* putPostSaga({ type, content, id }) {
-  console.log("putPostSaga", content);
   try {
     yield CustomAxios.put(`/${id}`, { content });
     const { count, todoList } = yield CustomAxios.get();
@@ -48,8 +84,25 @@ export function* putPostSaga({ type, content, id }) {
       type: "EDIT_POST_SUCCESS",
       todoList,
     });
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "성공적으로 수정되었습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   } catch (e) {
-    console.log(e);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "수정에 실패하였습니다.",
+    });
+    yield delay(3000);
+    yield put({
+      type: "SHOW_MESSAGE",
+      message: "",
+    });
   }
 }
 

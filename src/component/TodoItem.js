@@ -28,7 +28,6 @@ export const TodoItem = ({ text, id, isCheck }) => {
     if (e.keyCode === ENTER_KEY_CODE) {
       e.target.value = "";
       setEditText("");
-      console.log("hi");
       dispatch(editPost(id, editText));
       setEditMode(false);
     } else {

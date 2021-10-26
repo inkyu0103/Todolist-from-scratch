@@ -1,6 +1,7 @@
 import { db } from "./init";
 import { QUERY } from "./queries";
 
+//고칠 수 있을지.
 export const getPosts = () => {
   return new Promise((resolve, reject) => {
     db.all(QUERY.ALLPOSTS(), (err, rows) => {

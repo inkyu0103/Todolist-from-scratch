@@ -1,15 +1,8 @@
 import styled from "@emotion/styled";
 import { COLOR_MAP } from "../constant";
 
-const MESSAGE_TYPE = {
-  DELETE: 0,
-  ADD: 1,
-};
-
-export const TodoMessage = ({ message, messageType }) => {
-  return (
-    <TodoMessageContainer type={messageType}>{message}</TodoMessageContainer>
-  );
+export const TodoMessage = ({ message }) => {
+  return <TodoMessageContainer>{message}</TodoMessageContainer>;
 };
 
 const TodoMessageContainer = styled.section`
@@ -17,9 +10,19 @@ const TodoMessageContainer = styled.section`
   bottom: 80px;
   width: 340px;
   height: 30px;
-  background: ${({ messageType }) =>
-    messageType ? COLOR_MAP.LIGHT_GREEN : COLOR_MAP.LIGHT_RED};
   text-align: center;
 
-  display: none;
+  animation: fadein 3s;
+  background: ${COLOR_MAP.LIGHT_GREEN};
+  @keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 `;

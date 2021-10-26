@@ -1,19 +1,21 @@
-import { TodoResult, TodoFooter, TodoInput } from "./component";
+import { TodoResult, TodoFooter, TodoInput, TodoMessage } from "./component";
 import styled from "@emotion/styled";
 import { css, Global } from "@emotion/react";
 import { COLOR_MAP } from "./constant";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getInitialPosts } from "./store/saga/action";
+import empty from "./assets/images/empty.png";
 
 export const App = () => {
   const dispatch = useDispatch();
-  const todoList = useSelector((state) => state.todoList);
+  const { isLoading, todoList, message } = useSelector((state) => state);
+  console.log(isLoading, todoList, message);
 
   //useEffect deps 살펴보기
   useEffect(() => {
     dispatch(getInitialPosts());
-  }, [todoList?.length]);
+  }, []);
 
   return (
     <>
@@ -21,9 +23,21 @@ export const App = () => {
       <AppContainer>
         <AppHeader>
           <h1>ToDo List📚</h1>
+          {message && <TodoMessage message={message} />}
         </AppHeader>
         <TodoInput />
-        {todoList && <TodoResult posts={todoList} />}
+        {todoList?.length === 0 ? (
+          <TodoResultEmptyContainer>
+            <div>
+              <img src={empty} width="70px" height="70px" alt="빈 사진" />
+            </div>
+            <div>
+              <p>할 일을 추가해보는건 어떨까요?</p>
+            </div>
+          </TodoResultEmptyContainer>
+        ) : (
+          <TodoResult posts={todoList} />
+        )}
         <TodoFooter />
       </AppContainer>
     </>
@@ -67,4 +81,13 @@ const AppContainer = styled.div`
 
 const AppHeader = styled.header`
   margin-top: 15px;
+`;
+
+const TodoResultEmptyContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
