@@ -8,7 +8,7 @@
 
 <br>
 
-![구조](doc\structure.png)
+![구조](/doc/structure.png)
 
 **Frontend**
 
@@ -43,7 +43,7 @@
 
 <br/>
 
-![컴포넌트 이미지](doc\Component.png)
+![컴포넌트 이미지](doc/Component.png)
 
 <br/>
 
