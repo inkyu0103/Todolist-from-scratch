@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { COLOR_MAP } from "../constant";
+import { COLOR_MAP, ENTER_KEY_CODE } from "../constant";
 import { addPost } from "../store/saga/action";
-
-const ENTER_KEY_CODE = 13;
 
 export const TodoInput = () => {
   const [content, setContent] = useState(null);
   const dispatch = useDispatch();
 
+  // keydown 이벤트를 받아 새로운 글을 작성할 수 있도록 하는 함수입니다.
   const handleChange = (e) => {
     if (e.keyCode === ENTER_KEY_CODE) {
       e.target.value = "";

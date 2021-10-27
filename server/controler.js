@@ -27,3 +27,14 @@ export const togglePost = (id, toggleValue) => {
 export const deletePost = (id) => {
   return db.run(QUERY.DELETEPOST(id));
 };
+
+export const getAdditionalPosts = (currentPostNum) => {
+  return new Promise((resolve, reject) => {
+    db.all(QUERY.ADDITIONALPOST(currentPostNum), (err, rows) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve(rows);
+    });
+  });
+};

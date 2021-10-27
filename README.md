@@ -1,21 +1,67 @@
-1. 구현할 기능들
+# 페이워크 2차과제 (Todolist)
 
-2. infinity scroll (5개 씩 받아와야 하나.)
+배포 사이트 : https://todolist-clients.herokuapp.com/
 
-3. 가능하다면 애니메이션도? (생성/삭제 시)
+**로컬보다 훨씬 느리게 동작합니다**
 
-4. CRUD
+### 1. 기술 스택 및 구조
 
-5. Loading UI 만들기.
+<br>
 
-6. 테스트 코드 작성해보기 (?)
+![구조](doc\structure.png)
 
-7. 테스트 서버 만들기
+**Frontend**
 
-8. 중요한 일만 모아볼 수 있게 할 수 있을까?
+- React JS
+- Redux
+- React-redux
+- Redux-saga
+- Emotion JS
 
-9. 반응형?
+**Backend (Local)**
 
-10. 없는 경우 없습니다! 표시 띄워주기.
+- nodeJs
+- express
 
-11. 길이가 너무 긴 경우 레이아웃이 무너지니까... 길이 제한을 주던지.
+**Depoly**
+
+- Heroku
+
+### 2. 로컬 실행 방법
+
+**현재 BASE_URL이 `http://localhost:8080` 로 설정되어 있습니다. 로컬 웹서버를 사용하셔서 테스트 하는 방법은 아래와 같습니다.**
+
+- 클라이언트 : `npm start`
+- 서버 : `cd server -> npm start`
+
+**만약 `http://dummy-server.io/` 로 테스트 하실 경우**
+
+- **package.json 의 proxy 부분을 삭제**
+- **src/constant.js 부분에서 BASE_URL을 `http://dummy-server.io/`로 교체해주시면 감사하겠습니다.**
+
+### 3. 구현 컴포넌트
+
+<br/>
+
+![컴포넌트 이미지](doc\Component.png)
+
+<br/>
+
+|  컴포넌트   | 구현여부 |
+| :---------: | :------: |
+|  TodoItem   |    O     |
+|  TodoInput  |    O     |
+| TodoResult  |    O     |
+| TodoMessage |    O     |
+| TodoButton  |    X     |
+| TodoFotter  |    X     |
+
+### 4. 구현 기능
+
+|      기능       | 구현여부 |
+| :-------------: | :------: |
+|    기본 CURD    |    O     |
+|   메시지 토글   |    O     |
+|  메시지 날리기  |    O     |
+|   무한 스크롤   |    X     |
+| 게시글 저장하기 |    X     |

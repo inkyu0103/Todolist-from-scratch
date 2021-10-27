@@ -14,41 +14,40 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// query에서 5개 처리함.
 app
   .route("/todo")
   .get(async (req, res) => {
+    console.log("hi");
     const result = await getPosts();
-    res.send({ count: result.length, todoList: result });
+    console.log(result);
+    res.status(200).send({ count: result.length, content: result });
   })
   .post((req, res) => {
+    console.log("hi");
     const { content } = req.body;
-    console.log(content);
     addPost(content);
-    res.send({ msg: "ok" });
+    res.status(200).send({ msg: "ok" });
   });
 
-app.delete(routes.TODO_CHECK, async (req, res) => {
+app.delete(routes.TODO_ID, async (req, res) => {
   const { id } = req.params;
   deletePost(id);
-  const result = await getPosts();
-  res.send({ count: result.length, todoList: result });
+  res.status(200).send({ msg: "ok" });
 });
 
-app.put(routes.TODO_CHECK, async (req, res) => {
+app.put(routes.TODO_ID, async (req, res) => {
   const { id } = req.params;
   const { content } = req.body;
-  console.log(id, content);
   editPost(content, id);
-  const result = await getPosts();
-  res.send({ count: result.length, todoList: result });
+  res.status(200).send({ msg: "ok", content });
 });
 
-app.post(routes.TODO_CHECK, async (req, res) => {
+app.post(routes.TODO_ID, async (req, res) => {
   const { id } = req.params;
   const { isCheck } = req.body;
   togglePost(id, isCheck);
-  const result = await getPosts();
-  res.send({ count: result.length, todoList: result });
+  res.status(200).send({ msg: "ok" });
 });
 
 export default app;

@@ -5,6 +5,7 @@ const axios = Axios.create({
   baseURL: BASE_URL,
 });
 
+// url을 매번 받아야 하는 번거로움을 제거하기 위해서 클래스로 구성하였습니다.
 class CustomAxios {
   async get(url, config) {
     const response = await axios.get(url, {

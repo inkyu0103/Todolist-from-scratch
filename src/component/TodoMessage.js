@@ -7,13 +7,15 @@ export const TodoMessage = ({ message }) => {
 
 const TodoMessageContainer = styled.section`
   position: absolute;
-  bottom: 80px;
-  width: 340px;
-  height: 30px;
+  top: 30px;
+  right: 30px;
+  font-weight: 700;
   text-align: center;
+  z-index: 1;
 
-  animation: fadein 3s;
-  background: ${COLOR_MAP.LIGHT_GREEN};
+  animation: fadein 1s;
+  color: ${COLOR_MAP.WHITE};
+  background: black;
   @keyframes fadein {
     0% {
       opacity: 0;

@@ -1,29 +1,32 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { COLOR_MAP } from "../constant";
+import { COLOR_MAP, ENTER_KEY_CODE } from "../constant";
 import { deletePost, editPost, togglePost } from "../store/saga/action";
-import { useDispatch } from "react-redux";
-
-const ENTER_KEY_CODE = 13;
+import { useDispatch, useSelector } from "react-redux";
 
 export const TodoItem = ({ text, id, isCheck }) => {
   const [editMode, setEditMode] = useState(false);
   const [editText, setEditText] = useState(text);
+  const { todoList } = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
+  // 연필 버튼을 눌렀을 때, 수정할 수 있도록 바꿔주는 함수입니다.
   const handleEditMode = () => {
     setEditMode(!editMode);
   };
 
+  // 토글버튼을 눌렀을 때, redux-saga에 액션을 보내는 함수입니다.
   const handleTogglePost = () => {
     dispatch(togglePost(id, isCheck));
   };
 
+  // 삭제버튼을 눌렀을 때, redux-saga에 액션을 보내는 함수입니다.
   const handleDeletePost = () => {
-    dispatch(deletePost(id));
+    dispatch(deletePost(id, todoList));
   };
 
+  // keydown 이벤트를 받아 게시글을 수정할 수 있도록 하는 함수입니다.
   const handleEditPost = (e) => {
     if (e.keyCode === ENTER_KEY_CODE) {
       e.target.value = "";
@@ -56,6 +59,7 @@ export const TodoItem = ({ text, id, isCheck }) => {
 };
 
 const TodoItemContainer = styled.article`
+  flex: none;
   display: flex;
   width: 340px;
   height: 100px;
