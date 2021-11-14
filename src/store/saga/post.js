@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call, delay } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 
 /*
   각각의 saga 들은 다음과 같이 동작합니다.
@@ -42,12 +42,11 @@ export function* addPostSaga({ type, text }) {
       content,
       count,
     });
+
     yield put({
       type: "SHOW_MESSAGE",
       message: "성공적으로 추가되었습니다",
     });
-
-    yield delay(1000);
 
     yield put({
       type: "SHOW_MESSAGE",
@@ -58,7 +57,6 @@ export function* addPostSaga({ type, text }) {
       type: "SHOW_MESSAGE",
       message: "추가에 실패하였습니다",
     });
-    yield delay(1000);
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
@@ -81,7 +79,6 @@ export function* deletePostSaga({ id }) {
       type: "SHOW_MESSAGE",
       message: "성공적으로 삭제되었습니다",
     });
-    yield delay(1000);
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
@@ -91,7 +88,6 @@ export function* deletePostSaga({ id }) {
       type: "SHOW_MESSAGE",
       message: "삭제에 실패하였습니다",
     });
-    yield delay(1000);
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
@@ -113,7 +109,6 @@ export function* putPostSaga({ id, text }) {
       type: "SHOW_MESSAGE",
       message: "성공적으로 수정되었습니다",
     });
-    yield delay(1000);
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
@@ -123,7 +118,6 @@ export function* putPostSaga({ id, text }) {
       type: "SHOW_MESSAGE",
       message: "수정에 실패하였습니다",
     });
-    yield delay(1000);
     yield put({
       type: "SHOW_MESSAGE",
       message: "",

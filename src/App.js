@@ -12,7 +12,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getInitialPosts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -58,7 +58,6 @@ const AppContainer = styled.div`
   align-items: center;
   background: ${COLOR_MAP.WHITE};
   border-radius: 50px;
-
   overflow: hidden;
 `;
 
