@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { COLOR_MAP } from "../constant";
+import { COLOR_MAP } from "../../constant";
 
 export const TodoMessage = ({ message }) => {
   return <TodoMessageContainer>{message}</TodoMessageContainer>;

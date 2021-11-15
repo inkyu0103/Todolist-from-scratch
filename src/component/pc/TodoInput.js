@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { COLOR_MAP, ENTER_KEY_CODE } from "../constant";
-import { addPost } from "../store/saga/action";
+import { COLOR_MAP, ENTER_KEY_CODE } from "../../constant";
+import { addPost } from "../../store/saga/action";
 
 export const TodoInput = () => {
   const [content, setContent] = useState(null);

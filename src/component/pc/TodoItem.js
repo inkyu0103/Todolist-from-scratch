@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { COLOR_MAP, ENTER_KEY_CODE } from "../constant";
-import { deletePost, editPost, togglePost } from "../store/saga/action";
+import { COLOR_MAP, ENTER_KEY_CODE } from "../../constant";
+import { deletePost, editPost, togglePost } from "../../store/saga/action";
 import { useDispatch, useSelector } from "react-redux";
 
 export const TodoItem = ({ text, id, isCheck }) => {

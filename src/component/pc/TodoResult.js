@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { TodoItem } from "./TodoItem";
-import empty from "../assets/images/empty.png";
+import empty from "../../assets/images/empty.png";
 
 export const TodoResult = ({ posts }) => {
   return (
