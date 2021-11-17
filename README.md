@@ -1,4 +1,4 @@
-# 페이워크 2차과제 (Todolist)
+# 리액트를 이용한 
 
 배포 사이트 : https://todolist-clients.herokuapp.com/
 
