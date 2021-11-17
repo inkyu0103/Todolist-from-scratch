@@ -4,7 +4,7 @@ import { COLOR_MAP } from "../../constant";
 export const TodoMobileItem = ({ text, isCheck, id }) => {
   return (
     <TodoMobileItemContainer>
-      <TodoMobileItemCompleteBtn isCheck={isCheck} />
+      <TodoMobileItemCompleteBtn isCheck={isCheck} onClick={() => alert(123)} />
       <TodoMobileContentWrapper>{text}</TodoMobileContentWrapper>
     </TodoMobileItemContainer>
   );

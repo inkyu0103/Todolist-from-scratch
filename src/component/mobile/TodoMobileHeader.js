@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { TodoMobileButton } from ".";
 import { COLOR_MAP } from "../../constant";
 
-export const TodoMobileHeader = () => {
+export const TodoMobileHeader = ({ toggleModal }) => {
   return (
     <TodoMobileHeaderContainer>
       <TodoMobileHeaderContentWarpper>
@@ -14,15 +14,11 @@ export const TodoMobileHeader = () => {
           fontSize="15px"
           text="Add new"
           backgroundColor={COLOR_MAP.WHITE}
-          handleClick={handleClick}
+          handleClick={toggleModal}
         ></TodoMobileButton>
       </TodoMobileHeaderContentWarpper>
     </TodoMobileHeaderContainer>
   );
-};
-
-const handleClick = () => {
-  alert("hi");
 };
 
 const TodoMobileHeaderContainer = styled.div`
