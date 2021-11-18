@@ -1,17 +1,30 @@
 import styled from "@emotion/styled";
 import { COLOR_MAP } from "../../constant";
+import { useDispatch } from "react-redux";
+import { deletePost, togglePost } from "../../store/saga/action";
 
 export const TodoMobileItem = ({ text, isCheck, id }) => {
+  const dispatch = useDispatch();
+  const handleToggleClick = () => dispatch(togglePost(id, isCheck));
+  const handleDeleteClick = () => dispatch(deletePost(id));
+
   return (
     <TodoMobileItemContainer>
-      <TodoMobileItemCompleteBtn isCheck={isCheck} onClick={() => alert(123)} />
+      <TodoMobileItemCompleteBtn
+        isCheck={isCheck}
+        onClick={handleToggleClick}
+      />
       <TodoMobileContentWrapper>{text}</TodoMobileContentWrapper>
+      <TodoMobileItemDeleteBtn onClick={handleDeleteClick}>
+        ❌
+      </TodoMobileItemDeleteBtn>
     </TodoMobileItemContainer>
   );
 };
 
 const TodoMobileItemContainer = styled.div`
   display: flex;
+  flex: none;
   align-items: center;
   width: 80%;
   height: 50px;
@@ -27,6 +40,12 @@ const TodoMobileItemCompleteBtn = styled.button`
   border-radius: 50%;
   background: ${({ isCheck }) =>
     isCheck ? COLOR_MAP.DEEP_GREEN : COLOR_MAP.YELLOW_GREEN};
+`;
+
+const TodoMobileItemDeleteBtn = styled.button`
+  border: none;
+  outline: none;
+  background: none;
 `;
 
 const TodoMobileContentWrapper = styled.div`

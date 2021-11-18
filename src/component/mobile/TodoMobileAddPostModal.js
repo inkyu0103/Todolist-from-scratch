@@ -1,21 +1,22 @@
 import styled from "@emotion/styled";
 import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { COLOR_MAP, ENTER_KEY_CODE } from "../../constant";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { addPost } from "../../store/saga/action";
 
 export const TodoMobileAddPostModal = ({ toggleModal }) => {
   const [content, setContent] = useState(null);
   const inputRef = useRef();
+  const dispatch = useDispatch();
   useOutsideClick({ targetRef: inputRef, callback: toggleModal });
 
   const handleKeyDown = (e) => {
-    console.log(e.key);
     if (e.keyCode === ENTER_KEY_CODE) {
-      // 여기도 좀 고쳐야 할듯
-      setContent(null);
+      dispatch(addPost(content));
       e.target.value = "";
+      setContent(null);
       toggleModal();
-      // 서버에 요청 보내기.
     } else {
       setContent(e.target.value);
     }
