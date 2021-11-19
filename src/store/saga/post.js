@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call } from "redux-saga/effects";
+import { put, call, delay } from "redux-saga/effects";
 
 /*
   각각의 saga 들은 다음과 같이 동작합니다.
@@ -42,11 +42,13 @@ export function* addPostSaga({ type, text }) {
       content,
       count,
     });
-
+    // 지금 들어와있는 작업을 확인 할 수 있는 방법이 없나? 그리고 반복되는 거라면, 맨 마지막 아이만 처리하면 될텐데.
     yield put({
       type: "SHOW_MESSAGE",
       message: "성공적으로 추가되었습니다",
     });
+
+    yield delay(1000);
 
     yield put({
       type: "SHOW_MESSAGE",
@@ -79,6 +81,8 @@ export function* deletePostSaga({ id }) {
       type: "SHOW_MESSAGE",
       message: "성공적으로 삭제되었습니다",
     });
+    yield delay(1000);
+
     yield put({
       type: "SHOW_MESSAGE",
       message: "",

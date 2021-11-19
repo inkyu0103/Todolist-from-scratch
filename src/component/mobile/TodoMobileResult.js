@@ -6,7 +6,7 @@ export const TodoMobileResult = ({ posts }) => {
   return (
     <TodoMobileResultContainer>
       {posts.map(({ id, isCheck, content }) => (
-        <TodoMobileItem key={id} isCheck={isCheck} text={content} />
+        <TodoMobileItem key={id} isCheck={isCheck} text={content} id={id} />
       ))}
     </TodoMobileResultContainer>
   );
@@ -20,4 +20,5 @@ const TodoMobileResultContainer = styled.div`
   height: 80%;
   border-radius: 50px 0 0 0;
   background: ${COLOR_MAP.WHITE};
+  overflow: auto;
 `;

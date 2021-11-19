@@ -20,6 +20,8 @@ export const App = () => {
   const isMobile = useMediaQuery({ query: "(max-width:400px)" });
   const toggleModal = () => setModalState((prev) => !prev);
 
+  console.log(content, message, count);
+
   useEffect(() => {
     dispatch(getInitialPosts());
   }, [dispatch]);
@@ -33,7 +35,7 @@ export const App = () => {
             {modalState && <TodoMobileAddPostModal toggleModal={toggleModal} />}
           </ModalPortal>
           <TodoMobileHeader toggleModal={toggleModal} />
-          <TodoMobileResult posts={dummy}></TodoMobileResult>
+          <TodoMobileResult posts={content}></TodoMobileResult>
         </AppContainer>
       </>
     );
