@@ -5,7 +5,7 @@ import empty from "../../assets/images/empty.png";
 export const TodoResult = ({ posts }) => {
   return (
     <TodoResultContainer>
-      {posts.length === 0 ? (
+      {!posts ? (
         <TodoResultEmptyContainer>
           <div>
             <img src={empty} width="70px" height="70px" alt="빈 사진" />
