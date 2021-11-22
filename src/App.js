@@ -24,6 +24,7 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(getInitialPosts());
+    console.log(content);
   }, [dispatch]);
 
   if (isMobile) {

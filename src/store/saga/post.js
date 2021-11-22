@@ -18,11 +18,11 @@ import { put, call, delay } from "redux-saga/effects";
 // 처음 실행 때 글 들을 받아오는 saga입니다.
 export function* getPostsSaga() {
   try {
-    const { count, content } = yield CustomAxios.get("/todo");
+    const content = yield CustomAxios.get("/todo");
+    console.log(content, "in saga");
     yield put({
       type: "GET_POSTS_SUCCESS",
       content,
-      count,
     });
   } catch (e) {
     yield put({
@@ -36,11 +36,10 @@ export function* getPostsSaga() {
 export function* addPostSaga({ type, text }) {
   try {
     yield CustomAxios.post("/todo", { content: text });
-    const { count, content } = yield CustomAxios.get("/todo");
+    const content = yield CustomAxios.get("/todo");
     yield put({
       type: "ADD_POST_SUCCESS",
       content,
-      count,
     });
     // 지금 들어와있는 작업을 확인 할 수 있는 방법이 없나? 그리고 반복되는 거라면, 맨 마지막 아이만 처리하면 될텐데.
     yield put({
@@ -70,11 +69,10 @@ export function* addPostSaga({ type, text }) {
 export function* deletePostSaga({ id }) {
   try {
     yield call(CustomAxios.delete, `/todo/${id}`);
-    const { count, content } = yield CustomAxios.get("/todo");
+    const content = yield CustomAxios.get("/todo");
     yield put({
       type: "DELETE_POST_SUCCESS",
       content,
-      count,
     });
 
     yield put({
@@ -103,11 +101,10 @@ export function* deletePostSaga({ id }) {
 export function* putPostSaga({ id, text }) {
   try {
     yield CustomAxios.put(`/todo/${id}`, { content: text });
-    const { count, content } = yield CustomAxios.get("/todo");
+    const content = yield CustomAxios.get("/todo");
     yield put({
       type: "EDIT_POST_SUCCESS",
       content,
-      count,
     });
     yield put({
       type: "SHOW_MESSAGE",
@@ -132,8 +129,8 @@ export function* putPostSaga({ id, text }) {
 // 글을 토글할 때 실행되는saga입니다.
 export function* togglePostSaga({ id, isCheck }) {
   try {
-    yield CustomAxios.post(`/todo/${id}`, { isCheck });
-    const { content } = yield CustomAxios.get("/todo");
+    yield CustomAxios.put(`/todo/toggle/${id}`, { isCheck });
+    const content = yield CustomAxios.get("/todo");
     yield put({
       type: "TOGGLE_POST_SUCCESS",
       content,
