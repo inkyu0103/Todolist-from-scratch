@@ -5,17 +5,18 @@ import { COLOR_MAP, ENTER_KEY_CODE } from "../../constant";
 import { addPost } from "../../store/saga/action";
 
 export const TodoInput = () => {
-  const [content, setContent] = useState(null);
+  const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
-  // keydown 이벤트를 받아 새로운 글을 작성할 수 있도록 하는 함수입니다.
   const handleChange = (e) => {
-    if (e.keyCode === ENTER_KEY_CODE) {
+    setContent(e.target.value);
+  };
+
+  const handleEnter = (e) => {
+    if (e.charCode === ENTER_KEY_CODE) {
       e.target.value = "";
       setContent("");
       dispatch(addPost(content));
-    } else {
-      setContent(e.target.value);
     }
   };
 
@@ -23,7 +24,8 @@ export const TodoInput = () => {
     <TodoInputContainer>
       <TodoInputDOM
         placeholder="할 일을 입력해주세요"
-        onKeyDown={handleChange}
+        onChange={handleChange}
+        onKeyPress={handleEnter}
       />
     </TodoInputContainer>
   );
