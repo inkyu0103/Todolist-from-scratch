@@ -34,9 +34,9 @@ export class TodoController {
   @Put('/:id')
   editTodo(
     @Param('id', ParseIntPipe) id: number,
-    @Body('content') content: string,
+    @Body() createTodoDto: CreateTodoDto,
   ): Promise<Todo> {
-    return this.todoService.editTodo(id, content);
+    return this.todoService.editTodo(id, createTodoDto);
   }
 
   @Put('/toggle/:id')

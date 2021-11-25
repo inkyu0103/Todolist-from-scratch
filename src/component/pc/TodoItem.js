@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { COLOR_MAP, ENTER_KEY_CODE } from "../../constant";
 import { deletePost, editPost, togglePost } from "../../store/saga/action";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,19 +12,19 @@ export const TodoItem = ({ text, id, isCheck }) => {
   const dispatch = useDispatch();
 
   // 연필 버튼을 눌렀을 때, 수정할 수 있도록 바꿔주는 함수입니다.
-  const handleEditMode = () => {
+  const handleEditMode = useCallback(() => {
     setEditMode(!editMode);
-  };
+  }, [editMode]);
 
   // 토글버튼을 눌렀을 때, redux-saga에 액션을 보내는 함수입니다.
-  const handleTogglePost = () => {
+  const handleTogglePost = useCallback(() => {
     dispatch(togglePost(id, isCheck));
-  };
+  }, [dispatch, id, isCheck]);
 
   // 삭제버튼을 눌렀을 때, redux-saga에 액션을 보내는 함수입니다.
-  const handleDeletePost = () => {
+  const handleDeletePost = useCallback(() => {
     dispatch(deletePost(id, todoList));
-  };
+  }, [dispatch, id, todoList]);
 
   // keydown 이벤트를 받아 게시글을 수정할 수 있도록 하는 함수입니다.
   const handleEditPost = (e) => {

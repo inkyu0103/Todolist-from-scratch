@@ -36,7 +36,8 @@ export class TodoService {
     this.todoRepository.delete(id);
   }
 
-  async editTodo(id: number, content: string): Promise<Todo> {
+  async editTodo(id: number, createTodoDto: CreateTodoDto): Promise<Todo> {
+    const { content } = createTodoDto;
     const todo = await this.getTodoById(id);
 
     todo.content = content;

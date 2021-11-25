@@ -8,26 +8,29 @@
 
 <br>
 
-![구조](/doc/structure.png)
+![구조](/doc/new_structure.png)
 
 **Frontend**
 
-- React JS
-- Redux
-- React-redux
-- Redux-saga
-- Emotion JS
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=black">
+<img src="https://img.shields.io/badge/redux saga-999999?style=for-the-badge&logo=redux-saga&logoColor=black">
+<img src="https://img.shields.io/badge/emotionJS-DB7093?style=for-the-badge&logo=styled-components&logoColor=black">
+
+<br>
 
 **Backend (Local)**
 
-- nodeJs
-- express
+<img src="https://img.shields.io/badge/nodeJS-339933?style=for-the-badge&logo=node.js&logoColor=black">
+<img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=black">
+
+<br>
 
 **Depoly**
 
-- Heroku
+<img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=black">
 
-### 2. 로컬 실행 방법
+### 2. 로컬 실행 방법 (이전버전)
 
 **현재 BASE_URL이 `http://localhost:8080` 로 설정되어 있습니다. 로컬 웹서버를 사용하셔서 테스트 하는 방법은 아래와 같습니다.**
 
@@ -125,13 +128,27 @@
 |     11.15     |      모바일 반응형 컴포넌트 작성       |
 |     11.16     |            모달 만들어보기             |
 | 11.19 ~ 11.23 | nestJs 강의 보기 & express 기능 옮기기 |
+| 11.24 ~ 11.25 | useCallback , useMemo 등 최적화 해보기 |
+|     11.25     |  미디어 쿼리를 이용한 디자인 다시하기  |
+|     11.26     |  React Router Dom 을 이용한 화면 추가  |
 
-### 리포지토리란?
+### 9. 디자인 사항
 
-- 엔티티 개체와 함께 작동하며, 엔티티찾기, 삽입, 업데이트, 삭제 등을 처리한다.
+- 3개의 분기점 존재
 
-엔티티가 테이블로 변함
+  - PC ~ 1024px
+  - Tablet 768 ~ 1023
+  - Mobile ~ 768
 
-보통 db관련 작업은 서비스에서 안하고 리포지토리에서 한다.
+- 모바일 우선 vs 데스크탑 우선?
+  - 모바일 우선이 더 효율적인 방법이란다.
 
-repository pattern이라고도 부른다.
+- 쩝.. material UI 사용하기로 함.
+
+
+- 만들어야 할 페이지
+- [ ] 모바일 페이지 새로운 투두 만들기 --> 
+- [ ] 일단 헤더랑 따로 만들어야 할듯?
+
+
+- [ ] 회원가입은 찬찬히

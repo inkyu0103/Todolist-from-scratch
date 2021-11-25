@@ -1,3 +1,4 @@
+/*
 import { TodoResult, TodoInput, TodoMessage } from "./component/pc";
 import {
   TodoMobileHeader,
@@ -14,17 +15,17 @@ import { useMediaQuery } from "react-responsive";
 import { ModalPortal } from "./portal";
 
 export const App = () => {
-  const [modalState, setModalState] = useState(false);
+const [modalState, setModalState] = useState(false);
   const dispatch = useDispatch();
-  const { content, message, count } = useSelector((state) => state);
+  const content = useSelector((state) => state.content);
+  const count = useSelector((state) => state.count);
+  const message = useSelector((state) => state.message);
+
   const isMobile = useMediaQuery({ query: "(max-width:400px)" });
   const toggleModal = () => setModalState((prev) => !prev);
 
-  console.log(content, message, count);
-
   useEffect(() => {
     dispatch(getInitialPosts());
-    console.log(content);
   }, [dispatch]);
 
   if (isMobile) {
@@ -102,34 +103,10 @@ const AppContainer = styled.div`
 const AppHeader = styled.header`
   margin-top: 15px;
 `;
+*/
 
-const dummy = [
-  {
-    id: 301,
-    content: "언제 이거 하냐",
-    isCheck: 0,
-    isSaved: 0,
-    createdAt: "2021-11-16 06:06:27",
-  },
-  {
-    id: 300,
-    content: "허허",
-    isCheck: 0,
-    isSaved: 0,
-    createdAt: "2021-11-16 06:06:23",
-  },
-  {
-    id: 299,
-    content: "쩝.",
-    isCheck: 0,
-    isSaved: 0,
-    createdAt: "2021-11-15 12:13:29",
-  },
-  {
-    id: 292,
-    content: "안녕하세요",
-    isCheck: 1,
-    isSaved: 0,
-    createdAt: "2021-11-14 09:41:55",
-  },
-];
+import { Container } from "./component/responsive/Container";
+
+export const App = () => {
+  return <Container></Container>;
+};
