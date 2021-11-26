@@ -5,27 +5,48 @@ import { Nav } from "./Nav";
 import { TodoMain } from "./TodoMain";
 
 export const Container = () => {
-  return (
-    <AppContainer>
-      <Header />
-      <Nav />
-      <TodoMain></TodoMain>
-    </AppContainer>
-  );
+  const isMobile = useMediaQuery({ query: "(max-width:768px)" });
+
+  if (isMobile) {
+    return (
+      <AppContainer>
+        <Header />
+        <Nav />
+        <TodoMain />
+      </AppContainer>
+    );
+  }
+
+  if (!isMobile) {
+    return (
+      <AppContainer>
+        <Nav />
+        <AppHeaderMainContainer>
+          <Header isMobile={isMobile} />
+          <TodoMain />
+        </AppHeaderMainContainer>
+      </AppContainer>
+    );
+  }
 };
 
 const AppContainer = styled.div`
   @media (max-width: 767px) {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     position: relative;
   }
 
-  @media (min-width: 768) {
+  @media (min-width: 768px) {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: column;
     position: relative;
   }
+`;
+
+const AppHeaderMainContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 `;

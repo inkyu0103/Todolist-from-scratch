@@ -105,8 +105,40 @@ const AppHeader = styled.header`
 `;
 */
 
+import { css, Global } from "@emotion/react";
 import { Container } from "./component/responsive/Container";
 
 export const App = () => {
-  return <Container></Container>;
+  return (
+    <>
+      <Global styles={globalStyle} />
+      <Container></Container>
+    </>
+  );
 };
+
+const globalStyle = css`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+  }
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #root {
+    width: 100%;
+    height: 100%;
+
+    @media (min-width: 768px) {
+      width: 80%;
+      max-width: 1280px;
+    }
+  }
+`;

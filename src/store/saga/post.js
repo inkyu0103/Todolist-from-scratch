@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call, delay } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 
 /*
   각각의 saga 들은 다음과 같이 동작합니다.
