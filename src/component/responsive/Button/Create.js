@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import plus from "../../../assets/images/plus.png";
 
-export const Create = () => {
+export const Create = ({ handleCreateClick }) => {
   return (
-    <CreateContainer image={plus}>
-      <CreateButton>
-        <CreateSpan>Add a Task</CreateSpan>
+    <CreateContainer onClick={handleCreateClick}>
+      <CreateButton image={plus}>
+        <CreateSpan>Add a task</CreateSpan>
       </CreateButton>
     </CreateContainer>
   );
@@ -22,18 +22,14 @@ const CreateContainer = styled.div`
   }
 
   @media (min-width: 768px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    background: #33bf75;
-    position: absolute;
+    background: #25c06e;
+    position: fixed;
+
     bottom: 30px;
-    right: 50px;
-    background-image: ${({ image }) => `url("${image}")`};
-    background-repeat: no-repeat;
+    right: 60px;
+    border-radius: 50%;
   }
 `;
 
@@ -50,5 +46,5 @@ const CreateButton = styled.button`
   height: 100%;
   outline: none;
   border: none;
-  background-color: transparent;
+  background: none;
 `;

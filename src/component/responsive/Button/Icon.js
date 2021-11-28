@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
-export const Icon = ({ image }) => {
-  return <AppIconContainer image={image} />;
+export const Icon = ({ image, handleClick }) => {
+  return <AppIconContainer image={image} onClick={handleClick} />;
 };
 
 const AppIconContainer = styled.div`

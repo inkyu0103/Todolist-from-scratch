@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
-import hamburger from "../../assets/images/hamburger.png";
-import { Icon } from "./Button/Icon";
+import hamburger from "../../../assets/images/hamburger.png";
+import { Icon } from "../Button/Icon";
 
-export const Header = ({ isMobile }) => {
+export const Header = ({ isMobile, title, handleClick }) => {
   return (
     <AppHeader>
-      <AppHeaderTitle>Board</AppHeaderTitle>
+      <AppHeaderTitle>{title}</AppHeaderTitle>
       <AppIconContainer>
-        {isMobile && <Icon image={hamburger} />}
+        {isMobile && <Icon image={hamburger} handleClick={handleClick} />}
       </AppIconContainer>
     </AppHeader>
   );

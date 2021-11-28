@@ -106,13 +106,24 @@ const AppHeader = styled.header`
 */
 
 import { css, Global } from "@emotion/react";
-import { Container } from "./component/responsive/Container";
+import { Routes, Route } from "react-router-dom";
+import { Landing } from "./component/responsive/Pages/Landing";
+import { Login } from "./component/responsive/Pages/Login";
+import { TodoMain } from "./component/responsive/Pages/TodoMain";
+import { Join } from "./component/responsive/Pages/Join";
+import { AddTask } from "./component/responsive/Pages/AddTask";
 
 export const App = () => {
   return (
     <>
       <Global styles={globalStyle} />
-      <Container></Container>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="join" element={<Join />} />
+        <Route path="login" element={<Login />} />
+        <Route path=":id" element={<TodoMain />} />
+        <Route path=":id/addtask" element={<AddTask />} />
+      </Routes>
     </>
   );
 };
@@ -135,10 +146,25 @@ const globalStyle = css`
   #root {
     width: 100%;
     height: 100%;
-
     @media (min-width: 768px) {
       width: 80%;
+      height: 100vh;
       max-width: 1280px;
     }
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    height: 0.5px;
+    background: black;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #000000;
+    border: 1px solid #000000;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
   }
 `;

@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import checked from "../../assets/images/checked.png";
-import unchecked from "../../assets/images/unchecked.png";
+import checked from "../../../assets/images/checked.png";
+import unchecked from "../../../assets/images/unchecked.png";
 
 export const TodoItem = ({ content, isCheck }) => {
   const handleClick = () => {};

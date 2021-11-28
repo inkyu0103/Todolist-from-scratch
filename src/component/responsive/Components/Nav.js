@@ -33,17 +33,21 @@ const AppNav = styled.nav`
     align-items: center;
     width: 100%;
     height: 50px;
+    border-width: 1px;
     border-style: solid none;
     border-color: #e5e5e5;
   }
 
   @media (min-width: 768px) {
     display: flex;
-    flex-direction: column;
-    width: 20%;
-    height: 100%;
-    max-width: 500px;
-    background: #f1f1f1;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    border-width: 1px;
+
+    border-style: solid none;
+    border-color: #e5e5e5;
   }
 `;
 

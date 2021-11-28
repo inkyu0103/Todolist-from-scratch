@@ -5,9 +5,9 @@ export const useOutsideClick = ({ targetRef, callback }) => {
   useEffect(() => {
     const outSideCallback = (e) => {
       const target = e.target;
+      console.log(target);
 
-      // targetRef.current !== target을 해버리면, input을 누르면 화면이 꺼진다.
-      if (!targetRef.current.contains(target)) {
+      if (target && !targetRef.current.contains(target)) {
         callback();
       }
     };
