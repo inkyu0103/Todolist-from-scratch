@@ -29,19 +29,28 @@ const MobileSidebarContainer = styled.aside`
     left: 0;
     display: flex;
     flex-direction: column;
-    background: #868b8e;
+    background: #f1f1f1;
+
+    animation: slideAppear 500ms;
+
+    @keyframes slideAppear {
+      from {
+        margin-left: -300px;
+      }
+      to {
+        margin-left: 0;
+      }
+    }
   }
 `;
 
 const ProfileContainer = styled.section`
   width: 100%;
   height: 150px;
-  border: 1px solid black;
 `;
 
 const SideBarContentContainer = styled.section`
   width: 100%;
   height: 100%;
 `;
-
-const SideBarContent = ["달성률 보기", "어쩌구", "어떻게 레이아웃"];
+const SideBarContent = ["Board", "달성률 보기", "어쩌구", "어떻게 레이아웃"];

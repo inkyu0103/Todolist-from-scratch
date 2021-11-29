@@ -35,6 +35,8 @@ const LoggedLayoutContainer = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
 
   @media (min-width: 768px) {

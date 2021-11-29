@@ -112,6 +112,8 @@ import { Login } from "./component/responsive/Pages/Login";
 import { TodoMain } from "./component/responsive/Pages/TodoMain";
 import { Join } from "./component/responsive/Pages/Join";
 import { AddTask } from "./component/responsive/Pages/AddTask";
+import { Profile } from "./component/responsive/Pages/Profile";
+import { Statistics } from "./component/responsive/Pages/Statistics";
 
 export const App = () => {
   return (
@@ -123,6 +125,8 @@ export const App = () => {
         <Route path="login" element={<Login />} />
         <Route path=":id" element={<TodoMain />} />
         <Route path=":id/addtask" element={<AddTask />} />
+        <Route path=":id/profile" element={<Profile />} />
+        <Route path=":id/statistic" element={<Statistics />} />
       </Routes>
     </>
   );

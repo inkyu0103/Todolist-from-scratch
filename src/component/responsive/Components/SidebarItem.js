@@ -6,9 +6,8 @@ export const SidebarItem = ({ ele }) => {
 
 const SidebarItemContainer = styled.div`
   width: 100%;
-
-  @media (max-width: 767px) {
-    height: 30px;
-    border: 1px solid red;
-  }
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

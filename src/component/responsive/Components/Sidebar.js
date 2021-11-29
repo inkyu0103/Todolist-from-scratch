@@ -32,7 +32,6 @@ const SidebarContainer = styled.aside`
 const ProfileContainer = styled.section`
   width: 100%;
   height: 150px;
-  border: 1px solid black;
 `;
 
 const SideBarContentContainer = styled.section`
@@ -40,4 +39,4 @@ const SideBarContentContainer = styled.section`
   height: 100%;
 `;
 
-const SideBarContent = ["달성률 보기", "어쩌구", "어떻게 레이아웃"];
+const SideBarContent = ["Board", "달성률 보기", "어쩌구", "어떻게 레이아웃"];
