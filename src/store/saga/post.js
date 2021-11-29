@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call, delay } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 
 /*
   각각의 saga 들은 다음과 같이 동작합니다.
@@ -18,8 +18,7 @@ import { put, call, delay } from "redux-saga/effects";
 // 처음 실행 때 글 들을 받아오는 saga입니다.
 export function* getPostsSaga() {
   try {
-    const content = yield CustomAxios.get("/todo");
-    console.log(content, "in saga");
+    const content = yield call(CustomAxios.get, "/todo");
     yield put({
       type: "GET_POSTS_SUCCESS",
       content,
@@ -36,12 +35,13 @@ export function* getPostsSaga() {
 export function* addPostSaga({ type, text }) {
   try {
     yield CustomAxios.post("/todo", { content: text });
-    const content = yield CustomAxios.get("/todo");
+    const content = yield call(CustomAxios.get, "/todo");
     yield put({
       type: "ADD_POST_SUCCESS",
       content,
     });
     // 지금 들어와있는 작업을 확인 할 수 있는 방법이 없나? 그리고 반복되는 거라면, 맨 마지막 아이만 처리하면 될텐데.
+    /*
     yield put({
       type: "SHOW_MESSAGE",
       message: "성공적으로 추가되었습니다",
@@ -52,7 +52,7 @@ export function* addPostSaga({ type, text }) {
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
-    });
+    });*/
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -69,13 +69,14 @@ export function* addPostSaga({ type, text }) {
 export function* deletePostSaga({ id }) {
   try {
     yield call(CustomAxios.delete, `/todo/${id}`);
-    const content = yield CustomAxios.get("/todo");
+    const content = yield call(CustomAxios.get, "/todo");
+    console.log(`delete saga `, content);
     yield put({
       type: "DELETE_POST_SUCCESS",
       content,
     });
 
-    yield put({
+    /*yield put({
       type: "SHOW_MESSAGE",
       message: "성공적으로 삭제되었습니다",
     });
@@ -84,7 +85,7 @@ export function* deletePostSaga({ id }) {
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
-    });
+    });*/
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -101,11 +102,13 @@ export function* deletePostSaga({ id }) {
 export function* putPostSaga({ id, text }) {
   try {
     yield CustomAxios.put(`/todo/${id}`, { content: text });
-    const content = yield CustomAxios.get("/todo");
+    const content = yield call(CustomAxios.get, "/todo");
+
     yield put({
       type: "EDIT_POST_SUCCESS",
       content,
     });
+    /*
     yield put({
       type: "SHOW_MESSAGE",
       message: "성공적으로 수정되었습니다",
@@ -113,7 +116,7 @@ export function* putPostSaga({ id, text }) {
     yield put({
       type: "SHOW_MESSAGE",
       message: "",
-    });
+    });*/
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -130,7 +133,8 @@ export function* putPostSaga({ id, text }) {
 export function* togglePostSaga({ id, isCheck }) {
   try {
     yield CustomAxios.put(`/todo/toggle/${id}`, { isCheck });
-    const content = yield CustomAxios.get("/todo");
+    const content = yield call(CustomAxios.get, "/todo");
+
     yield put({
       type: "TOGGLE_POST_SUCCESS",
       content,
