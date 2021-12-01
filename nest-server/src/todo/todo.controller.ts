@@ -7,23 +7,31 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './todo.entity';
 import { TodoService } from './todo.service';
 
 @Controller('todo')
+@UseGuards(AuthGuard())
 export class TodoController {
   constructor(private todoService: TodoService) {}
 
   @Get()
-  getAllTodos(): Promise<Todo[]> {
-    return this.todoService.getAllTodos();
+  getAllTodos(@GetUser() user): Promise<Todo[]> {
+    return this.todoService.getAllTodos(user);
   }
 
   @Post()
-  createTodo(@Body() createTodoDto: CreateTodoDto): Promise<Todo> {
-    return this.todoService.createTodo(createTodoDto);
+  createTodo(
+    @Body() createTodoDto: CreateTodoDto,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    return this.todoService.createTodo(createTodoDto, user);
   }
 
   @Delete('/:id')
@@ -31,16 +39,20 @@ export class TodoController {
     return this.todoService.deleteTodo(id);
   }
 
-  @Put('/:id')
+  @Put('/:id/content')
   editTodo(
     @Param('id', ParseIntPipe) id: number,
     @Body() createTodoDto: CreateTodoDto,
+    @GetUser() user: User,
   ): Promise<Todo> {
-    return this.todoService.editTodo(id, createTodoDto);
+    return this.todoService.editTodo(id, createTodoDto, user);
   }
 
-  @Put('/toggle/:id')
-  toggleTodo(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
-    return this.todoService.toggleTodo(id);
+  @Put('/:id/toggle')
+  toggleTodo(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    return this.todoService.toggleTodo(id, user);
   }
 }
