@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './todo.entity';
 import { TodoRepository } from './todo.repository';
@@ -10,25 +12,35 @@ export class TodoService {
     @InjectRepository(TodoRepository) private todoRepository: TodoRepository,
   ) {}
 
-  async getAllTodos(): Promise<Todo[]> {
-    return this.todoRepository.find();
+  async getAllTodos(user: User): Promise<Todo[]> {
+    const query = this.todoRepository.createQueryBuilder('todo');
+    query
+      .where('todo.userId = :userId', { userId: user.id })
+      .andWhere("date_trunc('day',created_at)::date = current_date");
+
+    const todos = await query.getMany();
+    return todos;
   }
 
-  async getTodoById(id: number): Promise<Todo> {
-    return this.todoRepository.findOne(id);
+  async getTodoById(id: number, user: User): Promise<Todo> {
+    return this.todoRepository.findOne({ id, user });
   }
 
-  async createTodo(createTodoDto: CreateTodoDto): Promise<Todo> {
-    const { content } = createTodoDto;
+  async createTodo(
+    createTodoDto: CreateTodoDto,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    const { content, priority } = createTodoDto;
 
-    // 여기서는 await이 필요가 없나?
-    const todo = this.todoRepository.create({
-      content,
-      isCheck: false,
-      isSaved: false,
-    });
+    const todo = new Todo();
+    todo.content = content;
+    todo.priority = priority;
+    todo.is_completed = false;
+    todo.user = user;
 
-    await this.todoRepository.save(todo);
+    await todo.save();
+    delete todo.user;
+
     return todo;
   }
 
@@ -36,18 +48,24 @@ export class TodoService {
     this.todoRepository.delete(id);
   }
 
-  async editTodo(id: number, createTodoDto: CreateTodoDto): Promise<Todo> {
-    const { content } = createTodoDto;
-    const todo = await this.getTodoById(id);
+  async editTodo(
+    id: number,
+    createTodoDto: CreateTodoDto,
+    user: User,
+  ): Promise<Todo> {
+    const { content, priority } = createTodoDto;
+    const todo = await this.getTodoById(id, user);
 
     todo.content = content;
+    todo.priority = priority;
+
     await this.todoRepository.save(todo);
     return todo;
   }
 
-  async toggleTodo(id: number): Promise<Todo> {
-    const todo = await this.getTodoById(id);
-    todo.isCheck = !todo.isCheck;
+  async toggleTodo(id: number, user: User): Promise<Todo> {
+    const todo = await this.getTodoById(id, user);
+    todo.is_completed = !todo.is_completed;
     await this.todoRepository.save(todo);
     return todo;
   }
