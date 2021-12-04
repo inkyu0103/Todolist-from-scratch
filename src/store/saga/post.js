@@ -1,28 +1,19 @@
 import CustomAxios from "../../utils/api";
 import { put, call } from "redux-saga/effects";
-
-/*
-  각각의 saga 들은 다음과 같이 동작합니다.
-  
-  getPostsSaga : 전체 게시글을 불러온 후 redux에 넘겨줍니다.
-
-  addPostSaga / deletePostSaga / putPostSaga(게시글 수정) / togglePostSaga
-
-  1. 각각의 add / delete / edit / toggle 실행
-  2. BASE_URL/todo로 전체 게시글을 불러오기
-  3. 전체 게시글 결과를 redux에 넘겨주기
-  4-1. 성공적으로 수행하면 리덕스에 성공메시지를 보내는 액션 발행
-  4-2. 1초 대기 한후, 메시지를 없애라는 액션 발행
- */
+import {
+  SEND_SUCCESS_DELETE_TODO,
+  SEND_SUCCESS_GET_TODOS,
+  SEND_SUCCESS_POST_TODOS,
+  SEND_SUCCESS_PUT_TODO,
+  SEND_SUCCESS_TOGGLE_TODO,
+} from "../actions/todoAction";
 
 // 처음 실행 때 글 들을 받아오는 saga입니다.
 export function* getPostsSaga() {
   try {
-    const content = yield call(CustomAxios.get, "/todo");
-    yield put({
-      type: "GET_POSTS_SUCCESS",
-      content,
-    });
+    const todos = yield call(CustomAxios.get, "/todo");
+    console.log(todos, "get...");
+    yield put(SEND_SUCCESS_GET_TODOS({ todos }));
   } catch (e) {
     yield put({
       type: "GET_POST_FAIL",
@@ -32,60 +23,25 @@ export function* getPostsSaga() {
 }
 
 // 글을 생성할 때 실행되는 saga입니다.
-export function* addPostSaga({ type, text }) {
+export function* addPostSaga({ todo, priority }) {
   try {
-    yield CustomAxios.post("/todo", { content: text });
-    const content = yield call(CustomAxios.get, "/todo");
-    yield put({
-      type: "ADD_POST_SUCCESS",
-      content,
-    });
-    // 지금 들어와있는 작업을 확인 할 수 있는 방법이 없나? 그리고 반복되는 거라면, 맨 마지막 아이만 처리하면 될텐데.
-    /*
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "성공적으로 추가되었습니다",
-    });
-
-    yield delay(1000);
-
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });*/
+    yield CustomAxios.post("/todo", { content: todo, priority });
+    const todos = yield call(CustomAxios.get, "/todo");
+    yield put(SEND_SUCCESS_POST_TODOS({ todos }));
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
       message: "추가에 실패하였습니다",
     });
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });
   }
 }
 
 // 글을 삭제할 때 실행되는saga입니다.
-export function* deletePostSaga({ id }) {
+export function* deletePostSaga({ todoId }) {
   try {
-    yield call(CustomAxios.delete, `/todo/${id}`);
-    const content = yield call(CustomAxios.get, "/todo");
-    console.log(`delete saga `, content);
-    yield put({
-      type: "DELETE_POST_SUCCESS",
-      content,
-    });
-
-    /*yield put({
-      type: "SHOW_MESSAGE",
-      message: "성공적으로 삭제되었습니다",
-    });
-    yield delay(1000);
-
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });*/
+    yield call(CustomAxios.delete, `/todo/${todoId}`);
+    const todos = yield call(CustomAxios.get, "/todo");
+    yield put(SEND_SUCCESS_DELETE_TODO({ todos }));
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -99,24 +55,11 @@ export function* deletePostSaga({ id }) {
 }
 
 // 글을 수정 할 때 실행되는saga입니다.
-export function* putPostSaga({ id, text }) {
+export function* putPostSaga({ id, todo, priority }) {
   try {
-    yield CustomAxios.put(`/todo/${id}`, { content: text });
-    const content = yield call(CustomAxios.get, "/todo");
-
-    yield put({
-      type: "EDIT_POST_SUCCESS",
-      content,
-    });
-    /*
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "성공적으로 수정되었습니다",
-    });
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });*/
+    yield CustomAxios.put(`/todo/${id}`, { content: todo, priority });
+    const todos = yield call(CustomAxios.get, "/todo");
+    yield put(SEND_SUCCESS_PUT_TODO({ todos }));
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -130,15 +73,11 @@ export function* putPostSaga({ id, text }) {
 }
 
 // 글을 토글할 때 실행되는saga입니다.
-export function* togglePostSaga({ id, isCheck }) {
+export function* togglePostSaga({ id }) {
   try {
-    yield CustomAxios.put(`/todo/toggle/${id}`, { isCheck });
-    const content = yield call(CustomAxios.get, "/todo");
-
-    yield put({
-      type: "TOGGLE_POST_SUCCESS",
-      content,
-    });
+    yield CustomAxios.put(`/todo/toggle/${id}`);
+    const todos = yield call(CustomAxios.get, "/todo");
+    yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
   } catch (e) {
     console.log(e);
   }

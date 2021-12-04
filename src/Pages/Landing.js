@@ -1,16 +1,15 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router";
+import { useHistory } from "react-router";
 import landing from "../assets/images/landing.jpg";
 
 export const Landing = () => {
-  let navigate = useNavigate();
-
+  const history = useHistory();
   const handleJoinClick = () => {
-    navigate("/join");
+    history.push("/join");
   };
 
   const handleLoginClick = () => {
-    navigate("/login");
+    history.push("/login");
   };
 
   return (

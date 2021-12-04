@@ -1,5 +1,5 @@
 import { css, Global } from "@emotion/react";
-import { Routes, Route } from "react-router-dom";
+import { Switch, Route } from "react-router";
 import {
   Landing,
   Login,
@@ -9,20 +9,21 @@ import {
   Profile,
   Statistics,
 } from "./Pages";
+import {} from "react-router";
 
 export const App = () => {
   return (
     <>
       <Global styles={globalStyle} />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="join" element={<Join />} />
-        <Route path="login" element={<Login />} />
-        <Route path=":id" element={<TodoMain />} />
-        <Route path=":id/addtask" element={<AddTask />} />
-        <Route path=":id/profile" element={<Profile />} />
-        <Route path=":id/statistic" element={<Statistics />} />
-      </Routes>
+      <Switch>
+        <Route path="/" component={Landing} exact />
+        <Route path="/join" component={Join} />
+        <Route path="/login" component={Login} />
+        <Route path="/:id/statistic" component={Statistics} />
+        <Route path="/:id/profile" component={Profile} />
+        <Route path="/:id/addtask" component={AddTask} />
+        <Route path="/:id" component={TodoMain} exact />
+      </Switch>
     </>
   );
 };

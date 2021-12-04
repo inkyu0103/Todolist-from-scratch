@@ -1,13 +1,23 @@
 import styled from "@emotion/styled";
+import { useParams } from "react-router";
 import { SidebarItem } from "./SidebarItem";
 
 export const Sidebar = () => {
+  const { id } = useParams();
+
+  const SideBarContent = [
+    { title: "Board", url: `/${id}` },
+    { title: "Profile", url: `/${id}/profile` },
+    { title: "Statistics", url: `/${id}/statistic` },
+    { title: "Past Task", url: `/${id}/past` },
+  ];
+
   return (
     <SidebarContainer>
       <ProfileContainer />
       <SideBarContentContainer>
         {SideBarContent.map(({ title, url }, idx) => (
-          <SidebarItem key={idx} ele={title} url={url} />
+          <SidebarItem key={idx} ele={title} url={url} userId={id} />
         ))}
       </SideBarContentContainer>
     </SidebarContainer>
@@ -38,10 +48,3 @@ const SideBarContentContainer = styled.section`
   width: 100%;
   height: 100%;
 `;
-
-const SideBarContent = [
-  { title: "Board", url: "/:id" },
-  { title: "Profile", url: "/:id/profile" },
-  { title: "Statistics", url: "/:id/statistic" },
-  { title: "Past Task", url: "/:id/past" },
-];

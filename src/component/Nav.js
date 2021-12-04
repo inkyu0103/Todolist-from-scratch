@@ -24,7 +24,7 @@ export const Nav = () => {
   );
 };
 
-const navContents = ["All", "Completed", "Uncompleted", "Favorite"];
+const navContents = ["All", "Completed", "Uncompleted"];
 
 const AppNav = styled.nav`
   @media (max-width: 767px) {

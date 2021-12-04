@@ -1,39 +1,51 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { signInRequest } from "../store/actions/index";
 import { UnloggedLayout } from "../Layout/UnloggedLayout";
+import { getTodos } from "../store/actions/todoAction";
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
 
 export const Login = () => {
-  const [idState, setIdState] = useState("");
-  const [pwState, setPwState] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
 
-  const handleIdChange = (e) => {
-    setIdState(e.target.value);
-  };
-
-  const handlePwChange = (e) => {
-    setPwState(e.target.value);
-  };
-
-  const handleLoginClick = (e) => {
-    alert("로그인에 성공하였습니다.");
-  };
-
-  const handleJoinClick = (e) => {
-    alert("회원가입으로 이동합니다.");
+  const onSubmit = ({ email, password }) => {
+    dispatch(signInRequest({ email, password }));
   };
 
   return (
     <UnloggedLayout title="Login">
       <LoginContainer>
-        <LoginInfoWrapper>
-          <IdLabel htmlFor="Id">ID</IdLabel>
-          <IdInput id="Id" type="text" onChange={handleIdChange} />
-          <PwLabel htmlFor="Pw">Password</PwLabel>
-          <PwInput id="Pw" type="password" onChange={handlePwChange} />
+        <JoinForm onSubmit={handleSubmit(onSubmit)}>
+          <IdLabel htmlFor="email">ID</IdLabel>
+          <IdInput
+            id="email"
+            type="text"
+            name="email"
+            autoComplete="off"
+            {...register("email", { required: true })}
+          />
+          {errors.email?.type === "required" &&
+            "이메일은 반드시 입력하셔야 합니다."}
 
-          <ButtonContainer onClick={handleLoginClick}>로그인</ButtonContainer>
-          <ButtonContainer onClick={handleJoinClick}>회원가입</ButtonContainer>
-        </LoginInfoWrapper>
+          <PwLabel htmlFor="password">Password</PwLabel>
+          <PwInput
+            id="password"
+            type="password"
+            name="password"
+            {...register("password", { required: true })}
+          />
+          {errors.password?.type === "required" &&
+            "비밀번호는 반드시 입력하셔야 합니다"}
+
+          <ButtonContainer>로그인</ButtonContainer>
+        </JoinForm>
       </LoginContainer>
     </UnloggedLayout>
   );
@@ -44,7 +56,7 @@ const LoginContainer = styled.div`
   height: 100%;
 `;
 
-const LoginInfoWrapper = styled.div`
+const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

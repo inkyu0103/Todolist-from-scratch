@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+import { history } from "../store/store";
 
 export const SidebarItem = ({ ele, url }) => {
+  const handleClick = () => {
+    history.push(url);
+  };
   return (
-    <Link to={url}>
-      <SidebarItemContainer>{ele}</SidebarItemContainer>
-    </Link>
+    <SidebarItemContainer onClick={handleClick}>{ele}</SidebarItemContainer>
   );
 };
 

@@ -1,49 +1,50 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
 import { UnloggedLayout } from "../Layout/UnloggedLayout";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { signUpRequest } from "../store/actions/index";
 
 export const Join = () => {
-  const [idState, setIdState] = useState("");
-  const [pwState, setPwState] = useState("");
-  const [authState, setAuthState] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const dispatch = useDispatch();
 
-  const handleIdChange = (e) => {
-    setIdState(e.target.value);
-  };
-
-  const handlePwChange = (e) => {
-    setPwState(e.target.value);
-  };
-
-  const handleAuthChange = (e) => {
-    setAuthState(e.target.value);
-  };
-
-  const handleSendAuthCode = () => {
-    alert("인증번호를 전송하였습니다.");
-  };
-
-  const handleJoinClick = () => {
-    alert("회원가입이 완료되었습니다.");
+  const onSubmit = ({ email, password }) => {
+    console.log(email, password);
+    dispatch(signUpRequest({ email, password }));
   };
 
   return (
     <UnloggedLayout title="Join">
       <JoinContainer>
-        <JoinInfoWrapper>
-          <InputLabel htmlFor="Id">ID</InputLabel>
-          <InputDOM id="Id" type="text" onChange={handleIdChange} />
+        <JoinForm onSubmit={handleSubmit(onSubmit)}>
+          <InputLabel htmlFor="email">email</InputLabel>
+          <InputDOM
+            id="email"
+            type="text"
+            name="email"
+            {...register("email", { required: true })}
+          />
+          {errors.email?.type === "required" &&
+            "이메일은 반드시 입력하셔야 합니다."}
 
-          <InputLabel htmlFor="Pw">Password</InputLabel>
-          <InputDOM id="Pw" type="password" onChange={handlePwChange} />
+          <InputLabel htmlFor="password">Password</InputLabel>
+          <InputDOM
+            id="password"
+            type="password"
+            name="password"
+            {...register("password", { required: true })}
+          />
+          {errors.password?.type === "required" &&
+            "비밀번호는 반드시 입력하셔야 합니다"}
 
           <InputLabel htmlFor="Auth">인증번호</InputLabel>
-          <InputDOM id="Auth" type="text" onChange={handleAuthChange} />
-          <ButtonContainer onClick={handleSendAuthCode}>
-            인증번호 받기
-          </ButtonContainer>
-          <ButtonContainer onClick={handleJoinClick}>회원가입</ButtonContainer>
-        </JoinInfoWrapper>
+          <InputDOM id="Auth" type="text" />
+          <ButtonContainer>회원가입</ButtonContainer>
+        </JoinForm>
       </JoinContainer>
     </UnloggedLayout>
   );
@@ -54,7 +55,7 @@ const JoinContainer = styled.div`
   height: 100%;
 `;
 
-const JoinInfoWrapper = styled.div`
+const JoinForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;

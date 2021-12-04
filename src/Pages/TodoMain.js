@@ -1,15 +1,25 @@
 import styled from "@emotion/styled";
 import { Create } from "../Button/Create";
 import { TodoList } from "../component";
-import { useNavigate, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { LoggedLayout } from "../Layout/LoggedLayout";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTodos } from "../store/actions/todoAction";
 
 export const TodoMain = () => {
-  let nevigate = useNavigate();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  useSelector((state) => console.log(state));
+
+  useEffect(() => {
+    dispatch(getTodos());
+  });
+
   const { id } = useParams();
 
   const handleCreateClick = () => {
-    nevigate(`/${id}/addtask`);
+    history.push(`/${id}/addtask`);
   };
 
   return (
