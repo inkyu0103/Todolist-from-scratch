@@ -4,6 +4,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { AuthChangePwDto } from './dto/auth-changepw.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,6 +31,18 @@ export class AuthService {
       return { accessToken };
     } else {
       throw new UnauthorizedException('login failed');
+    }
+  }
+
+  async changePassword(authChangePwDto: AuthChangePwDto): Promise<void> {
+    const { id, current, changed } = authChangePwDto;
+    const user = await this.userRepository.findOne({ id });
+
+    // 현재 비밀번호가 같으면...!
+    if (user && (await bcrypt.compare(current, user.password))) {
+      await this.userRepository.changePassword(authChangePwDto);
+    } else {
+      throw new UnauthorizedException('change password fail');
     }
   }
 }

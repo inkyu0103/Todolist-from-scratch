@@ -1,5 +1,5 @@
 import CustomAxios from "../../utils/api";
-import { put, call, getContext } from "redux-saga/effects";
+import { put, call } from "redux-saga/effects";
 import { setAuthToken } from "../../utils/api";
 import { SEND_SUCCESS_SIGNIN } from "../actions/index";
 import jwtDecode from "jwt-decode";
@@ -17,7 +17,6 @@ export function* postSignUpSaga({ email, password }) {
 }
 
 export function* postSignInSaga({ email, password }) {
-  console.log("hihi");
   try {
     const { accessToken } = yield call(CustomAxios.post, "/auth/signin", {
       email,
@@ -30,4 +29,11 @@ export function* postSignInSaga({ email, password }) {
   } catch (e) {
     console.log(e);
   }
+}
+
+export function* changePasswordSaga({ id, current, changed }) {
+  try {
+    yield call(CustomAxios.put, "/auth/password", { id, current, changed });
+    history.goBack();
+  } catch (e) {}
 }

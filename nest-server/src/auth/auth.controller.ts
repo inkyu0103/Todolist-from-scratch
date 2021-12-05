@@ -1,5 +1,6 @@
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, Put, ValidationPipe } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthChangePwDto } from './dto/auth-changepw.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @Controller('auth')
@@ -18,5 +19,13 @@ export class AuthController {
     @Body(ValidationPipe) authcredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
     return this.authService.signIn(authcredentialsDto);
+  }
+
+  // 기존 authcredentiasDto가 아님.
+  @Put('password')
+  changePassword(
+    @Body(ValidationPipe) authChangePwDto: AuthChangePwDto,
+  ): Promise<void> {
+    return this.authService.changePassword(authChangePwDto);
   }
 }
