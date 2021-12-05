@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { LoggedLayout } from "../Layout/LoggedLayout";
+import { history } from "../store/store";
 
 export const Profile = () => {
+  const { email } = useSelector((state) => state.auth);
+  const { id } = useParams();
   return (
     <LoggedLayout title="Profile" goBack>
       <ProfileContainer>
@@ -10,12 +15,12 @@ export const Profile = () => {
             <ProfileImageWrapper>
               <ProfileImage />
             </ProfileImageWrapper>
-            <ProfileNickName>User name</ProfileNickName>
+            <ProfileNickName>{email}</ProfileNickName>
           </ProfileImageContainer>
           <ProfileMenuContainer>
-            <ProfileNav>프로필 수정하기</ProfileNav>
-            <ProfileNav>나의 통계 </ProfileNav>
-            <ProfileNav>혹시 모를 다른 메뉴</ProfileNav>
+            <ProfileNav onClick={() => history.push(`/${id}/editprofile`)}>
+              비밀번호 수정하기
+            </ProfileNav>
           </ProfileMenuContainer>
         </ProfileContentContainer>
       </ProfileContainer>

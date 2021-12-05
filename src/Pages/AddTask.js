@@ -2,38 +2,48 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { Add } from "../Button/Add";
 import { LoggedLayout } from "../Layout/LoggedLayout";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { postTodos } from "../store/actions";
 
 export const AddTask = () => {
-  const [content, setContent] = useState("");
   const [importance, setImportance] = useState(1);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const dispatch = useDispatch();
   const state = {
     0: "보통",
     1: "중요",
     2: "매우급함",
   };
 
-  const handleContent = (e) => {
-    setContent(e.target.value);
-  };
-
   const handleImportance = (e) => {
     setImportance(e.target.value);
   };
 
-  const handleCreateClick = (e) => {
-    alert("게시물이 저장되었습니다.");
+  const onSubmit = ({ todo, priority }) => {
+    dispatch(postTodos({ todo, priority }));
   };
 
   return (
     <LoggedLayout title="Add a Task" goBack>
-      <AddTaskContainer>
+      <AddTaskContainer onSubmit={handleSubmit(onSubmit)}>
         <AddTaskWrapper>
           <InputWrapper>
-            <AddTaskInputLabel htmlFor="input">Content</AddTaskInputLabel>
-            <AddTaskInput type="text" id="input" onChange={handleContent} />
+            <AddTaskInputLabel htmlFor="todo">Content</AddTaskInputLabel>
+            <AddTaskInput
+              type="text"
+              id="todo"
+              {...register("todo", { required: true })}
+            />
+            {errors.todo?.type === "required" &&
+              "할 일은 반드시 입력하셔야 합니다."}
           </InputWrapper>
           <InputWrapper>
-            <AddTaskSlideLabel htmlFor="slide">Importance</AddTaskSlideLabel>
+            <AddTaskSlideLabel htmlFor="priority">Importance</AddTaskSlideLabel>
             {state[importance]}
             <AddTaskSlide
               type="range"
@@ -41,17 +51,18 @@ export const AddTask = () => {
               max="2"
               id="slide"
               defaultValue="1"
+              {...register("priority")}
               onChange={handleImportance}
             />
           </InputWrapper>
         </AddTaskWrapper>
-        <Add handleCreateClick={handleCreateClick} />
+        <Add />
       </AddTaskContainer>
     </LoggedLayout>
   );
 };
 
-const AddTaskContainer = styled.div`
+const AddTaskContainer = styled.form`
   width: 100%;
   height: 100%;
   position: relative;

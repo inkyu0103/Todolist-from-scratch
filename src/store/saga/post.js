@@ -7,12 +7,36 @@ import {
   SEND_SUCCESS_PUT_TODO,
   SEND_SUCCESS_TOGGLE_TODO,
 } from "../actions/todoAction";
+import { history } from "../store";
 
 // 처음 실행 때 글 들을 받아오는 saga입니다.
 export function* getPostsSaga() {
   try {
     const todos = yield call(CustomAxios.get, "/todo");
-    console.log(todos, "get...");
+    yield put(SEND_SUCCESS_GET_TODOS({ todos }));
+  } catch (e) {
+    yield put({
+      type: "GET_POST_FAIL",
+      content: [],
+    });
+  }
+}
+
+export function* getCompletedPostsSaga() {
+  try {
+    const todos = yield call(CustomAxios.get, "/todo/completed");
+    yield put(SEND_SUCCESS_GET_TODOS({ todos }));
+  } catch (e) {
+    yield put({
+      type: "GET_POST_FAIL",
+      content: [],
+    });
+  }
+}
+
+export function* getUncompletedPostsSaga() {
+  try {
+    const todos = yield call(CustomAxios.get, "/todo/uncompleted");
     yield put(SEND_SUCCESS_GET_TODOS({ todos }));
   } catch (e) {
     yield put({
@@ -28,6 +52,7 @@ export function* addPostSaga({ todo, priority }) {
     yield CustomAxios.post("/todo", { content: todo, priority });
     const todos = yield call(CustomAxios.get, "/todo");
     yield put(SEND_SUCCESS_POST_TODOS({ todos }));
+    history.goBack();
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",
@@ -73,11 +98,19 @@ export function* putPostSaga({ id, todo, priority }) {
 }
 
 // 글을 토글할 때 실행되는saga입니다.
-export function* togglePostSaga({ id }) {
+export function* togglePostSaga({ todoId, toggleType }) {
   try {
-    yield CustomAxios.put(`/todo/toggle/${id}`);
-    const todos = yield call(CustomAxios.get, "/todo");
-    yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
+    yield CustomAxios.put(`/todo/${todoId}/toggle`);
+    if (toggleType === 0) {
+      const todos = yield call(CustomAxios.get, "/todo");
+      yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
+    } else if (toggleType === 1) {
+      const todos = yield call(CustomAxios.get, "/todo/completed");
+      yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
+    } else {
+      const todos = yield call(CustomAxios.get, "/todo/uncompleted");
+      yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
+    }
   } catch (e) {
     console.log(e);
   }
