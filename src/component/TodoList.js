@@ -4,8 +4,15 @@ import { TodoItem } from "./TodoItem";
 export const TodoList = ({ todoitems }) => {
   return (
     <TodoListContainer>
-      {todoitems.map(({ content, isCheck }, idx) => {
-        return <TodoItem key={idx} content={content} isCheck={isCheck} />;
+      {todoitems.map(({ id, content, is_completed }, idx) => {
+        return (
+          <TodoItem
+            key={idx}
+            content={content}
+            isCheck={is_completed}
+            id={id}
+          />
+        );
       })}
     </TodoListContainer>
   );

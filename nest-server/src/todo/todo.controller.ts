@@ -26,6 +26,16 @@ export class TodoController {
     return this.todoService.getAllTodos(user);
   }
 
+  @Get('/completed')
+  getCompletedTodos(@GetUser() user): Promise<Todo[]> {
+    return this.todoService.getCompletedTodos(user);
+  }
+
+  @Get('/uncompleted')
+  getUncompletedTodos(@GetUser() user): Promise<Todo[]> {
+    return this.todoService.getUncompletedTodos(user);
+  }
+
   @Post()
   createTodo(
     @Body() createTodoDto: CreateTodoDto,

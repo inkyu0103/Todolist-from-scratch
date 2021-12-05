@@ -16,7 +16,32 @@ export class TodoService {
     const query = this.todoRepository.createQueryBuilder('todo');
     query
       .where('todo.userId = :userId', { userId: user.id })
-      .andWhere("date_trunc('day',created_at)::date = current_date");
+      .andWhere("date_trunc('day',created_at)::date = current_date")
+      .orderBy('created_at', 'ASC');
+
+    const todos = await query.getMany();
+    return todos;
+  }
+
+  async getCompletedTodos(user: User): Promise<Todo[]> {
+    const query = this.todoRepository.createQueryBuilder('todo');
+    query
+      .where('todo.userId = :userId', { userId: user.id })
+      .andWhere("date_trunc('day',created_at)::date = current_date")
+      .andWhere('is_completed = true')
+      .orderBy('created_at', 'ASC');
+
+    const todos = await query.getMany();
+    return todos;
+  }
+
+  async getUncompletedTodos(user: User): Promise<Todo[]> {
+    const query = this.todoRepository.createQueryBuilder('todo');
+    query
+      .where('todo.userId = :userId', { userId: user.id })
+      .andWhere("date_trunc('day',created_at)::date = current_date")
+      .andWhere('is_completed = false')
+      .orderBy('created_at', 'ASC');
 
     const todos = await query.getMany();
     return todos;

@@ -1,5 +1,7 @@
 // saga catch action
 export const GET_TODOS_REQUEST = "GET_TODOS_REQUEST";
+export const GET_COMPELETED_TODOS_REQUEST = "GET_COMPELETED_TODOS_REQUEST";
+export const GET_UNCOMPLETED_TODOS_REQUEST = "GET_UNCOMPLETED_TODOS_REQUEST";
 export const POST_TODO_REQUEST = "POST_TODO_REQUEST";
 export const DELETE_TODO_REQUEST = "DELETE_TODO_REQUEST";
 export const PUT_TODO_REQUEST = "PUT_TODO_REQUEST";
@@ -14,6 +16,11 @@ export const SUCCESS_TOGGLE_TODO = "SUCCESS_TOGGLE_TODO";
 
 // dispatch action from component to saga
 export const getTodos = () => ({ type: GET_TODOS_REQUEST });
+export const getCompletedTodos = () => ({ type: GET_COMPELETED_TODOS_REQUEST });
+export const getUncompletedTodos = () => ({
+  type: GET_UNCOMPLETED_TODOS_REQUEST,
+});
+
 export const postTodos = ({ todo, priority }) => ({
   type: POST_TODO_REQUEST,
   todo,
@@ -29,9 +36,10 @@ export const editTodo = ({ todoId, todo, priority }) => ({
   todo,
   priority,
 });
-export const toggleTodo = ({ todoId }) => ({
+export const toggleTodo = ({ todoId, toggleType }) => ({
   type: PUT_TOGGLE_REQUEST,
   todoId,
+  toggleType,
 });
 
 // dispatch action from saga to reducer

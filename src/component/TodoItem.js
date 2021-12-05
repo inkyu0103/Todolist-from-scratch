@@ -1,9 +1,21 @@
 import styled from "@emotion/styled";
+import { useDispatch, useSelector } from "react-redux";
 import checked from "../assets/images/checked.png";
 import unchecked from "../assets/images/unchecked.png";
+import { toggleTodo } from "../store/actions/todoAction";
 
-export const TodoItem = ({ content, isCheck }) => {
-  const handleClick = () => {};
+const toggleMap = {
+  SET_ALL: 0,
+  SET_COMPLETED: 1,
+  SET_UNCOMPLETED: 2,
+};
+export const TodoItem = ({ content, isCheck, id }) => {
+  const dispatch = useDispatch();
+  const { toggleType } = useSelector((state) => state.type);
+
+  const handleClick = () => {
+    dispatch(toggleTodo({ todoId: id, toggleType: toggleMap[toggleType] }));
+  };
 
   return (
     <TodoItemContainer onClick={handleClick}>
