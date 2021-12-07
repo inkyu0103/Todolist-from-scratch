@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GetUser } from 'src/auth/get-user.decorator';
 import { User } from 'src/auth/user.entity';
+import { getManager } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { Todo } from './todo.entity';
 import { TodoRepository } from './todo.repository';
@@ -21,6 +22,38 @@ export class TodoService {
 
     const todos = await query.getMany();
     return todos;
+  }
+
+  async getChartData(user: User, searchTerm: number): Promise<any> {
+    const entityManager = getManager();
+    const result = await entityManager.query(
+      `select to_char(created_at,'MM-DD') as dat ,count(case when is_completed = true then 1 end) as completed , count(*) as total from todo where "userId" = ${
+        user.id
+      } and created_at between current_date-${String(
+        searchTerm - 1,
+      )} and current_date+1  group by dat order by dat`,
+    );
+
+    const data = {
+      labels: [],
+      datasets: [],
+    };
+
+    const datasetsData = {
+      data: [],
+      label: '달성률',
+      borderColor: '#3e95cd',
+      fill: false,
+    };
+    result.forEach(({ dat, completed, total }) => {
+      data.labels.push(dat);
+      datasetsData.data.push((completed / total) * 100);
+    });
+
+    data.datasets.push(datasetsData);
+    console.log(data);
+
+    return data;
   }
 
   async getCompletedTodos(user: User): Promise<Todo[]> {
