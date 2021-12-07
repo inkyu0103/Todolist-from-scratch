@@ -2,7 +2,12 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import checked from "../assets/images/checked.png";
 import unchecked from "../assets/images/unchecked.png";
+import edit from "../assets/images/pencil.png";
+
+import { Icon } from "../Button/Icon";
 import { toggleTodo } from "../store/actions/todoAction";
+import { history } from "../store/store";
+import { useParams } from "react-router";
 
 const toggleMap = {
   SET_ALL: 0,
@@ -11,16 +16,22 @@ const toggleMap = {
 };
 export const TodoItem = ({ content, isCheck, id }) => {
   const dispatch = useDispatch();
+  const { id: userId } = useParams();
   const { toggleType } = useSelector((state) => state.type);
 
   const handleClick = () => {
     dispatch(toggleTodo({ todoId: id, toggleType: toggleMap[toggleType] }));
   };
 
+  const handleEditClick = () => {
+    history.push(`/${userId}/edit/${id}`);
+  };
+
   return (
-    <TodoItemContainer onClick={handleClick}>
+    <TodoItemContainer>
       <TodoItemContent>{content}</TodoItemContent>
-      <TodoItemComplete isCheck={isCheck}></TodoItemComplete>
+      <Icon image={edit} handleClick={handleEditClick} />
+      <TodoItemComplete isCheck={isCheck} onClick={handleClick} />
     </TodoItemContainer>
   );
 };

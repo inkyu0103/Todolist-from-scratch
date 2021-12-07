@@ -1,21 +1,39 @@
 import styled from "@emotion/styled";
 import { Chart as ChartJS } from "chart.js/auto";
+import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { LoggedLayout } from "../Layout/LoggedLayout";
+import CustomAxios from "../utils/api";
+import { useParams } from "react-router";
 
 export const Statistics = () => {
+  const [term, setTerm] = useState(1);
+  const [chartData, setChartData] = useState(null);
+  const { id } = useParams();
+  const handleTermChange = (e) => {
+    setTerm(e.target.value);
+  };
+
+  useEffect(() => {
+    const getChartData = async () => {
+      const result = await CustomAxios.get(`/todo/${id}/chart?term=${term}`);
+      setChartData(result);
+      console.log(chartData);
+    };
+    getChartData();
+  }, [term]);
+
   return (
     <LoggedLayout title="Statistics" goBack>
       <StatisticsContainer>
         <StatisticsPeriodContainer>
-          <StatisticsPeriod type="select">
-            <option value="day">일간</option>
-            <option value="week">주간</option>
-            <option value="month">월간</option>
+          <StatisticsPeriod type="select" onChange={handleTermChange}>
+            <option value={1}>하루</option>
+            <option value={7}>7일</option>
           </StatisticsPeriod>
         </StatisticsPeriodContainer>
         <StatisticsContentContainer>
-          <Line data={data} />
+          <Line data={chartData || data} />
         </StatisticsContentContainer>
       </StatisticsContainer>
     </LoggedLayout>

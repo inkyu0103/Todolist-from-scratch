@@ -80,11 +80,16 @@ export function* deletePostSaga({ todoId }) {
 }
 
 // 글을 수정 할 때 실행되는saga입니다.
-export function* putPostSaga({ id, todo, priority }) {
+export function* putPostSaga({ todoId, todo, priority }) {
+  console.log(todoId, todo, priority);
   try {
-    yield CustomAxios.put(`/todo/${id}`, { content: todo, priority });
+    yield CustomAxios.put(`/todo/${todoId}/content`, {
+      content: todo,
+      priority,
+    });
     const todos = yield call(CustomAxios.get, "/todo");
     yield put(SEND_SUCCESS_PUT_TODO({ todos }));
+    history.goBack();
   } catch (e) {
     yield put({
       type: "SHOW_MESSAGE",

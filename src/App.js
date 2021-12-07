@@ -11,6 +11,7 @@ import {
   EditProfile,
 } from "./Pages";
 import {} from "react-router";
+import { EditTask } from "./Pages/EditTask";
 
 export const App = () => {
   return (
@@ -20,9 +21,10 @@ export const App = () => {
         <Route path="/" component={Landing} exact />
         <Route path="/join" component={Join} />
         <Route path="/login" component={Login} />
+        <Route path="/:id/edit/:postId" component={EditTask} />
+        <Route path="/:id/profile" component={Profile} />
         <Route path="/:id/statistic" component={Statistics} />
         <Route path="/:id/editprofile" component={EditProfile} />
-        <Route path="/:id/profile" component={Profile} />
         <Route path="/:id/addtask" component={AddTask} />
         <Route path="/:id" component={TodoMain} exact />
       </Switch>
