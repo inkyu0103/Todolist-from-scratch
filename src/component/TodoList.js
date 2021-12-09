@@ -4,13 +4,14 @@ import { TodoItem } from "./TodoItem";
 export const TodoList = ({ todoitems }) => {
   return (
     <TodoListContainer>
-      {todoitems.map(({ id, content, is_completed }, idx) => {
+      {todoitems.map(({ id: todoId, content, is_completed, priority }, idx) => {
         return (
           <TodoItem
             key={idx}
             content={content}
             isCheck={is_completed}
-            id={id}
+            priority={priority}
+            todoId={todoId}
           />
         );
       })}

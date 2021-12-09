@@ -28,7 +28,6 @@ class CustomAxios {
   }
 
   async post(url, body, config) {
-    //어라... 꼭 body에서 알아야 하나...?
     try {
       const response = await axios.post(url, body, {
         ...config,

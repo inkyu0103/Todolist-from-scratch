@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 //import plus from "../../../assets/images/plus.png";
 
-export const Add = ({ handleCreateClick }) => {
+export const BasicButton = ({ message, handleClick, backgroundColor }) => {
   return (
-    <AddContainer onClick={handleCreateClick}>
+    <AddContainer onClick={handleClick}>
       <AddButton>
-        <AddSpan>Create a Task</AddSpan>
+        <AddSpan>{message}</AddSpan>
       </AddButton>
     </AddContainer>
   );
@@ -16,7 +16,6 @@ const AddContainer = styled.div`
   max-width: 400px;
   height: 40px;
   background: #25c06e;
-  position: fixed;
   bottom: 30px;
   border-radius: 15px;
 `;

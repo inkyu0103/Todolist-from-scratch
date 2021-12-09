@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { Add } from "../Button/Add";
+import { BasicButton } from "../Button/BasicButton";
 import { LoggedLayout } from "../Layout/LoggedLayout";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { editTodo } from "../store/actions";
 import { useParams } from "react-router";
 
 export const EditTask = () => {
-  const [importance, setImportance] = useState(1);
+  const [priority, setPriority] = useState(1);
   const {
     register,
     handleSubmit,
@@ -18,17 +18,17 @@ export const EditTask = () => {
   const { postId, id } = useParams();
 
   const dispatch = useDispatch();
-  const state = {
+  const priorityState = {
     0: "보통",
     1: "중요",
     2: "매우급함",
   };
 
   const handleImportance = (e) => {
-    setImportance(e.target.value);
+    setPriority(e.target.value);
   };
 
-  const onSubmit = ({ todo, priority }) => {
+  const onSubmit = ({ todo }) => {
     dispatch(editTodo({ todoId: postId, todo, priority }));
   };
 
@@ -48,21 +48,22 @@ export const EditTask = () => {
           </InputWrapper>
           <InputWrapper>
             <AddTaskSlideLabel htmlFor="priority">Importance</AddTaskSlideLabel>
-            {state[importance]}
+            {priorityState[priority]}
             <AddTaskSlide
               type="range"
               min="0"
               max="2"
               id="slide"
               defaultValue="1"
-              {...register("priority")}
               onChange={handleImportance}
             />
           </InputWrapper>
         </AddTaskWrapper>
       </AddTaskContainer>
-      <Add />
-      <Add />
+      <BasicButtonWrapper>
+        <BasicButton message="Edit" />
+        <BasicButton message="Delete" />
+      </BasicButtonWrapper>
     </LoggedLayout>
   );
 };
@@ -87,6 +88,15 @@ const InputWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
+`;
+
+const BasicButtonWrapper = styled.div`
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 30px;
 `;
 
 const AddTaskInputLabel = styled.label`

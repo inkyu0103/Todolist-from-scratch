@@ -12,21 +12,22 @@ import {
 } from "./Pages";
 import {} from "react-router";
 import { EditTask } from "./Pages/EditTask";
+import { PrivateRoute, PublicRoute } from "./lib/AuthRouter";
 
 export const App = () => {
   return (
     <>
       <Global styles={globalStyle} />
       <Switch>
-        <Route path="/" component={Landing} exact />
-        <Route path="/join" component={Join} />
-        <Route path="/login" component={Login} />
-        <Route path="/:id/edit/:postId" component={EditTask} />
-        <Route path="/:id/profile" component={Profile} />
-        <Route path="/:id/statistic" component={Statistics} />
-        <Route path="/:id/editprofile" component={EditProfile} />
-        <Route path="/:id/addtask" component={AddTask} />
-        <Route path="/:id" component={TodoMain} exact />
+        <PublicRoute path="/" component={Landing} exact />
+        <PublicRoute path="/join" component={Join} restricted />
+        <PublicRoute path="/login" component={Login} restricted />
+        <PrivateRoute path="/:id/edit/:postId" component={EditTask} />
+        <PrivateRoute path="/:id/profile" component={Profile} />
+        <PrivateRoute path="/:id/statistic" component={Statistics} />
+        <PrivateRoute path="/:id/editprofile" component={EditProfile} />
+        <PrivateRoute path="/:id/addtask" component={AddTask} />
+        <PrivateRoute path="/:id" component={TodoMain} exact />
       </Switch>
     </>
   );

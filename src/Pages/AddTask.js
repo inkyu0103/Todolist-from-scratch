@@ -1,19 +1,21 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { Add } from "../Button/Add";
+import { BasicButton } from "../Button/BasicButton";
 import { LoggedLayout } from "../Layout/LoggedLayout";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import { postTodos } from "../store/actions";
+import { useDispatch } from "react-redux";
 
 export const AddTask = () => {
   const [importance, setImportance] = useState(1);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const dispatch = useDispatch();
+
   const state = {
     0: "보통",
     1: "중요",
@@ -56,8 +58,10 @@ export const AddTask = () => {
             />
           </InputWrapper>
         </AddTaskWrapper>
-        <Add />
       </AddTaskContainer>
+      <BasicButtonWrapper>
+        <BasicButton message="Create Todo" />
+      </BasicButtonWrapper>
     </LoggedLayout>
   );
 };
@@ -87,6 +91,13 @@ const InputWrapper = styled.div`
 const AddTaskInputLabel = styled.label`
   width: 60%;
   max-width: 400px;
+`;
+
+const BasicButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 `;
 
 const AddTaskInput = styled.input`
