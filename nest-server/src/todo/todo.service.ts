@@ -14,6 +14,7 @@ export class TodoService {
   ) {}
 
   async getAllTodos(user: User): Promise<Todo[]> {
+    console.log('user', user);
     const query = this.todoRepository.createQueryBuilder('todo');
     query
       .where('todo.userId = :userId', { userId: user.id })
@@ -51,7 +52,6 @@ export class TodoService {
     });
 
     data.datasets.push(datasetsData);
-    console.log(data);
 
     return data;
   }
