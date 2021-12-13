@@ -1,5 +1,4 @@
 import { all, takeEvery } from "redux-saga/effects";
-import { GET_CHART_DATA } from "../actions/chartAction";
 import {
   POST_SIGNIN_REQUEST,
   POST_SIGNUP_REQUEST,
@@ -15,7 +14,6 @@ import {
   PUT_TOGGLE_REQUEST,
 } from "../actions/todoAction";
 import { changePasswordSaga, postSignInSaga, postSignUpSaga } from "./auth";
-import { getChartDataSaga } from "./chart";
 import {
   addPostSaga,
   deletePostSaga,

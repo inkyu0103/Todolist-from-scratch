@@ -16,22 +16,28 @@ export const Nav = () => {
     {
       title: "All",
       handleClick: () => {
-        dispatch(setAll());
-        dispatch(getTodos());
+        if (navIndex !== 0) {
+          dispatch(setAll());
+          dispatch(getTodos());
+        }
       },
     },
     {
       title: "Completed",
       handleClick: () => {
-        dispatch(setCompleted());
-        dispatch(getCompletedTodos());
+        if (navIndex !== 1) {
+          dispatch(setCompleted());
+          dispatch(getCompletedTodos());
+        }
       },
     },
     {
       title: "Uncompleted",
       handleClick: () => {
-        dispatch(setUncompleted());
-        dispatch(getUncompletedTodos());
+        if (navIndex !== 2) {
+          dispatch(setUncompleted());
+          dispatch(getUncompletedTodos());
+        }
       },
     },
   ];

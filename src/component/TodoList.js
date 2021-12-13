@@ -4,10 +4,10 @@ import { TodoItem } from "./TodoItem";
 export const TodoList = ({ todoitems, handleEditClick, handleToggleClick }) => {
   return (
     <TodoListContainer>
-      {todoitems.map(({ id: todoId, content, is_completed, priority }, idx) => {
+      {todoitems.map(({ id: todoId, content, is_completed, priority }) => {
         return (
           <TodoItem
-            key={idx}
+            key={todoId}
             content={content}
             isCheck={is_completed}
             priority={priority}

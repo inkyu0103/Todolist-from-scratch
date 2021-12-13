@@ -1,33 +1,35 @@
 import { css, Global } from "@emotion/react";
-import { Switch, Route } from "react-router";
-import {
-  Landing,
-  Login,
-  TodoMain,
-  Join,
-  AddTask,
-  Profile,
-  Statistics,
-  EditProfile,
-} from "./Pages";
+import { Switch } from "react-router";
 import {} from "react-router";
-import { EditTask } from "./Pages/EditTask";
 import { PrivateRoute, PublicRoute } from "./lib/AuthRouter";
+import { useEffect } from "react";
+import {
+  AddTaskPage,
+  EditProfilePage,
+  EditTaskPage,
+  JoinPage,
+  LandingPage,
+  LoginPage,
+  ProfilePage,
+  StatisticsPage,
+  TodoMainPage,
+} from "./Pages";
 
 export const App = () => {
+  useEffect(() => {}, []);
   return (
     <>
       <Global styles={globalStyle} />
       <Switch>
-        <PublicRoute path="/" component={Landing} exact />
-        <PublicRoute path="/join" component={Join} restricted />
-        <PublicRoute path="/login" component={Login} restricted />
-        <PrivateRoute path="/:id/edit/:postId" component={EditTask} />
-        <PrivateRoute path="/:id/profile" component={Profile} />
-        <PrivateRoute path="/:id/statistic" component={Statistics} />
-        <PrivateRoute path="/:id/editprofile" component={EditProfile} />
-        <PrivateRoute path="/:id/addtask" component={AddTask} />
-        <PrivateRoute path="/:id" component={TodoMain} exact />
+        <PublicRoute path="/" component={LandingPage} exact />
+        <PublicRoute path="/join" component={JoinPage} restricted />
+        <PublicRoute path="/login" component={LoginPage} restricted />
+        <PrivateRoute path="/:id/edit/:postId" component={EditTaskPage} />
+        <PrivateRoute path="/:id/profile" component={ProfilePage} />
+        <PrivateRoute path="/:id/statistic" component={StatisticsPage} />
+        <PrivateRoute path="/:id/editprofile" component={EditProfilePage} />
+        <PrivateRoute path="/:id/addtask" component={AddTaskPage} />
+        <PrivateRoute path="/:id" component={TodoMainPage} exact />
       </Switch>
     </>
   );

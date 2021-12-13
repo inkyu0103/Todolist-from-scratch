@@ -7,11 +7,10 @@ import { history } from "../store";
 
 export function* postSignUpSaga({ email, password }) {
   try {
-    const result = yield call(CustomAxios.post, "/auth/signup", {
-      email,
-      password,
-    });
+    yield call(CustomAxios.post, "/auth/signup", { email, password });
+    history.push("/login");
   } catch (e) {
+    alert("회원가입에 실패하였습니다.");
     console.log(e);
   }
 }
@@ -27,6 +26,7 @@ export function* postSignInSaga({ email, password }) {
     yield put(SEND_SUCCESS_SIGNIN({ email: result, userId }));
     history.push(`/${userId}`);
   } catch (e) {
+    alert("로그인에 실패했습니다.");
     console.log(e);
   }
 }
@@ -34,6 +34,10 @@ export function* postSignInSaga({ email, password }) {
 export function* changePasswordSaga({ id, current, changed }) {
   try {
     yield call(CustomAxios.put, "/auth/password", { id, current, changed });
+    alert("변경에 성공하였습니다.");
     history.goBack();
-  } catch (e) {}
+  } catch (e) {
+    alert("변경에 실패하였습니다.");
+    console.log(e);
+  }
 }
