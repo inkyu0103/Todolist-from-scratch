@@ -1,20 +1,9 @@
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
 import checked from "../assets/images/checked.png";
 import unchecked from "../assets/images/unchecked.png";
 import edit from "../assets/images/pencil.png";
-
 import { Icon } from "../Button/Icon";
-import { toggleTodo } from "../store/actions/todoAction";
-import { history } from "../store/store";
-import { useParams } from "react-router";
 import { COLOR_MAP } from "../constant";
-
-const toggleMap = {
-  SET_ALL: 0,
-  SET_COMPLETED: 1,
-  SET_UNCOMPLETED: 2,
-};
 
 const priorityColor = {
   0: COLOR_MAP.TODO_ITEM.BLUE,
@@ -22,19 +11,13 @@ const priorityColor = {
   2: COLOR_MAP.TODO_ITEM.RED,
 };
 
-export const TodoItem = ({ content, isCheck, todoId, priority }) => {
-  const dispatch = useDispatch();
-  const { id: userId } = useParams();
-  const { toggleType } = useSelector((state) => state.type);
-
-  const handleClick = () => {
-    dispatch(toggleTodo({ todoId, toggleType: toggleMap[toggleType] }));
-  };
-
-  const handleEditClick = () => {
-    history.push(`/${userId}/edit/${todoId}`);
-  };
-
+export const TodoItem = ({
+  content,
+  isCheck,
+  priority,
+  handleEditClick,
+  handleToggleClick,
+}) => {
   return (
     <TodoItemContainer
       backgroundColor={priorityColor[priority]}
@@ -43,7 +26,7 @@ export const TodoItem = ({ content, isCheck, todoId, priority }) => {
       <TodoItemContent>{content}</TodoItemContent>
       <IconWrapper>
         <Icon image={edit} handleClick={handleEditClick} />
-        <TodoItemComplete isCheck={isCheck} onClick={handleClick} />
+        <TodoItemComplete isCheck={isCheck} onClick={handleToggleClick} />
       </IconWrapper>
     </TodoItemContainer>
   );
