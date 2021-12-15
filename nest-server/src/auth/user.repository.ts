@@ -28,6 +28,19 @@ export class UserRepository extends Repository<User> {
     }
   }
 
+  async setHashedRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<void> {
+    const salt = await bcrypt.genSalt();
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
+    try {
+      await this.update(userId, { hashedRefreshToken });
+    } catch (e) {
+      throw new BadRequestException('bad request');
+    }
+  }
+
   async changePassword(authChangePwDto: AuthChangePwDto) {
     const { id, changed } = authChangePwDto;
     const salt = await bcrypt.genSalt();

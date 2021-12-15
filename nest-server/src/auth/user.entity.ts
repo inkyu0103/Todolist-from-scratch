@@ -25,7 +25,7 @@ export class User extends BaseEntity {
   @OneToMany((type) => Todo, (todo) => todo.user, { eager: true })
   todos: Todo[];
 
-  //@Column({ nullable: true })
-  //@Exclude()
-  //currentHashedRefreshToken?: string;
+  @Column({ nullable: true })
+  @Exclude()
+  hashedRefreshToken?: string;
 }

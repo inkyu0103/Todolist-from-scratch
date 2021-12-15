@@ -14,8 +14,41 @@ export class AuthService {
   ) {}
 
   async silentSignIn(refreshToken: string) {
-    const decode = this.jwtService.decode(refreshToken);
-    const user = await this.userRepository.findOne({ email: decode['email'] });
+    try {
+      const verify = this.jwtService.verify(refreshToken, {
+        secret: 'JWT_REFRESH_TOKEN_SECRET',
+      });
+
+      const accessToken = this.getJwtAccessToken({
+        email: verify['email'],
+        id: verify['id'],
+      });
+
+      return accessToken;
+    } catch (e) {
+      //redirect login
+      return null;
+    }
+  }
+
+  async extendAccessToken(refreshToken) {
+    // refresh token이 유효하면 새로운 accessToken 발급
+    // 그렇지 않으면 로그인 화면으로 redirect
+    try {
+      const verify = this.jwtService.verify(refreshToken, {
+        secret: 'JWT_REFRESH_TOKEN_SECRET',
+      });
+
+      const accessToken = this.getJwtAccessToken({
+        email: verify['email'],
+        id: verify['id'],
+      });
+
+      return accessToken;
+    } catch (e) {
+      //redirect login
+      return null;
+    }
   }
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
@@ -24,18 +57,22 @@ export class AuthService {
 
   async signIn(
     authCredentialDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const { email, password } = authCredentialDto;
     const user = await this.userRepository.findOne({ email });
-    console.log(user);
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      console.log('??마즌ㄴ데용?');
       //유저 토큰 생성 (Secret + Payload)
       const payload = { email, id: user.id };
       const accessToken = this.getJwtAccessToken(payload);
       const refreshToken = this.getJwtRefreshToken(payload);
-      return { accessToken };
+
+      // update db
+      await this.userRepository.setHashedRefreshToken(user.id, refreshToken);
+
+      //set cookie
+
+      return { accessToken, refreshToken };
     } else {
       throw new UnauthorizedException('login failed');
     }
@@ -52,17 +89,19 @@ export class AuthService {
     }
   }
 
-  // accessToken 생성 , refreshToken 생성 로직을 따로 분리
-
   getJwtAccessToken({ email, id }) {
     const payload = { email, id };
-    return this.jwtService.sign(payload);
+    return this.jwtService.sign(payload, {
+      secret: 'JWT_ACCESS_TOKEN_SECRET',
+      expiresIn: 24 * 60,
+    });
   }
 
   getJwtRefreshToken({ email, id }) {
     const payload = { email, id };
     return this.jwtService.sign(payload, {
       secret: 'JWT_REFRESH_TOKEN_SECRET',
+      expiresIn: 24 * 60,
     });
   }
 }

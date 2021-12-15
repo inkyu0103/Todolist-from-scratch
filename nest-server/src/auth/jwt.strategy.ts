@@ -12,18 +12,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private userRepository: UserRepository,
   ) {
     super({
-      secretOrKey: 'Secret1234',
+      secretOrKey: 'JWT_ACCESS_TOKEN_SECRET',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     });
   }
 
   async validate(payload) {
-    const { email } = payload;
-    const user: User = await this.userRepository.findOne({ email });
+    try {
+      console.log('안녕하세요 여기는 jwt의 validate에요');
+      const { email } = payload;
+      const user: User = await this.userRepository.findOne({ email });
 
-    if (!user) {
-      throw new UnauthorizedException();
+      return user;
+    } catch (e) {
+      console.log('아놔');
     }
-    return user;
   }
 }
