@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { Chart as ChartJS } from "chart.js/auto";
 import { useEffect, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
-import { LoggedLayout } from "../Layout/LoggedLayout";
 import CustomAxios from "../utils/api";
 import { useParams } from "react-router";
 

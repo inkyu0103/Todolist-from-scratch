@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { UnloggedLayout } from "../Layout/UnloggedLayout";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { signUpRequest } from "../store/actions/index";

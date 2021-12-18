@@ -31,6 +31,21 @@ export function* postSignInSaga({ email, password }) {
   }
 }
 
+export function* postSilentSignInSaga() {
+  try {
+    const result = yield call(CustomAxios.get, "/auth/silent-signin");
+
+    if (!result) {
+      history.push("/login");
+    } else {
+      const { accessToken } = result;
+      const { email, id: userId } = yield jwtDecode(accessToken);
+      yield call(setAuthToken, accessToken);
+      yield put(SEND_SUCCESS_SIGNIN({ email, userId }));
+    }
+  } catch (e) {}
+}
+
 export function* changePasswordSaga({ id, current, changed }) {
   try {
     yield call(CustomAxios.put, "/auth/password", { id, current, changed });

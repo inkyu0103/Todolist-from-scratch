@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { BasicButton } from "../Button/BasicButton";
-import { LoggedLayout } from "../Layout/LoggedLayout";
 import { useForm } from "react-hook-form";
 import { postTodos } from "../store/actions";
 import { useDispatch } from "react-redux";
@@ -16,7 +15,7 @@ export const AddTask = () => {
     formState: { errors },
   } = useForm();
 
-  const state = {
+  const todoPriority = {
     0: "보통",
     1: "중요",
     2: "매우급함",
@@ -46,7 +45,7 @@ export const AddTask = () => {
           </InputWrapper>
           <InputWrapper>
             <AddTaskSlideLabel htmlFor="priority">Importance</AddTaskSlideLabel>
-            {state[importance]}
+            {todoPriority[importance]}
             <AddTaskSlide
               type="range"
               min="0"

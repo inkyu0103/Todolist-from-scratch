@@ -2,7 +2,6 @@ import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { signInRequest } from "../store/actions/index";
-import { UnloggedLayout } from "../Layout/UnloggedLayout";
 
 export const Login = () => {
   const {

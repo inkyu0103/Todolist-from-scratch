@@ -30,8 +30,8 @@ export class AuthController {
   async extendAccessToken(@Req() req: Request) {
     const { cookies } = req;
     const refreshToken = cookies['auth-cookie'];
-    const accessToken = await this.authService.extendAccessToken( refreshToken);
-    return accessToken? {accessToken} ? null;   
+    const accessToken = await this.authService.extendAccessToken(refreshToken);
+    return accessToken ? { accessToken } : null;
   }
 
   @Post('signup')

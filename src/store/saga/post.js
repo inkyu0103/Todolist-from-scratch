@@ -9,7 +9,6 @@ import {
 } from "../actions/todoAction";
 import { history } from "../store";
 
-// 처음 실행 때 글 들을 받아오는 saga입니다.
 export function* getPostsSaga() {
   try {
     const todos = yield call(CustomAxios.get, "/todo");
@@ -68,14 +67,7 @@ export function* deletePostSaga({ todoId }) {
     const todos = yield call(CustomAxios.get, "/todo");
     yield put(SEND_SUCCESS_DELETE_TODO({ todos }));
   } catch (e) {
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "삭제에 실패하였습니다",
-    });
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });
+    console.log(e);
   }
 }
 
@@ -91,14 +83,7 @@ export function* putPostSaga({ todoId, todo, priority }) {
     yield put(SEND_SUCCESS_PUT_TODO({ todos }));
     history.goBack();
   } catch (e) {
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "수정에 실패하였습니다",
-    });
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "",
-    });
+    console.log(e);
   }
 }
 

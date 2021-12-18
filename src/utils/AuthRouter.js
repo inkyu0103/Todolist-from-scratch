@@ -1,6 +1,6 @@
 import { Route } from "react-router";
 import { Redirect } from "react-router";
-import { useAuth } from "../lib/hooks/useAuth";
+import { useAuth } from "./hooks/useAuth";
 
 export const PrivateRoute = ({ component: ComponentName, ...rest }) => {
   const { userId } = useAuth();

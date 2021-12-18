@@ -14,7 +14,6 @@ export class TodoService {
   ) {}
 
   async getAllTodos(user: User): Promise<Todo[]> {
-    console.log('user', user);
     const query = this.todoRepository.createQueryBuilder('todo');
     query
       .where('todo.userId = :userId', { userId: user.id })
@@ -34,26 +33,54 @@ export class TodoService {
         searchTerm - 1,
       )} and current_date+1  group by dat order by dat`,
     );
+    console.log(result);
 
     const data = {
       labels: [],
       datasets: [],
     };
 
-    const datasetsData = {
-      data: [],
-      label: '달성률',
-      borderColor: '#3e95cd',
-      fill: false,
-    };
-    result.forEach(({ dat, completed, total }) => {
-      data.labels.push(dat);
-      datasetsData.data.push((completed / total) * 100);
-    });
+    if (searchTerm === 1) {
+      data.labels.push("Today's Result");
 
-    data.datasets.push(datasetsData);
+      const complete = {
+        label: '완료',
+        data: 0,
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      };
 
-    return data;
+      const unComplete = {
+        label: '미완료',
+        data: 0,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      };
+
+      const { completed, total } = result[0];
+      complete.data = Number(completed);
+      unComplete.data = Number(total) - Number(completed);
+      data.datasets.push(complete);
+      data.datasets.push(unComplete);
+
+      console.log(data);
+      return data;
+    }
+
+    if (searchTerm === 7) {
+      const datasetsData = {
+        data: [],
+        label: '달성률',
+        borderColor: '#3e95cd',
+        fill: false,
+      };
+      result.forEach(({ dat, completed, total }) => {
+        data.labels.push(dat);
+        datasetsData.data.push((completed / total) * 100);
+      });
+
+      data.datasets.push(datasetsData);
+
+      return data;
+    }
   }
 
   async getCompletedTodos(user: User): Promise<Todo[]> {

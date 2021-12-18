@@ -17,8 +17,11 @@ export const COLOR_MAP = {
   },
 };
 
-// 미니인턴 테스트 서버 URL : http://dummy-server.io/
-// 로컬 서버 URL : http://localhost:8080/todo
+export const toggleMap = {
+  SET_ALL: 0,
+  SET_COMPLETED: 1,
+  SET_UNCOMPLETED: 2,
+};
 
 export const BASE_URL = "http://localhost:8080";
 

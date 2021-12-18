@@ -2,6 +2,7 @@ import { all, takeEvery } from "redux-saga/effects";
 import {
   POST_SIGNIN_REQUEST,
   POST_SIGNUP_REQUEST,
+  POST_SILENT_REQUEST,
   CHANGE_PASSWORD_REQUEST,
 } from "../actions/index";
 import {
@@ -13,7 +14,12 @@ import {
   PUT_TODO_REQUEST,
   PUT_TOGGLE_REQUEST,
 } from "../actions/todoAction";
-import { changePasswordSaga, postSignInSaga, postSignUpSaga } from "./auth";
+import {
+  changePasswordSaga,
+  postSignInSaga,
+  postSignUpSaga,
+  postSilentSignInSaga,
+} from "./auth";
 import {
   addPostSaga,
   deletePostSaga,
@@ -39,6 +45,7 @@ export function* authSaga() {
   yield takeEvery(POST_SIGNUP_REQUEST, postSignUpSaga);
   yield takeEvery(POST_SIGNIN_REQUEST, postSignInSaga);
   yield takeEvery(CHANGE_PASSWORD_REQUEST, changePasswordSaga);
+  yield takeEvery(POST_SILENT_REQUEST, postSilentSignInSaga);
 }
 
 // 스토어에 연결할 rootSaga입니다.

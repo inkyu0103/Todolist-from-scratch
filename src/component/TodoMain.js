@@ -5,12 +5,7 @@ import { useHistory, useParams } from "react-router";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTodos, toggleTodo } from "../store/actions/todoAction";
-
-const toggleMap = {
-  SET_ALL: 0,
-  SET_COMPLETED: 1,
-  SET_UNCOMPLETED: 2,
-};
+import { toggleMap } from "../constant";
 
 export const TodoMain = () => {
   const dispatch = useDispatch();
@@ -48,6 +43,7 @@ export const TodoMain = () => {
         handleEditClick={handleEditClick}
         handleToggleClick={handleToggleClick}
       />
+
       <Create handleCreateClick={handleCreateClick} />
     </TodoMainContainer>
   );

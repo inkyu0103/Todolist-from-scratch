@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router";
 import { history } from "../store/store";
 
 export const Profile = () => {
-  const { email } = useSelector((state) => state.auth);
-  const { id } = useParams();
+  const { email, id } = useSelector((state) => state.auth);
+
   const handleEditPasswordClick = () => {
     history.push(`/${id}/editprofile`);
   };

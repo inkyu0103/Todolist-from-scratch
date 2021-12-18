@@ -1,7 +1,7 @@
 import { css, Global } from "@emotion/react";
 import { Switch } from "react-router";
 import {} from "react-router";
-import { PrivateRoute, PublicRoute } from "./lib/AuthRouter";
+import { PrivateRoute, PublicRoute } from "./utils/AuthRouter";
 import { useEffect } from "react";
 import {
   AddTaskPage,
@@ -14,9 +14,15 @@ import {
   StatisticsPage,
   TodoMainPage,
 } from "./Pages";
+import { useDispatch } from "react-redux";
+import { silentSignIn } from "./store/actions";
 
 export const App = () => {
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 처음 마운트 되었을때는 실행하지 않는 hook을 하나 만들어야겠다.
+    dispatch(silentSignIn());
+  }, [dispatch]);
   return (
     <>
       <Global styles={globalStyle} />

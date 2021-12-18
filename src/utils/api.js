@@ -6,6 +6,8 @@ const axios = Axios.create({
   withCredentials: true,
 });
 
+//const JWT_EXPIRE_TIME = 24 * 3600 * 1000;
+
 export const setAuthToken = (authToken) => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${authToken}`;
 };
