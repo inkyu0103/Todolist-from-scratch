@@ -2,12 +2,17 @@ import styled from "@emotion/styled";
 import hamburger from "../assets/images/hamburger.png";
 import back from "../assets/images/back.png";
 import { Icon } from "../Button/Icon";
+import { history } from "../store/store";
 
 export const Header = ({ isMobile, title, handleClick, goBack }) => {
+  const handleClickGoBack = () => {
+    history.goBack();
+  };
+
   return (
     <AppHeader>
       <AppTitleIconWrapper>
-        {goBack && <Icon image={back} />}
+        {goBack && <Icon image={back} handleClick={handleClickGoBack} />}
         <AppHeaderTitle>{title}</AppHeaderTitle>
       </AppTitleIconWrapper>
       <AppIconContainer>

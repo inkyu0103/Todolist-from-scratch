@@ -1,8 +1,46 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setAll, setCompleted, setUncompleted } from "../store/actions";
+import {
+  getCompletedTodos,
+  getTodos,
+  getUncompletedTodos,
+} from "../store/actions/todoAction";
 
 export const Nav = () => {
   const [navIndex, setNavIndex] = useState(0);
+  const dispatch = useDispatch();
+
+  const navContents = [
+    {
+      title: "All",
+      handleClick: () => {
+        if (navIndex !== 0) {
+          dispatch(setAll());
+          dispatch(getTodos());
+        }
+      },
+    },
+    {
+      title: "Completed",
+      handleClick: () => {
+        if (navIndex !== 1) {
+          dispatch(setCompleted());
+          dispatch(getCompletedTodos());
+        }
+      },
+    },
+    {
+      title: "Uncompleted",
+      handleClick: () => {
+        if (navIndex !== 2) {
+          dispatch(setUncompleted());
+          dispatch(getUncompletedTodos());
+        }
+      },
+    },
+  ];
 
   const handleClickNav = (idx) => {
     setNavIndex(idx);
@@ -10,12 +48,15 @@ export const Nav = () => {
 
   return (
     <AppNav>
-      {navContents.map((title, idx) => (
+      {navContents.map(({ title, handleClick }, idx) => (
         <AppNavTitle
           key={idx}
           idx={idx}
           selectedIdx={navIndex}
-          onClick={() => handleClickNav(idx)}
+          onClick={() => {
+            handleClickNav(idx);
+            handleClick();
+          }}
         >
           {title}
         </AppNavTitle>
@@ -23,8 +64,6 @@ export const Nav = () => {
     </AppNav>
   );
 };
-
-const navContents = ["All", "Completed", "Uncompleted", "Favorite"];
 
 const AppNav = styled.nav`
   @media (max-width: 767px) {

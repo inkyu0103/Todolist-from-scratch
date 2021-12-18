@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -24,6 +25,24 @@ export class TodoController {
   @Get()
   getAllTodos(@GetUser() user): Promise<Todo[]> {
     return this.todoService.getAllTodos(user);
+  }
+
+  @Get('/:id/chart')
+  getChartData(
+    @GetUser() user,
+    @Param('id', ParseIntPipe) id: number,
+    @Query('term', ParseIntPipe) searchTerm: number,
+  ): Promise<any> {
+    return this.todoService.getChartData(user, searchTerm);
+  }
+
+  @Get('/completed')
+  getCompletedTodos(@GetUser() user): Promise<Todo[]> {
+    return this.todoService.getCompletedTodos(user);
+  }
+  @Get('/uncompleted')
+  getUncompletedTodos(@GetUser() user): Promise<Todo[]> {
+    return this.todoService.getUncompletedTodos(user);
   }
 
   @Post()

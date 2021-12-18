@@ -1,10 +1,18 @@
 import styled from "@emotion/styled";
 import { useRef } from "react";
+import { useParams } from "react-router";
 import { useOutsideClick } from "../hooks/useOutsideClick";
 import { SidebarItem } from "./SidebarItem";
 
 export const MobileSidebar = ({ handleClick }) => {
   const sidebarRef = useRef();
+  const { id } = useParams();
+
+  const SideBarContent = [
+    { title: "Board", url: `/${id}` },
+    { title: "Profile", url: `/${id}/profile` },
+    { title: "Statistics", url: `/${id}/statistic` },
+  ];
 
   useOutsideClick({ targetRef: sidebarRef, callback: handleClick });
 
@@ -12,8 +20,8 @@ export const MobileSidebar = ({ handleClick }) => {
     <MobileSidebarContainer ref={sidebarRef}>
       <ProfileContainer />
       <SideBarContentContainer>
-        {SideBarContent.map((ele, idx) => (
-          <SidebarItem key={idx} ele={ele} />
+        {SideBarContent.map(({ title, url }, idx) => (
+          <SidebarItem key={idx} ele={title} url={url} userId={id} />
         ))}
       </SideBarContentContainer>
     </MobileSidebarContainer>
@@ -53,4 +61,3 @@ const SideBarContentContainer = styled.section`
   width: 100%;
   height: 100%;
 `;
-const SideBarContent = ["Board", "달성률 보기", "어쩌구", "어떻게 레이아웃"];

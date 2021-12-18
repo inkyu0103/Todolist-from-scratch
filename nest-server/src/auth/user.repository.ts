@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -6,6 +7,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 import * as bcrypt from 'bcryptjs';
+import { AuthChangePwDto } from './dto/auth-changepw.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -23,6 +25,31 @@ export class UserRepository extends Repository<User> {
       } else {
         throw new InternalServerErrorException();
       }
+    }
+  }
+
+  async setHashedRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<void> {
+    const salt = await bcrypt.genSalt();
+    const hashedRefreshToken = await bcrypt.hash(refreshToken, salt);
+    try {
+      await this.update(userId, { hashedRefreshToken });
+    } catch (e) {
+      throw new BadRequestException('bad request');
+    }
+  }
+
+  async changePassword(authChangePwDto: AuthChangePwDto) {
+    const { id, changed } = authChangePwDto;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(changed, salt);
+
+    try {
+      await this.update(id, { password: hashedPassword });
+    } catch (e) {
+      throw new BadRequestException('bad request');
     }
   }
 }

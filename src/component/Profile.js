@@ -1,25 +1,30 @@
 import styled from "@emotion/styled";
-import { LoggedLayout } from "../Layout/LoggedLayout";
+import { useSelector } from "react-redux";
+import { history } from "../store/store";
 
 export const Profile = () => {
+  const { email, id } = useSelector((state) => state.auth);
+
+  const handleEditPasswordClick = () => {
+    history.push(`/${id}/editprofile`);
+  };
+
   return (
-    <LoggedLayout title="Profile" goBack>
-      <ProfileContainer>
-        <ProfileContentContainer>
-          <ProfileImageContainer>
-            <ProfileImageWrapper>
-              <ProfileImage />
-            </ProfileImageWrapper>
-            <ProfileNickName>User name</ProfileNickName>
-          </ProfileImageContainer>
-          <ProfileMenuContainer>
-            <ProfileNav>프로필 수정하기</ProfileNav>
-            <ProfileNav>나의 통계 </ProfileNav>
-            <ProfileNav>혹시 모를 다른 메뉴</ProfileNav>
-          </ProfileMenuContainer>
-        </ProfileContentContainer>
-      </ProfileContainer>
-    </LoggedLayout>
+    <ProfileContainer>
+      <ProfileContentContainer>
+        <ProfileImageContainer>
+          <ProfileImageWrapper>
+            <ProfileImage />
+          </ProfileImageWrapper>
+          <ProfileNickName>{email}</ProfileNickName>
+        </ProfileImageContainer>
+        <ProfileMenuContainer>
+          <ProfileNav onClick={handleEditPasswordClick}>
+            비밀번호 수정하기
+          </ProfileNav>
+        </ProfileMenuContainer>
+      </ProfileContentContainer>
+    </ProfileContainer>
   );
 };
 
@@ -72,7 +77,10 @@ const ProfileNav = styled.div`
   max-width: 300px;
   color: white;
   background: #43a0ff;
-  text-align: center;
   border-radius: 15px;
   margin-top: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

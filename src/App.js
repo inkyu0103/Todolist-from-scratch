@@ -1,28 +1,42 @@
 import { css, Global } from "@emotion/react";
-import { Routes, Route } from "react-router-dom";
+import { Switch } from "react-router";
+import {} from "react-router";
+import { PrivateRoute, PublicRoute } from "./utils/AuthRouter";
+import { useEffect } from "react";
 import {
-  Landing,
-  Login,
-  TodoMain,
-  Join,
-  AddTask,
-  Profile,
-  Statistics,
+  AddTaskPage,
+  EditProfilePage,
+  EditTaskPage,
+  JoinPage,
+  LandingPage,
+  LoginPage,
+  ProfilePage,
+  StatisticsPage,
+  TodoMainPage,
 } from "./Pages";
+import { useDispatch } from "react-redux";
+import { silentSignIn } from "./store/actions";
 
 export const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // 처음 마운트 되었을때는 실행하지 않는 hook을 하나 만들어야겠다.
+    dispatch(silentSignIn());
+  }, [dispatch]);
   return (
     <>
       <Global styles={globalStyle} />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="join" element={<Join />} />
-        <Route path="login" element={<Login />} />
-        <Route path=":id" element={<TodoMain />} />
-        <Route path=":id/addtask" element={<AddTask />} />
-        <Route path=":id/profile" element={<Profile />} />
-        <Route path=":id/statistic" element={<Statistics />} />
-      </Routes>
+      <Switch>
+        <PublicRoute path="/" component={LandingPage} exact />
+        <PublicRoute path="/join" component={JoinPage} restricted />
+        <PublicRoute path="/login" component={LoginPage} restricted />
+        <PrivateRoute path="/:id/edit/:postId" component={EditTaskPage} />
+        <PrivateRoute path="/:id/profile" component={ProfilePage} />
+        <PrivateRoute path="/:id/statistic" component={StatisticsPage} />
+        <PrivateRoute path="/:id/editprofile" component={EditProfilePage} />
+        <PrivateRoute path="/:id/addtask" component={AddTaskPage} />
+        <PrivateRoute path="/:id" component={TodoMainPage} exact />
+      </Switch>
     </>
   );
 };

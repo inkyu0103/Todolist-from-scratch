@@ -1,11 +1,20 @@
 import styled from "@emotion/styled";
 import { TodoItem } from "./TodoItem";
 
-export const TodoList = ({ todoitems }) => {
+export const TodoList = ({ todoitems, handleEditClick, handleToggleClick }) => {
   return (
     <TodoListContainer>
-      {todoitems.map(({ content, isCheck }, idx) => {
-        return <TodoItem key={idx} content={content} isCheck={isCheck} />;
+      {todoitems.map(({ id: todoId, content, is_completed, priority }) => {
+        return (
+          <TodoItem
+            key={todoId}
+            content={content}
+            isCheck={is_completed}
+            priority={priority}
+            handleEditClick={() => handleEditClick(todoId)}
+            handleToggleClick={() => handleToggleClick(todoId)}
+          />
+        );
       })}
     </TodoListContainer>
   );

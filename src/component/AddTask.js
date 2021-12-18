@@ -1,57 +1,71 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import { Add } from "../Button/Add";
-import { LoggedLayout } from "../Layout/LoggedLayout";
+import { BasicButton } from "../Button/BasicButton";
+import { useForm } from "react-hook-form";
+import { postTodos } from "../store/actions";
+import { useDispatch } from "react-redux";
 
 export const AddTask = () => {
-  const [content, setContent] = useState("");
   const [importance, setImportance] = useState(1);
-  const state = {
+  const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const todoPriority = {
     0: "보통",
     1: "중요",
     2: "매우급함",
-  };
-
-  const handleContent = (e) => {
-    setContent(e.target.value);
   };
 
   const handleImportance = (e) => {
     setImportance(e.target.value);
   };
 
-  const handleCreateClick = (e) => {
-    alert("게시물이 저장되었습니다.");
+  const onSubmit = ({ todo, priority }) => {
+    dispatch(postTodos({ todo, priority }));
   };
 
   return (
-    <LoggedLayout title="Add a Task" goBack>
-      <AddTaskContainer>
+    <>
+      <AddTaskContainer onSubmit={handleSubmit(onSubmit)}>
         <AddTaskWrapper>
           <InputWrapper>
-            <AddTaskInputLabel htmlFor="input">Content</AddTaskInputLabel>
-            <AddTaskInput type="text" id="input" onChange={handleContent} />
+            <AddTaskInputLabel htmlFor="todo">Content</AddTaskInputLabel>
+            <AddTaskInput
+              type="text"
+              id="todo"
+              {...register("todo", { required: true })}
+            />
+            {errors.todo?.type === "required" &&
+              "할 일은 반드시 입력하셔야 합니다."}
           </InputWrapper>
           <InputWrapper>
-            <AddTaskSlideLabel htmlFor="slide">Importance</AddTaskSlideLabel>
-            {state[importance]}
+            <AddTaskSlideLabel htmlFor="priority">Importance</AddTaskSlideLabel>
+            {todoPriority[importance]}
             <AddTaskSlide
               type="range"
               min="0"
               max="2"
               id="slide"
               defaultValue="1"
+              {...register("priority")}
               onChange={handleImportance}
             />
           </InputWrapper>
         </AddTaskWrapper>
-        <Add handleCreateClick={handleCreateClick} />
       </AddTaskContainer>
-    </LoggedLayout>
+      <BasicButtonWrapper>
+        <BasicButton message="Create Todo" />
+      </BasicButtonWrapper>
+    </>
   );
 };
 
-const AddTaskContainer = styled.div`
+const AddTaskContainer = styled.form`
   width: 100%;
   height: 100%;
   position: relative;
@@ -76,6 +90,13 @@ const InputWrapper = styled.div`
 const AddTaskInputLabel = styled.label`
   width: 60%;
   max-width: 400px;
+`;
+
+const BasicButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 `;
 
 const AddTaskInput = styled.input`
