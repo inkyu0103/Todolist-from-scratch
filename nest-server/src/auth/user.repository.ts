@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
@@ -38,6 +39,15 @@ export class UserRepository extends Repository<User> {
       await this.update(userId, { hashedRefreshToken });
     } catch (e) {
       throw new BadRequestException('bad request');
+    }
+  }
+
+  async signOut(userId: number): Promise<void> {
+    try {
+      await this.update(userId, { hashedRefreshToken: null });
+      console.log('hh;');
+    } catch (e) {
+      throw new UnauthorizedException();
     }
   }
 

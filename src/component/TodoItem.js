@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import checked from "../assets/images/checked.png";
 import unchecked from "../assets/images/unchecked.png";
 import edit from "../assets/images/pencil.png";
+import trash from "../assets/images/delete.png";
 import { Icon } from "../Button/Icon";
 import { COLOR_MAP } from "../constant";
 
@@ -17,6 +18,7 @@ export const TodoItem = ({
   priority,
   handleEditClick,
   handleToggleClick,
+  handleDeleteClick,
 }) => {
   return (
     <TodoItemContainer
@@ -25,6 +27,7 @@ export const TodoItem = ({
     >
       <TodoItemContent>{content}</TodoItemContent>
       <IconWrapper>
+        <Icon image={trash} handleClick={handleDeleteClick} />
         <Icon image={edit} handleClick={handleEditClick} />
         <TodoItemComplete isCheck={isCheck} onClick={handleToggleClick} />
       </IconWrapper>
@@ -49,7 +52,10 @@ const TodoItemContainer = styled.article`
 
 const IconWrapper = styled.div`
   display: flex;
-  width: 60px;
+  height: 100%;
+  align-items: center;
+  width: 15%;
+  min-width: 65px;
   justify-content: space-between;
 `;
 

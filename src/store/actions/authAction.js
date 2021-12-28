@@ -2,7 +2,7 @@
 export const POST_SIGNIN_REQUEST = "POST_SIGNIN_REQUEST";
 export const POST_SIGNUP_REQUEST = "POST_SIGNUP_REQUEST";
 export const POST_SILENT_REQUEST = "POST_SILENT_REQUEST";
-
+export const POST_SIGNOUT_REQUEST = "POST_SIGNOUT_REQUEST";
 export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
 
 // catch Reducer
@@ -40,6 +40,7 @@ export const signUpRequest = ({ email, password }) => ({
   email,
   password,
 });
+export const signOutRequest = () => ({ type: POST_SIGNOUT_REQUEST });
 
 export const silentSignIn = () => ({ type: POST_SILENT_REQUEST });
 

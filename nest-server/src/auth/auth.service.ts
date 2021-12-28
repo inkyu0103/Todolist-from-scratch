@@ -13,18 +13,24 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
+  // 유저의 hashed 된 refresh Token과 같은지 확인
   async silentSignIn(refreshToken: string) {
     try {
       const verify = this.jwtService.verify(refreshToken, {
         secret: 'JWT_REFRESH_TOKEN_SECRET',
       });
 
-      const accessToken = this.getJwtAccessToken({
-        email: verify['email'],
-        id: verify['id'],
-      });
+      const user = await this.userRepository.findOne({ id: verify['id'] });
 
-      return accessToken;
+      if (user && bcrypt.compare(refreshToken, user.hashedRefreshToken)) {
+        const accessToken = this.getJwtAccessToken({
+          email: verify['email'],
+          id: verify['id'],
+        });
+        return accessToken;
+      } else {
+        throw new UnauthorizedException();
+      }
     } catch (e) {
       //redirect login
       return null;
@@ -75,6 +81,16 @@ export class AuthService {
       return { accessToken, refreshToken };
     } else {
       throw new UnauthorizedException('login failed');
+    }
+  }
+
+  async signOut(accessToken: string) {
+    try {
+      const result = this.jwtService.decode(accessToken);
+      const id = result['id'];
+      await this.userRepository.signOut(id);
+    } catch (e) {
+      throw new UnauthorizedException();
     }
   }
 
