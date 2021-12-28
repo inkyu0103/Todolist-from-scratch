@@ -7,7 +7,6 @@ import {
   Res,
   Req,
   ValidationPipe,
-  Redirect,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthChangePwDto } from './dto/auth-changepw.dto';
@@ -24,6 +23,13 @@ export class AuthController {
 
     const accessToken = await this.authService.silentSignIn(refreshToken);
     return accessToken ? { accessToken } : null;
+  }
+
+  @Get('signout')
+  async signout(@Req() req: Request, @Res() res: Response) {
+    const accessToken = req.headers['authorization'].split(' ')[1];
+    await this.authService.signOut(accessToken);
+    return res.sendStatus(200);
   }
 
   @Get('extension')

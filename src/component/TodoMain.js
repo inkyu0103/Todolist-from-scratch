@@ -4,7 +4,7 @@ import { TodoList } from ".";
 import { useHistory, useParams } from "react-router";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTodos, toggleTodo } from "../store/actions/todoAction";
+import { getTodos, toggleTodo, deleteTodo } from "../store/actions/todoAction";
 import { toggleMap } from "../constant";
 
 export const TodoMain = () => {
@@ -36,12 +36,20 @@ export const TodoMain = () => {
     history.push(`/${id}/addtask`);
   }, [id, history]);
 
+  const handleDeleteClick = useCallback(
+    (todoId) => {
+      dispatch(deleteTodo({ todoId }));
+    },
+    [dispatch]
+  );
+
   return (
     <TodoMainContainer>
       <TodoList
         todoitems={todos}
         handleEditClick={handleEditClick}
         handleToggleClick={handleToggleClick}
+        handleDeleteClick={handleDeleteClick}
       />
 
       <Create handleCreateClick={handleCreateClick} />

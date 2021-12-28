@@ -4,6 +4,7 @@ import {
   POST_SIGNUP_REQUEST,
   POST_SILENT_REQUEST,
   CHANGE_PASSWORD_REQUEST,
+  POST_SIGNOUT_REQUEST,
 } from "../actions/index";
 import {
   DELETE_TODO_REQUEST,
@@ -17,6 +18,7 @@ import {
 import {
   changePasswordSaga,
   postSignInSaga,
+  postSignOutSaga,
   postSignUpSaga,
   postSilentSignInSaga,
 } from "./auth";
@@ -46,6 +48,7 @@ export function* authSaga() {
   yield takeEvery(POST_SIGNIN_REQUEST, postSignInSaga);
   yield takeEvery(CHANGE_PASSWORD_REQUEST, changePasswordSaga);
   yield takeEvery(POST_SILENT_REQUEST, postSilentSignInSaga);
+  yield takeEvery(POST_SIGNOUT_REQUEST, postSignOutSaga);
 }
 
 // 스토어에 연결할 rootSaga입니다.

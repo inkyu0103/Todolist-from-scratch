@@ -59,11 +59,10 @@ export const EditTask = () => {
             />
           </InputWrapper>
         </AddTaskWrapper>
+        <BasicButtonWrapper>
+          <BasicButton message="Edit" />
+        </BasicButtonWrapper>
       </AddTaskContainer>
-      <BasicButtonWrapper>
-        <BasicButton message="Edit" />
-        <BasicButton message="Delete" />
-      </BasicButtonWrapper>
     </>
   );
 };
@@ -73,6 +72,7 @@ const AddTaskContainer = styled.form`
   height: 100%;
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
 `;
 

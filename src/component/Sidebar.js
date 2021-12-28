@@ -9,7 +9,6 @@ export const Sidebar = () => {
     { title: "Board", url: `/${id}` },
     { title: "Profile", url: `/${id}/profile` },
     { title: "Statistics", url: `/${id}/statistic` },
-    //{ title: "Past Task", url: `/${id}/past` },
   ];
 
   return (

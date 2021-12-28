@@ -1,7 +1,7 @@
 import CustomAxios from "../../utils/api";
 import { put, call } from "redux-saga/effects";
 import { setAuthToken } from "../../utils/api";
-import { SEND_SUCCESS_SIGNIN } from "../actions/index";
+import { SEND_SUCCESS_SIGNIN, SEND_SUCCESS_SIGNOUT } from "../actions/index";
 import jwtDecode from "jwt-decode";
 import { history } from "../store";
 
@@ -44,6 +44,19 @@ export function* postSilentSignInSaga() {
       yield put(SEND_SUCCESS_SIGNIN({ email, userId }));
     }
   } catch (e) {}
+}
+
+export function* postSignOutSaga() {
+  try {
+    console.log("s");
+    const result = yield call(CustomAxios.get, "/auth/signout");
+    console.log(result);
+    console.log("?");
+    yield put(SEND_SUCCESS_SIGNOUT());
+    history.push("/");
+  } catch (e) {
+    alert("에러");
+  }
 }
 
 export function* changePasswordSaga({ id, current, changed }) {

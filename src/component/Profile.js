@@ -1,9 +1,15 @@
 import styled from "@emotion/styled";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signOutRequest } from "../store/actions";
 import { history } from "../store/store";
 
 export const Profile = () => {
   const { email, id } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const handleSignoutClick = () => {
+    dispatch(signOutRequest());
+  };
 
   const handleEditPasswordClick = () => {
     history.push(`/${id}/editprofile`);
@@ -22,6 +28,7 @@ export const Profile = () => {
           <ProfileNav onClick={handleEditPasswordClick}>
             비밀번호 수정하기
           </ProfileNav>
+          <ProfileNav onClick={handleSignoutClick}>로그아웃</ProfileNav>
         </ProfileMenuContainer>
       </ProfileContentContainer>
     </ProfileContainer>

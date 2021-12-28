@@ -14,10 +14,7 @@ export function* getPostsSaga() {
     const todos = yield call(CustomAxios.get, "/todo");
     yield put(SEND_SUCCESS_GET_TODOS({ todos }));
   } catch (e) {
-    yield put({
-      type: "GET_POST_FAIL",
-      content: [],
-    });
+    console.log(e);
   }
 }
 
@@ -53,10 +50,7 @@ export function* addPostSaga({ todo, priority }) {
     yield put(SEND_SUCCESS_POST_TODOS({ todos }));
     history.goBack();
   } catch (e) {
-    yield put({
-      type: "SHOW_MESSAGE",
-      message: "추가에 실패하였습니다",
-    });
+    console.log(e);
   }
 }
 
