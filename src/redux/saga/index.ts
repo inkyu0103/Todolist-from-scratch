@@ -8,12 +8,13 @@ import {
 } from "../actions/index";
 import {
   DELETE_TODO_REQUEST,
-  GET_TODOS_REQUEST,
-  POST_TODO_REQUEST,
   PUT_TODO_REQUEST,
-  PUT_TOGGLE_REQUEST,
 } from "../actions/todoAction";
-import { getTodoRequest } from "../slice/todoSlice";
+import {
+  addTodoRequest,
+  getTodoRequest,
+  toggleTodoRequest,
+} from "../slice/todoSlice";
 import {
   changePasswordSaga,
   postSignInSaga,
@@ -31,11 +32,11 @@ import {
 
 // action을 감지하는 saga를 모아두는 함수입니다.
 export function* todoSaga() {
-  yield takeEvery(getTodoRequest.type, getPostsSaga);
-  yield takeEvery(POST_TODO_REQUEST, addPostSaga);
-  yield takeEvery(DELETE_TODO_REQUEST, deletePostSaga);
-  yield takeEvery(PUT_TODO_REQUEST, editPostSaga);
-  yield takeEvery(PUT_TOGGLE_REQUEST, togglePostSaga);
+  yield takeEvery(getTodoRequest.type, getTodosSaga);
+  yield takeEvery(toggleTodoRequest.type, toggleTodoSaga);
+  yield takeEvery(addTodoRequest.type, addTodoSaga);
+  yield takeEvery(DELETE_TODO_REQUEST, deleteTodoSaga);
+  yield takeEvery(PUT_TODO_REQUEST, editTodoSaga);
 }
 
 export function* authSaga() {
@@ -46,7 +47,6 @@ export function* authSaga() {
   yield takeEvery(POST_SIGNOUT_REQUEST, postSignOutSaga);
 }
 
-// 스토어에 연결할 rootSaga입니다.
 export default function* rootSaga() {
   yield all([todoSaga(), authSaga()]);
 }

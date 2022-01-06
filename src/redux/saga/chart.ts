@@ -1,7 +1,7 @@
 import { call } from "@redux-saga/core/effects";
 import CustomAxios from "../../utils/api";
 
-export function* getChartDataSaga({ userId, term }) {
+export function* getChartDataSaga({ userId, term }: any) {
   try {
     const result: Array<any> = yield call(
       CustomAxios.get,

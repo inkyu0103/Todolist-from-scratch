@@ -6,7 +6,7 @@ import {
   SEND_SUCCESS_POST_TODOS,
   SEND_SUCCESS_PUT_TODO,
   SEND_SUCCESS_TOGGLE_TODO,
-} from "../actions/todoAction";
+} from "../../redux/actions/todoAction";
 import { history } from "../store";
 
 export function* getPostsSaga() {

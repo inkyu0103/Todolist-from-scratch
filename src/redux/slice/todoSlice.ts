@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Todo } from "../../Interface/todo";
 
 interface TodoSliceInitialState {
@@ -15,7 +15,7 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    getTodoRequest: (state, action) => {
+    getTodoRequest: (state) => {
       state.isLoading = true;
     },
     getTodoSuccess: (state, action) => {
@@ -27,7 +27,7 @@ export const todoSlice = createSlice({
       state.todos = action.payload.todos;
     },
 
-    toggleTodoRequest: (state, action) => {
+    toggleTodoRequest: (state, action: PayloadAction<number>) => {
       state.isLoading = true;
     },
     toggleTodoSuccess: (state, action) => {
@@ -38,6 +38,27 @@ export const todoSlice = createSlice({
       state.isLoading = false;
       state.todos = action.payload.todos;
     },
+
+    // Mutation
+    addTodoRequest: (state) => {
+      state.isLoading = true;
+    },
+
+    addTodoSuccess: (state, action) => {
+      state.isLoading = false;
+      state.todos = action.payload.todos;
+    },
+
+    addTodoFailure: (state, action) => {
+      state.isLoading = false;
+      state.todos = action.payload.todos;
+    },
+
+    deleteTodoRequest: (state, action: PayloadAction<number>) => {
+      state.isLoading = true;
+    },
+    deleteTodoSuccess: (state, action) => {},
+    deleteTodoFailure: (state, action) => {},
 
     // no request
     getAll: (state) => state,
@@ -62,6 +83,12 @@ export const {
   toggleTodoFailure,
   toggleTodoRequest,
   toggleTodoSuccess,
+  addTodoFailure,
+  addTodoRequest,
+  addTodoSuccess,
+  deleteTodoRequest,
+  deleteTodoSuccess,
+  deleteTodoFailure,
 } = actions;
 
 export default reducer;

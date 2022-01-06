@@ -5,7 +5,7 @@ import {
   POST_SILENT_REQUEST,
   CHANGE_PASSWORD_REQUEST,
   POST_SIGNOUT_REQUEST,
-} from "../actions/index";
+} from "../../redux/actions/index";
 import {
   DELETE_TODO_REQUEST,
   GET_COMPELETED_TODOS_REQUEST,
@@ -14,7 +14,7 @@ import {
   POST_TODO_REQUEST,
   PUT_TODO_REQUEST,
   PUT_TOGGLE_REQUEST,
-} from "../actions/todoAction";
+} from "../../redux/actions/todoAction";
 import {
   changePasswordSaga,
   postSignInSaga,

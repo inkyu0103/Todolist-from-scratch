@@ -2,7 +2,7 @@ import {
   SET_ALL,
   SET_COMPLETED,
   SET_UNCOMPLETED,
-} from "../actions/todoTypeAction";
+} from "../../redux/actions/todoTypeAction";
 
 const initialState = {
   toggleType: SET_ALL,

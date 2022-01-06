@@ -5,7 +5,7 @@ import {
   FAIL_SIGNIN,
   FAIL_SIGNOUT,
   FAIL_SIGNUP,
-} from "../actions/index";
+} from "../../redux/actions/index";
 const initialState = {
   email: "",
   userId: null,
