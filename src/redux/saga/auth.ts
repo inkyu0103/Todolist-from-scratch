@@ -15,7 +15,7 @@ export function* postSignUpSaga({
   password,
 }: SignUpForm & { type: string }) {
   try {
-    yield call(CustomAxios.post, "/auth/signup", { email, password });
+    yield call(CustomAxios.post, "/auth/signup", { email, password }, c);
     history.push("/login");
   } catch (e) {
     alert("회원가입에 실패하였습니다.");
