@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -50,6 +51,7 @@ export class TodoController {
     @Body() createTodoDto: CreateTodoDto,
     @GetUser() user: User,
   ): Promise<Todo> {
+    console.log(createTodoDto);
     return this.todoService.createTodo(createTodoDto, user);
   }
 
@@ -58,20 +60,21 @@ export class TodoController {
     return this.todoService.deleteTodo(id);
   }
 
-  @Put('/:id/content')
+  @Patch('/:id')
+  toggleTodo(
+    @Param('id', ParseIntPipe) id: number,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    console.log('hi toggle');
+    return this.todoService.toggleTodo(id, user);
+  }
+
+  @Put('/:id')
   editTodo(
     @Param('id', ParseIntPipe) id: number,
     @Body() createTodoDto: CreateTodoDto,
     @GetUser() user: User,
   ): Promise<Todo> {
     return this.todoService.editTodo(id, createTodoDto, user);
-  }
-
-  @Put('/:id/toggle')
-  toggleTodo(
-    @Param('id', ParseIntPipe) id: number,
-    @GetUser() user: User,
-  ): Promise<Todo> {
-    return this.todoService.toggleTodo(id, user);
   }
 }

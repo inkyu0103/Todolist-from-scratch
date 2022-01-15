@@ -1,7 +1,10 @@
 import CustomAxios from "../../utils/api";
 import { put, call } from "redux-saga/effects";
 import { setAuthToken } from "../../utils/api";
-import { SEND_SUCCESS_SIGNIN, SEND_SUCCESS_SIGNOUT } from "../actions/index";
+import {
+  SEND_SUCCESS_SIGNIN,
+  SEND_SUCCESS_SIGNOUT,
+} from "../../redux/actions/index";
 import jwtDecode from "jwt-decode";
 import { history } from "../store";
 

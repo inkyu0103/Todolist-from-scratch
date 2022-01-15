@@ -1,4 +1,4 @@
-import { SUCCESS_GET_CHART } from "../actions/chartAction";
+import { SUCCESS_GET_CHART } from "../../redux/actions/chartAction";
 
 const initialState = {
   data: [],

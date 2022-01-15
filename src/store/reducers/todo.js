@@ -1,4 +1,4 @@
-import { SUCCESS_GET_TODOS, SUCCESS_TOGGLE_TODO } from "../actions";
+import { SUCCESS_GET_TODOS, SUCCESS_TOGGLE_TODO } from "../../redux/actions";
 
 const initialState = {
   todos: [],
