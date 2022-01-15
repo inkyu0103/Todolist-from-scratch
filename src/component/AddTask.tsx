@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { BasicButton } from "../Button/BasicButton";
 import { useForm } from "react-hook-form";
-import { postTodos } from "../redux/actions";
+import { addTodoRequest } from "../redux/slice/todoSlice";
 import { useDispatch } from "react-redux";
 
 export const AddTask = () => {
@@ -25,8 +25,14 @@ export const AddTask = () => {
     setImportance(parseInt(e.target.value));
   };
 
-  const onSubmit = ({ todo, priority }: { todo: string; priority: number }) => {
-    dispatch(postTodos({ todo, priority }));
+  const onSubmit = ({
+    content,
+    priority,
+  }: {
+    content: string;
+    priority: number;
+  }) => {
+    dispatch(addTodoRequest({ content, priority }));
   };
 
   return (
@@ -34,11 +40,11 @@ export const AddTask = () => {
       <AddTaskContainer onSubmit={handleSubmit(onSubmit)}>
         <AddTaskWrapper>
           <InputWrapper>
-            <AddTaskInputLabel htmlFor="todo">Content</AddTaskInputLabel>
+            <AddTaskInputLabel htmlFor="content">Content</AddTaskInputLabel>
             <AddTaskInput
               type="text"
-              id="todo"
-              {...register("todo", { required: true })}
+              id="content"
+              {...register("content", { required: true })}
             />
             {errors.todo?.type === "required" &&
               "할 일은 반드시 입력하셔야 합니다."}

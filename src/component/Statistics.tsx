@@ -17,10 +17,7 @@ export const Statistics = () => {
 
   useEffect(() => {
     const getChartData = async () => {
-      const result = await CustomAxios.get(
-        `/todo/${id}/chart?term=${term}`,
-        null
-      );
+      const result = await CustomAxios.get(`/todo/${id}/chart?term=${term}`);
       setChartData(result);
     };
     getChartData();

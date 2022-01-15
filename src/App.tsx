@@ -15,22 +15,22 @@ import {
   TodoMainPage,
 } from "./Pages";
 import { useDispatch } from "react-redux";
-import { silentSignIn } from "./redux/actions";
+import { silentLoginRequest } from "./redux/slice/authSlice";
 
 export const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     // 처음 마운트 되었을때는 실행하지 않는 hook을 하나 만들어야겠다.
-    dispatch(silentSignIn());
+    dispatch(silentLoginRequest());
   }, [dispatch]);
   return (
     <>
       <Global styles={globalStyle} />
       <Switch>
-        <PublicRoute path="/" component={LandingPage} exact />
+        <PublicRoute path="/" component={LandingPage} restricted exact />
         <PublicRoute path="/join" component={JoinPage} restricted />
         <PublicRoute path="/login" component={LoginPage} restricted />
-        <PrivateRoute path="/:id/edit/:postId" component={EditTaskPage} />
+        <PrivateRoute path="/:id/edit/:todoId" component={EditTaskPage} />
         <PrivateRoute path="/:id/profile" component={ProfilePage} />
         <PrivateRoute path="/:id/statistic" component={StatisticsPage} />
         <PrivateRoute path="/:id/editprofile" component={EditProfilePage} />

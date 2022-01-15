@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { signUpRequest } from "../redux/actions/index";
+import { signUpRequest } from "../redux/slice/authSlice";
 
 export const Join = () => {
   const {

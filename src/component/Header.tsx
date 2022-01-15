@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import hamburger from "../assets/images/hamburger.png";
 import back from "../assets/images/back.png";
 import { Icon } from "../Button/Icon";
-import { history } from "../store/store";
+import { history } from "../redux/store";
 
 export const Header = ({
   isMobile,

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { history } from "../store/store";
+import { history } from "../redux/store";
 
 export const SidebarItem = ({ ele, url }: { ele: string; url: string }) => {
   const handleClick = () => {

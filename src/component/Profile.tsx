@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { signOutRequest } from "../redux/actions";
-import { RootState } from "../redux/store";
-import { history } from "../store/store";
+import { signOutRequest } from "../redux/slice/authSlice";
+import { RootState, history } from "../redux/store";
 
 export const Profile = () => {
   const { email, userId } = useSelector(
@@ -11,7 +10,7 @@ export const Profile = () => {
   const dispatch = useDispatch();
 
   const handleSignoutClick = () => {
-    dispatch(signOutRequest());
+    //dispatch(signOutRequest());
   };
 
   const handleEditPasswordClick = () => {

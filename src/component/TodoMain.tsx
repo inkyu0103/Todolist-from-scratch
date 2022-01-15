@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import {
   deleteTodoRequest,
-  getTodoRequest,
+  getTodosRequest,
   toggleTodoRequest,
 } from "../redux/slice/todoSlice";
 
@@ -15,14 +15,16 @@ export const TodoMain = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const todos = useSelector((state: RootState) => state.todoReducer.todos);
+  const todos = useSelector(
+    (state: RootState) => state.todoReducer.showedTodos
+  );
 
   useEffect(() => {
-    dispatch(getTodoRequest());
+    dispatch(getTodosRequest());
   }, [dispatch]);
 
   const handleToggleClick = useCallback(
-    (todoId: number) => {
+    (todoId) => {
       dispatch(toggleTodoRequest(todoId));
     },
     [dispatch]

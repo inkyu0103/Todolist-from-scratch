@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BasicButton } from "../Button/BasicButton";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { editTodo } from "../redux/actions";
+import { editTodoRequest } from "../redux/slice/todoSlice";
 import { useParams } from "react-router";
 
 export const EditTask = () => {
@@ -14,7 +14,7 @@ export const EditTask = () => {
     formState: { errors },
   } = useForm();
 
-  const { postId } = useParams<{ postId: string }>();
+  const { todoId } = useParams<{ todoId: string }>();
 
   const dispatch = useDispatch();
 
@@ -28,8 +28,14 @@ export const EditTask = () => {
     setPriority(parseInt(e.currentTarget.value));
   };
 
-  const onSubmit = ({ todo }: { todo: string }) => {
-    dispatch(editTodo({ todoId: postId, todo, priority }));
+  const onSubmit = ({
+    content,
+    priority,
+  }: {
+    content: string;
+    priority: number;
+  }) => {
+    dispatch(editTodoRequest({ todoId, content, priority }));
   };
 
   return (
@@ -37,11 +43,11 @@ export const EditTask = () => {
       <AddTaskContainer onSubmit={handleSubmit(onSubmit)}>
         <AddTaskWrapper>
           <InputWrapper>
-            <AddTaskInputLabel htmlFor="todo">Content</AddTaskInputLabel>
+            <AddTaskInputLabel htmlFor="content">Content</AddTaskInputLabel>
             <AddTaskInput
               type="text"
-              id="todo"
-              {...register("todo", { required: true })}
+              id="content"
+              {...register("content", { required: true })}
             />
             {errors.todo?.type === "required" &&
               "할 일은 반드시 입력하셔야 합니다."}

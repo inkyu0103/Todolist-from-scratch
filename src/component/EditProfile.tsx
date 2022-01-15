@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { changePasswordRequest } from "../redux/actions";
+import { changePasswordRequest } from "../redux/slice/authSlice";
 import { useSelector } from "react-redux";
 import { BasicButton } from "../Button/BasicButton";
 import { RootState } from "../redux/store";
@@ -23,7 +23,13 @@ export const EditProfile = () => {
     current: string;
     changed: string;
   }) => {
-    dispatch(changePasswordRequest({ id: userId, current, changed }));
+    dispatch(
+      changePasswordRequest({
+        id: userId,
+        currentPassword: current,
+        changedPassword: changed,
+      })
+    );
   };
 
   return (
