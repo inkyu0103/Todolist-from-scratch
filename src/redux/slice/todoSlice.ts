@@ -1,13 +1,15 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { Todo } from "../../Interface/todo";
 
 interface TodoSliceInitialState {
   todos: Todo[];
+  showedTodos: Todo[];
   isLoading: boolean;
 }
 
 const initialState: TodoSliceInitialState = {
   todos: [],
+  showedTodos: [],
   isLoading: true,
 };
 
@@ -15,58 +17,74 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    getTodoRequest: (state) => {
+    getTodosRequest: (state) => {
       state.isLoading = true;
     },
-    getTodoSuccess: (state, action) => {
+    getTodosSuccess: (state, action) => {
       state.isLoading = false;
       state.todos = action.payload.todos;
+      state.showedTodos = action.payload.todos;
     },
-    getTodoFailure: (state, action) => {
+    getTodosFailure: (state, action) => {
       state.isLoading = false;
-      state.todos = action.payload.todos;
     },
 
-    toggleTodoRequest: (state, action: PayloadAction<number>) => {
+    toggleTodoRequest: (state, action) => {
       state.isLoading = true;
     },
     toggleTodoSuccess: (state, action) => {
       state.isLoading = false;
       state.todos = action.payload.todos;
+      state.showedTodos = action.payload.todos;
     },
     toggleTodoFailure: (state, action) => {
       state.isLoading = false;
-      state.todos = action.payload.todos;
     },
 
     // Mutation
-    addTodoRequest: (state) => {
+    addTodoRequest: (state, action) => {
       state.isLoading = true;
     },
 
     addTodoSuccess: (state, action) => {
       state.isLoading = false;
+      state.showedTodos = action.payload.todos;
       state.todos = action.payload.todos;
     },
 
     addTodoFailure: (state, action) => {
       state.isLoading = false;
-      state.todos = action.payload.todos;
     },
 
-    deleteTodoRequest: (state, action: PayloadAction<number>) => {
+    deleteTodoRequest: (state, action) => {
       state.isLoading = true;
     },
-    deleteTodoSuccess: (state, action) => {},
-    deleteTodoFailure: (state, action) => {},
+    deleteTodoSuccess: (state, action) => {
+      state.isLoading = false;
+      state.todos = action.payload.todos;
+      state.showedTodos = action.payload.todos;
+    },
+    deleteTodoFailure: (state, action) => {
+      state.isLoading = false;
+    },
+
+    editTodoRequest: (state, action) => {},
+    editTodoSuccess: (state, action) => {},
+    editTodoFailure: (state, action) => {},
 
     // no request
-    getAll: (state) => state,
+    getAll: (state) => {
+      state.showedTodos = state.todos;
+    },
     getCompleted: (state) => {
-      state.todos = state.todos.filter(({ isCheck }) => isCheck);
+      state.showedTodos = state.todos.filter(
+        ({ is_completed }: any) => is_completed
+      );
     },
     getUnCompleted: (state) => {
-      state.todos = state.todos.filter(({ isCheck }) => !isCheck);
+      state.showedTodos = state.todos.filter(
+        ({ is_completed }: any) => !is_completed
+      );
     },
   },
 });
@@ -76,9 +94,9 @@ const { reducer, actions } = todoSlice;
 export const {
   getAll,
   getCompleted,
-  getTodoFailure,
-  getTodoRequest,
-  getTodoSuccess,
+  getTodosFailure,
+  getTodosRequest,
+  getTodosSuccess,
   getUnCompleted,
   toggleTodoFailure,
   toggleTodoRequest,
@@ -86,6 +104,9 @@ export const {
   addTodoFailure,
   addTodoRequest,
   addTodoSuccess,
+  editTodoRequest,
+  editTodoFailure,
+  editTodoSuccess,
   deleteTodoRequest,
   deleteTodoSuccess,
   deleteTodoFailure,

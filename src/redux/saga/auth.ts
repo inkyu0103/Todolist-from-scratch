@@ -1,40 +1,36 @@
 import CustomAxios from "../../utils/api";
 import { put, call } from "redux-saga/effects";
 import { setAuthToken } from "../../utils/api";
-import { SEND_SUCCESS_SIGNIN, SEND_SUCCESS_SIGNOUT } from "../actions/index";
 import jwtDecode from "jwt-decode";
 import { history } from "../store";
+import { ChangePasswordForm } from "../../Interface/auth";
 import {
-  ChangePasswordForm,
-  SignInForm,
-  SignUpForm,
-} from "../../Interface/auth";
+  signInRequest,
+  signInSuccess,
+  signUpRequest,
+} from "../slice/authSlice";
 
-export function* postSignUpSaga({
-  email,
-  password,
-}: SignUpForm & { type: string }) {
+export function* signUpSaga({ payload }: ReturnType<typeof signUpRequest>) {
   try {
-    yield call(CustomAxios.post, "/auth/signup", { email, password }, c);
+    yield call(CustomAxios.post, "/auth/signup", {
+      email: payload.email,
+      password: payload.password,
+    });
     history.push("/login");
   } catch (e) {
     alert("회원가입에 실패하였습니다.");
-    console.log(e);
   }
 }
 
-export function* postSignInSaga({
-  email,
-  password,
-}: SignInForm & { type: string }) {
+export function* signInSaga({ payload }: ReturnType<typeof signInRequest>) {
   try {
     const { accessToken } = yield call(CustomAxios.post, "/auth/signin", {
-      email,
-      password,
+      email: payload.email,
+      password: payload.password,
     });
-    const { email: result, id: userId } = yield jwtDecode(accessToken);
+    const { email: loggedEmail, id: userId } = yield jwtDecode(accessToken);
     yield call(setAuthToken, accessToken);
-    yield put(SEND_SUCCESS_SIGNIN({ email: result, userId }));
+    yield put(signInSuccess({ email: loggedEmail, userId }));
     history.push(`/${userId}`);
   } catch (e) {
     alert("로그인에 실패했습니다.");
@@ -42,26 +38,28 @@ export function* postSignInSaga({
   }
 }
 
-export function* postSilentSignInSaga() {
+export function* silentSignInSaga() {
   try {
     // api return type {accessToken: string | null}
     const { accessToken } = yield call(CustomAxios.get, "/auth/silent-signin");
 
-    // null is falsy?
     if (!accessToken) {
       history.push("/login");
     } else {
       const { email, id: userId } = yield jwtDecode(accessToken);
       yield call(setAuthToken, accessToken);
-      yield put(SEND_SUCCESS_SIGNIN({ email, userId }));
+      yield put(signInSuccess({ email, userId }));
     }
-  } catch (e) {}
+  } catch (e) {
+    alert("로그인에 실패했습니다.");
+    console.log(e);
+  }
 }
 
-export function* postSignOutSaga() {
+// 기능 추가해야함
+export function* signOutSaga() {
   try {
     yield call(CustomAxios.get, "/auth/signout");
-    yield put(SEND_SUCCESS_SIGNOUT());
     history.push("/");
   } catch (e) {
     alert("에러");

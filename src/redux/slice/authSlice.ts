@@ -3,28 +3,31 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   email: null,
   userId: null,
-  //userImage
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signUpRequest: (state) => state,
+    signUpRequest: (state, action) => state,
     signUpSuccess: (state, action) => action.payload,
     signUpFailure: (state, action) => action.payload,
 
-    signInRequest: (state) => state,
+    signInRequest: (state, action) => state,
     signInSuccess: (state, action) => action.payload,
     signInFailure: (state, action) => action.payload,
 
-    signOutRequest: (state) => state,
+    signOutRequest: (state, action) => state,
     signOutSuccess: (state, action) => initialState,
     signOutFailure: (state, action) => initialState,
 
-    changePasswordRequest: (state) => state,
+    changePasswordRequest: (state, action) => state,
     changePasswordSuccess: (state, action) => state,
     changePasswordFailure: (state, action) => state,
+
+    silentLoginRequest: (state) => state,
+    silentLoginSuccess: (state, action) => action.payload,
+    silentLoginFailure: (state, action) => state,
   },
 });
 
@@ -43,6 +46,9 @@ export const {
   signUpFailure,
   signUpRequest,
   signUpSuccess,
+  silentLoginRequest,
+  silentLoginSuccess,
+  silentLoginFailure,
 } = actions;
 
 export default reducer;

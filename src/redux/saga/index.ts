@@ -1,26 +1,24 @@
 import { all, takeEvery } from "redux-saga/effects";
 import {
-  POST_SIGNIN_REQUEST,
-  POST_SIGNUP_REQUEST,
-  POST_SILENT_REQUEST,
-  CHANGE_PASSWORD_REQUEST,
-  POST_SIGNOUT_REQUEST,
-} from "../actions/index";
-import {
-  DELETE_TODO_REQUEST,
-  PUT_TODO_REQUEST,
-} from "../actions/todoAction";
+  changePasswordRequest,
+  signInRequest,
+  signOutRequest,
+  signUpRequest,
+  silentLoginRequest,
+} from "../slice/authSlice";
 import {
   addTodoRequest,
-  getTodoRequest,
+  deleteTodoRequest,
+  editTodoRequest,
+  getTodosRequest,
   toggleTodoRequest,
 } from "../slice/todoSlice";
 import {
   changePasswordSaga,
-  postSignInSaga,
-  postSignOutSaga,
-  postSignUpSaga,
-  postSilentSignInSaga,
+  signInSaga,
+  signOutSaga,
+  signUpSaga,
+  silentSignInSaga,
 } from "./auth";
 import {
   addTodoSaga,
@@ -32,19 +30,19 @@ import {
 
 // action을 감지하는 saga를 모아두는 함수입니다.
 export function* todoSaga() {
-  yield takeEvery(getTodoRequest.type, getTodosSaga);
-  yield takeEvery(toggleTodoRequest.type, toggleTodoSaga);
-  yield takeEvery(addTodoRequest.type, addTodoSaga);
-  yield takeEvery(DELETE_TODO_REQUEST, deleteTodoSaga);
-  yield takeEvery(PUT_TODO_REQUEST, editTodoSaga);
+  yield takeEvery(getTodosRequest, getTodosSaga);
+  yield takeEvery(toggleTodoRequest, toggleTodoSaga);
+  yield takeEvery(addTodoRequest, addTodoSaga);
+  yield takeEvery(deleteTodoRequest, deleteTodoSaga);
+  yield takeEvery(editTodoRequest, editTodoSaga);
 }
 
 export function* authSaga() {
-  yield takeEvery(POST_SIGNUP_REQUEST, postSignUpSaga);
-  yield takeEvery(POST_SIGNIN_REQUEST, postSignInSaga);
-  yield takeEvery(CHANGE_PASSWORD_REQUEST, changePasswordSaga);
-  yield takeEvery(POST_SILENT_REQUEST, postSilentSignInSaga);
-  yield takeEvery(POST_SIGNOUT_REQUEST, postSignOutSaga);
+  yield takeEvery(signUpRequest, signUpSaga);
+  yield takeEvery(signInRequest, signInSaga);
+  yield takeEvery(changePasswordRequest.type, changePasswordSaga);
+  yield takeEvery(silentLoginRequest.type, silentSignInSaga);
+  yield takeEvery(signOutRequest.type, signOutSaga);
 }
 
 export default function* rootSaga() {

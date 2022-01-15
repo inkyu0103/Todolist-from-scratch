@@ -4,29 +4,28 @@ import { history } from "../store";
 import { Todo } from "../../Interface/todo";
 import {
   addTodoSuccess,
-  getTodoFailure,
-  getTodoSuccess,
+  deleteTodoSuccess,
+  editTodoSuccess,
+  getTodosFailure,
+  getTodosSuccess,
+  toggleTodoSuccess,
 } from "../slice/todoSlice";
+import { PayloadAction } from "@reduxjs/toolkit";
 
 export function* getTodosSaga() {
   try {
     const todos: Todo[] = yield call(CustomAxios.get, "/todo");
-    yield put(getTodoSuccess(todos));
+    yield put(getTodosSuccess({ todos }));
   } catch (e) {
-    yield put(getTodoFailure([]));
+    yield put(getTodosFailure([]));
   }
 }
 
-export function* addTodoSaga({
-  todo,
-  priority,
-}: {
-  todo: string;
-  priority: number;
-  type: string;
-}) {
+export function* addTodoSaga(
+  action: PayloadAction<{ content: string; priority: number }>
+) {
   try {
-    yield CustomAxios.post("/todo", { content: todo, priority });
+    yield CustomAxios.post("/todo", action.payload);
     const todos: Todo[] = yield call(CustomAxios.get, "/todo");
     yield put(addTodoSuccess({ todos }));
     history.goBack();
@@ -35,61 +34,38 @@ export function* addTodoSaga({
   }
 }
 
-export function* deleteTodoSaga({ todoId }: { todoId: string; type: string }) {
+export function* deleteTodoSaga(action: PayloadAction<{ todoId: string }>) {
   try {
-    yield call(CustomAxios.delete, `/todo/${todoId}`);
+    yield call(CustomAxios.delete, `/todo/${action.payload}`);
     const todos: Todo[] = yield call(CustomAxios.get, "/todo");
-    //yield put(SEND_SUCCESS_DELETE_TODO({ todos }));
+    yield put(deleteTodoSuccess({ todos }));
   } catch (e) {
     console.log(e);
   }
 }
 
-export function* editTodoSaga({
-  todoId,
-  todo,
-  priority,
-}: {
-  todoId: number;
-  todo: string;
-  priority: number;
-  type: string;
-}) {
-  console.log(todoId, todo, priority, "여긴 어쩌구 저쩌구");
+export function* editTodoSaga(
+  action: PayloadAction<{ todoId: string; content: string; priority: number }>
+) {
+  const { todoId, content, priority } = action.payload;
   try {
-    yield CustomAxios.put(`/todo/${todoId}/content`, {
-      content: todo,
+    yield CustomAxios.put(`/todo/${todoId}`, {
+      content,
       priority,
     });
     const todos: Todo[] = yield call(CustomAxios.get, "/todo");
-    //yield put(SEND_SUCCESS_PUT_TODO({ todos }));
+    yield put(editTodoSuccess({ todos }));
     history.goBack();
   } catch (e) {
     console.log(e);
   }
 }
 
-// 글을 토글할 때 실행되는saga입니다.
-export function* toggleTodoSaga({
-  todoId,
-  toggleType,
-}: {
-  todoId: number;
-  toggleType: number;
-  type: string;
-}) {
+export function* toggleTodoSaga(action: PayloadAction<{ todoId: string }>) {
   try {
-    yield CustomAxios.put(`/todo/${todoId}/toggle`);
-    if (toggleType === 0) {
-      const todos: Todo[] = yield call(CustomAxios.get, "/todo");
-      //yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
-    } else if (toggleType === 1) {
-      const todos: Todo[] = yield call(CustomAxios.get, "/todo/completed");
-      //yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
-    } else {
-      const todos: Todo[] = yield call(CustomAxios.get, "/todo/uncompleted");
-      //yield put(SEND_SUCCESS_TOGGLE_TODO({ todos }));
-    }
+    yield CustomAxios.patch(`/todo/${action.payload}`, {});
+    const todos: Todo[] = yield call(CustomAxios.get, "/todo");
+    yield put(toggleTodoSuccess({ todos }));
   } catch (e) {
     console.log(e);
   }
