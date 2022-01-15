@@ -28,7 +28,6 @@ class CustomAxios {
     return response.data;
   }
 
-  // body tpye은 요청하는 쪽마다 다를텐데 이런 경우에는 any를 사용해야 하나?
   async post(url: string, body: any, config?: AxiosRequestConfig) {
     try {
       const response = await axios.post(url, body, {
@@ -46,6 +45,17 @@ class CustomAxios {
 
   async put(url: string, body: any, config?: AxiosRequestConfig) {
     const response = await axios.put(url, body, {
+      ...config,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response.data;
+  }
+
+  async patch(url: string, body: any, config?: AxiosRequestConfig) {
+    const response = await axios.patch(url, body, {
       ...config,
       headers: {
         "Content-Type": "application/json",
