@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
-import { useDispatch, useSelector } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { signOutRequest } from "../redux/slice/authSlice";
 import { RootState, history } from "../redux/store";
+
+import { ProfileImage } from "./ProfileImage";
 
 export const Profile = () => {
   const { email, userId } = useSelector(
@@ -22,7 +24,7 @@ export const Profile = () => {
       <ProfileContentContainer>
         <ProfileImageContainer>
           <ProfileImageWrapper>
-            <ProfileImage />
+            <ProfileImage profileImageUrl="null" />
           </ProfileImageWrapper>
           <ProfileNickName>{email}</ProfileNickName>
         </ProfileImageContainer>
@@ -62,12 +64,6 @@ const ProfileImageWrapper = styled.div`
   height: 100px;
   border-radius: 50%;
   overflow: hidden;
-`;
-
-const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
-  background: grey;
 `;
 
 const ProfileNickName = styled.div``;
