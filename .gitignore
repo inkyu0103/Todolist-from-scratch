@@ -26,3 +26,6 @@ yarn-error.log*
 
 #dotenv
 .env
+
+#storybook config
+.storybook
