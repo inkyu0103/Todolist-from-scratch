@@ -1,15 +1,27 @@
 import styled from "@emotion/styled";
+import { RefObject, useRef } from "react";
 
 interface ProfileImageArgs {
   profileImageUrl: string;
+  handleProfileImage: (inputRef: RefObject<HTMLInputElement>) => void;
 }
 
-export const ProfileImage = ({ profileImageUrl }: ProfileImageArgs) => {
+export const ProfileImage = ({
+  profileImageUrl,
+  handleProfileImage,
+}: ProfileImageArgs) => {
+  const profileImageRef = useRef<HTMLInputElement>(null);
+
   return (
     <ProfileImageContainer>
       <img src={profileImageUrl} alt="profile" width="100%" height="100%" />
       <ProfileCustomLabel htmlFor="profile-input" />
-      <ProfileCustomInput type="file" id="profile-input" />
+      <ProfileCustomInput
+        type="file"
+        id="profile-input"
+        ref={profileImageRef}
+        onChange={() => handleProfileImage(profileImageRef)}
+      />
     </ProfileImageContainer>
   );
 };

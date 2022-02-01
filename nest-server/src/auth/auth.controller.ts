@@ -67,4 +67,8 @@ export class AuthController {
   ): Promise<void> {
     return this.authService.changePassword(authChangePwDto);
   }
+
+  // 프로필 이미지 변경
+  @Put('profile-image')
+  changeProfileImage() {}
 }

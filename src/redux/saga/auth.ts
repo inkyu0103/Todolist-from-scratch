@@ -5,6 +5,8 @@ import jwtDecode from "jwt-decode";
 import { history } from "../store";
 import { ChangePasswordForm } from "../../Interface/auth";
 import {
+  changeProfileImageRequest,
+  changeProfileImageSuccess,
   signInRequest,
   signInSuccess,
   signUpRequest,
@@ -81,6 +83,20 @@ export function* changePasswordSaga({
     history.goBack();
   } catch (e) {
     alert("변경에 실패하였습니다.");
+    console.log(e);
+  }
+}
+
+export function* changeProfileImageSaga({
+  payload,
+}: ReturnType<typeof changeProfileImageRequest>) {
+  try {
+    yield call(CustomAxios.put, "/auth/profile-image", {
+      payload,
+    });
+
+    yield put(changeProfileImageSuccess(payload));
+  } catch (e) {
     console.log(e);
   }
 }

@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
-import { Provider, useDispatch, useSelector } from "react-redux";
-import { signOutRequest } from "../redux/slice/authSlice";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { changeProfileImageRequest } from "../redux/slice/authSlice";
 import { RootState, history } from "../redux/store";
-
 import { ProfileImage } from "./ProfileImage";
 
 export const Profile = () => {
-  const { email, userId } = useSelector(
+  const { email, userId, profileImageUrl } = useSelector(
     (state: RootState) => state.authReducer
   );
   const dispatch = useDispatch();
@@ -19,12 +19,29 @@ export const Profile = () => {
     history.push(`/${userId}/editprofile`);
   };
 
+  const handleProfileImage = async (inputRef: any) => {
+    const formData: any = new FormData();
+    formData.append("image", inputRef.current?.files[0]);
+    formData.append("key", process.env.REACT_APP_IMAGE_API_KEY);
+
+    const response: any = await axios.post(
+      "https://api.imgbb.com/1/upload",
+      formData
+    );
+
+    const { display_url }: { display_url: string } = response.data.data;
+    dispatch(changeProfileImageRequest({ display_url }));
+  };
+
   return (
     <ProfileContainer>
       <ProfileContentContainer>
         <ProfileImageContainer>
           <ProfileImageWrapper>
-            <ProfileImage profileImageUrl="null" />
+            <ProfileImage
+              profileImageUrl={profileImageUrl}
+              handleProfileImage={handleProfileImage}
+            />
           </ProfileImageWrapper>
           <ProfileNickName>{email}</ProfileNickName>
         </ProfileImageContainer>

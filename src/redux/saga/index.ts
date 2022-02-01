@@ -1,6 +1,7 @@
 import { all, takeEvery } from "redux-saga/effects";
 import {
   changePasswordRequest,
+  changeProfileImageRequest,
   signInRequest,
   signOutRequest,
   signUpRequest,
@@ -15,6 +16,7 @@ import {
 } from "../slice/todoSlice";
 import {
   changePasswordSaga,
+  changeProfileImageSaga,
   signInSaga,
   signOutSaga,
   signUpSaga,
@@ -43,6 +45,7 @@ export function* authSaga() {
   yield takeEvery(changePasswordRequest.type, changePasswordSaga);
   yield takeEvery(silentLoginRequest.type, silentSignInSaga);
   yield takeEvery(signOutRequest.type, signOutSaga);
+  yield takeEvery(changeProfileImageRequest, changeProfileImageSaga);
 }
 
 export default function* rootSaga() {
