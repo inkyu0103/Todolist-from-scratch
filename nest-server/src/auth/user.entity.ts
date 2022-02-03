@@ -28,4 +28,7 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   @Exclude()
   hashedRefreshToken?: string;
+
+  @Column({ nullable: true })
+  profileImageUrl?: string;
 }

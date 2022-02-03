@@ -1,10 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { AuthChangePwDto } from './dto/auth-changepw.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
 export class AuthService {
@@ -102,6 +103,17 @@ export class AuthService {
       await this.userRepository.changePassword(authChangePwDto);
     } else {
       throw new UnauthorizedException('change password fail');
+    }
+  }
+
+  @UseGuards(AuthGuard())
+  async changeProfileImage(profileImageUrl: string, userId: any) {
+    try {
+      const user = await this.userRepository.findOne({ id: userId });
+      user.profileImageUrl = profileImageUrl;
+      user.save();
+    } catch (e) {
+      throw new Error('프로필 사진이 정상적으로 바뀌지 않았습니다.');
     }
   }
 

@@ -7,6 +7,7 @@ import {
   Res,
   Req,
   ValidationPipe,
+  Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthChangePwDto } from './dto/auth-changepw.dto';
@@ -69,6 +70,11 @@ export class AuthController {
   }
 
   // 프로필 이미지 변경
-  @Put('profile-image')
-  changeProfileImage() {}
+  @Put('/:userId/profile-image')
+  changeProfileImage(
+    @Body('profileImageUrl') profileImageUrl: string,
+    @Param('userId') userId: string,
+  ) {
+    return this.authService.changeProfileImage(profileImageUrl, userId);
+  }
 }
