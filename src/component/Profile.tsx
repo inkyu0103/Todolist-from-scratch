@@ -29,8 +29,10 @@ export const Profile = () => {
       formData
     );
 
-    const { display_url }: { display_url: string } = response.data.data;
-    dispatch(changeProfileImageRequest({ display_url }));
+    const {
+      data: { display_url },
+    }: any = response.data;
+    dispatch(changeProfileImageRequest({ display_url, userId }));
   };
 
   return (

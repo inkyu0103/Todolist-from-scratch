@@ -31,9 +31,8 @@ export const authSlice = createSlice({
     silentLoginFailure: (state, action) => state,
 
     changeProfileImageRequest: (state, action) => state,
-    changeProfileImageSuccess: (state, action) => {
-      console.log(action.payload.display_url);
-      state.profileImageUrl = action.payload.display_url;
+    changeProfileImageSuccess: (state, { payload: { display_url } }) => {
+      state.profileImageUrl = display_url;
     },
     changeProfileImageFailure: (state) => state,
   },

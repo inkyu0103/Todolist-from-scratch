@@ -12,11 +12,13 @@ import {
   signUpRequest,
 } from "../slice/authSlice";
 
-export function* signUpSaga({ payload }: ReturnType<typeof signUpRequest>) {
+export function* signUpSaga({
+  payload: { email, password },
+}: ReturnType<typeof signUpRequest>) {
   try {
     yield call(CustomAxios.post, "/auth/signup", {
-      email: payload.email,
-      password: payload.password,
+      email,
+      password,
     });
     history.push("/login");
   } catch (e) {
@@ -24,11 +26,13 @@ export function* signUpSaga({ payload }: ReturnType<typeof signUpRequest>) {
   }
 }
 
-export function* signInSaga({ payload }: ReturnType<typeof signInRequest>) {
+export function* signInSaga({
+  payload: { email, password },
+}: ReturnType<typeof signInRequest>) {
   try {
     const { accessToken } = yield call(CustomAxios.post, "/auth/signin", {
-      email: payload.email,
-      password: payload.password,
+      email,
+      password,
     });
     const { email: loggedEmail, id: userId } = yield jwtDecode(accessToken);
     yield call(setAuthToken, accessToken);
@@ -91,8 +95,9 @@ export function* changeProfileImageSaga({
   payload,
 }: ReturnType<typeof changeProfileImageRequest>) {
   try {
-    yield call(CustomAxios.put, "/auth/profile-image", {
-      payload,
+    const { display_url: profileImageUrl, userId } = payload;
+    yield call(CustomAxios.put, `/auth/${userId}/profile-image`, {
+      profileImageUrl,
     });
 
     yield put(changeProfileImageSuccess(payload));
