@@ -30,7 +30,7 @@ const ProfileImageContainer = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  background: grey;
+  background: white;
   z-index: 1;
 `;
 
@@ -41,6 +41,7 @@ const ProfileImageTag = styled.img`
   top: 0;
   left: 0;
   z-index: 2;
+  object-fit: cover;
 `;
 
 const ProfileCustomInput = styled.input`
@@ -49,9 +50,9 @@ const ProfileCustomInput = styled.input`
 
 const ProfileCustomLabel = styled.label`
   display: inline-block;
-  position: absolute;
   width: 100%;
   height: 100%;
+  position: absolute;
   border-radius: 50%;
   z-index: 3;
   top: 0;
