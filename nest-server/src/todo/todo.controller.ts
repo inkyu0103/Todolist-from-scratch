@@ -65,7 +65,6 @@ export class TodoController {
     @Param('id', ParseIntPipe) id: number,
     @GetUser() user: User,
   ): Promise<Todo> {
-    console.log('hi toggle');
     return this.todoService.toggleTodo(id, user);
   }
 

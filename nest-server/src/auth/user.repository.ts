@@ -45,7 +45,6 @@ export class UserRepository extends Repository<User> {
   async signOut(userId: number): Promise<void> {
     try {
       await this.update(userId, { hashedRefreshToken: null });
-      console.log('hh;');
     } catch (e) {
       throw new UnauthorizedException();
     }

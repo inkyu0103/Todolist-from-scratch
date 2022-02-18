@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   email: null,
   userId: null,
+  profileImageUrl: "",
 };
 
 export const authSlice = createSlice({
@@ -28,6 +29,12 @@ export const authSlice = createSlice({
     silentLoginRequest: (state) => state,
     silentLoginSuccess: (state, action) => action.payload,
     silentLoginFailure: (state, action) => state,
+
+    changeProfileImageRequest: (state, action) => state,
+    changeProfileImageSuccess: (state, { payload: { display_url } }) => {
+      state.profileImageUrl = display_url;
+    },
+    changeProfileImageFailure: (state) => state,
   },
 });
 
@@ -49,6 +56,9 @@ export const {
   silentLoginRequest,
   silentLoginSuccess,
   silentLoginFailure,
+  changeProfileImageFailure,
+  changeProfileImageRequest,
+  changeProfileImageSuccess,
 } = actions;
 
 export default reducer;

@@ -1,10 +1,12 @@
 import styled from "@emotion/styled";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { signOutRequest } from "../redux/slice/authSlice";
+import { changeProfileImageRequest } from "../redux/slice/authSlice";
 import { RootState, history } from "../redux/store";
+import { ProfileImage } from "./ProfileImage";
 
 export const Profile = () => {
-  const { email, userId } = useSelector(
+  const { email, userId, profileImageUrl } = useSelector(
     (state: RootState) => state.authReducer
   );
   const dispatch = useDispatch();
@@ -17,12 +19,31 @@ export const Profile = () => {
     history.push(`/${userId}/editprofile`);
   };
 
+  const handleProfileImage = async (inputRef: any) => {
+    const formData: any = new FormData();
+    formData.append("image", inputRef.current?.files[0]);
+    formData.append("key", process.env.REACT_APP_IMAGE_API_KEY);
+
+    const response: any = await axios.post(
+      "https://api.imgbb.com/1/upload",
+      formData
+    );
+
+    const {
+      data: { display_url },
+    }: any = response.data;
+    dispatch(changeProfileImageRequest({ display_url, userId }));
+  };
+
   return (
     <ProfileContainer>
       <ProfileContentContainer>
         <ProfileImageContainer>
           <ProfileImageWrapper>
-            <ProfileImage />
+            <ProfileImage
+              profileImageUrl={profileImageUrl}
+              handleProfileImage={handleProfileImage}
+            />
           </ProfileImageWrapper>
           <ProfileNickName>{email}</ProfileNickName>
         </ProfileImageContainer>
@@ -64,12 +85,6 @@ const ProfileImageWrapper = styled.div`
   overflow: hidden;
 `;
 
-const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
-  background: grey;
-`;
-
 const ProfileNickName = styled.div``;
 
 const ProfileMenuContainer = styled.div`
@@ -92,4 +107,5 @@ const ProfileNav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;

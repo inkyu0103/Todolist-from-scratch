@@ -5,16 +5,20 @@ import jwtDecode from "jwt-decode";
 import { history } from "../store";
 import { ChangePasswordForm } from "../../Interface/auth";
 import {
+  changeProfileImageRequest,
+  changeProfileImageSuccess,
   signInRequest,
   signInSuccess,
   signUpRequest,
 } from "../slice/authSlice";
 
-export function* signUpSaga({ payload }: ReturnType<typeof signUpRequest>) {
+export function* signUpSaga({
+  payload: { email, password },
+}: ReturnType<typeof signUpRequest>) {
   try {
     yield call(CustomAxios.post, "/auth/signup", {
-      email: payload.email,
-      password: payload.password,
+      email,
+      password,
     });
     history.push("/login");
   } catch (e) {
@@ -22,16 +26,22 @@ export function* signUpSaga({ payload }: ReturnType<typeof signUpRequest>) {
   }
 }
 
-export function* signInSaga({ payload }: ReturnType<typeof signInRequest>) {
+export function* signInSaga({
+  payload: { email, password },
+}: ReturnType<typeof signInRequest>) {
   try {
-    const { accessToken } = yield call(CustomAxios.post, "/auth/signin", {
-      email: payload.email,
-      password: payload.password,
-    });
-    const { email: loggedEmail, id: userId } = yield jwtDecode(accessToken);
+    const { accessToken, userInfo } = yield call(
+      CustomAxios.post,
+      "/auth/signin",
+      {
+        email,
+        password,
+      }
+    );
+
     yield call(setAuthToken, accessToken);
-    yield put(signInSuccess({ email: loggedEmail, userId }));
-    history.push(`/${userId}`);
+    yield put(signInSuccess(userInfo));
+    //history.push(`/${userId}`);
   } catch (e) {
     alert("로그인에 실패했습니다.");
     console.log(e);
@@ -81,6 +91,21 @@ export function* changePasswordSaga({
     history.goBack();
   } catch (e) {
     alert("변경에 실패하였습니다.");
+    console.log(e);
+  }
+}
+
+export function* changeProfileImageSaga({
+  payload,
+}: ReturnType<typeof changeProfileImageRequest>) {
+  try {
+    const { display_url: profileImageUrl, userId } = payload;
+    yield call(CustomAxios.put, `/auth/${userId}/profile-image`, {
+      profileImageUrl,
+    });
+
+    yield put(changeProfileImageSuccess(payload));
+  } catch (e) {
     console.log(e);
   }
 }
