@@ -30,14 +30,18 @@ export function* signInSaga({
   payload: { email, password },
 }: ReturnType<typeof signInRequest>) {
   try {
-    const { accessToken } = yield call(CustomAxios.post, "/auth/signin", {
-      email,
-      password,
-    });
-    const { email: loggedEmail, id: userId } = yield jwtDecode(accessToken);
+    const { accessToken, userInfo } = yield call(
+      CustomAxios.post,
+      "/auth/signin",
+      {
+        email,
+        password,
+      }
+    );
+
     yield call(setAuthToken, accessToken);
-    yield put(signInSuccess({ email: loggedEmail, userId }));
-    history.push(`/${userId}`);
+    yield put(signInSuccess(userInfo));
+    //history.push(`/${userId}`);
   } catch (e) {
     alert("로그인에 실패했습니다.");
     console.log(e);
