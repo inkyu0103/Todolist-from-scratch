@@ -53,12 +53,11 @@ export class AuthController {
     @Body(ValidationPipe) authcredentialsDto: AuthCredentialsDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<any> {
-    const { accessToken, refreshToken } = await this.authService.signIn(
-      authcredentialsDto,
-    );
+    const { accessToken, refreshToken, userInfo } =
+      await this.authService.signIn(authcredentialsDto);
     res.cookie('auth-cookie', refreshToken, { httpOnly: true });
 
-    return { accessToken };
+    return { accessToken, userInfo };
   }
 
   // 기존 authcredentiasDto가 아님.

@@ -64,7 +64,7 @@ export class AuthService {
 
   async signIn(
     authCredentialDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string; userInfo: any }> {
     const { email, password } = authCredentialDto;
     const user = await this.userRepository.findOne({ email });
 
@@ -78,8 +78,15 @@ export class AuthService {
       await this.userRepository.setHashedRefreshToken(user.id, refreshToken);
 
       //set cookie
+      const userInfo = {
+        email: user.email,
+        userId: user.id,
+        profileImageUrl: user.profileImageUrl,
+      };
 
-      return { accessToken, refreshToken };
+      console.log(userInfo, 'is userInfo');
+
+      return { accessToken, refreshToken, userInfo };
     } else {
       throw new UnauthorizedException('login failed');
     }
