@@ -8,6 +8,7 @@ import {
   Req,
   ValidationPipe,
   Param,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthChangePwDto } from './dto/auth-changepw.dto';
@@ -22,15 +23,17 @@ export class AuthController {
     const { cookies } = req;
     const refreshToken = cookies['auth-cookie'];
 
-    const accessToken = await this.authService.silentSignIn(refreshToken);
-    return accessToken ? { accessToken } : null;
+    const { accessToken, user } = await this.authService.silentSignIn(
+      refreshToken,
+    );
+    return accessToken ? { accessToken, user } : null;
   }
 
   @Get('signout')
+  @HttpCode(204)
   async signout(@Req() req: Request, @Res() res: Response) {
-    const accessToken = req.headers['authorization'].split(' ')[1];
-    await this.authService.signOut(accessToken);
-    return res.sendStatus(200);
+    res.cookie('auth-cookie', null, { httpOnly: true });
+    return;
   }
 
   @Get('extension')
@@ -42,6 +45,7 @@ export class AuthController {
   }
 
   @Post('signup')
+  @HttpCode(201)
   signUp(
     @Body(ValidationPipe) authcredentialsDto: AuthCredentialsDto,
   ): Promise<void> {
@@ -53,11 +57,12 @@ export class AuthController {
     @Body(ValidationPipe) authcredentialsDto: AuthCredentialsDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<any> {
-    const { accessToken, refreshToken, userInfo } =
-      await this.authService.signIn(authcredentialsDto);
+    const { accessToken, refreshToken, user } = await this.authService.signIn(
+      authcredentialsDto,
+    );
     res.cookie('auth-cookie', refreshToken, { httpOnly: true });
 
-    return { accessToken, userInfo };
+    return { accessToken, user };
   }
 
   // 기존 authcredentiasDto가 아님.

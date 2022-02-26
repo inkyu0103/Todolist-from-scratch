@@ -28,7 +28,14 @@ export class AuthService {
           email: verify['email'],
           id: verify['id'],
         });
-        return accessToken;
+
+        const loggedUser = {
+          email: user.email,
+          userId: user.id,
+          profileImageUrl: user.profileImageUrl,
+        };
+
+        return { accessToken, user: loggedUser };
       } else {
         throw new UnauthorizedException();
       }
@@ -64,7 +71,7 @@ export class AuthService {
 
   async signIn(
     authCredentialDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string; refreshToken: string; userInfo: any }> {
+  ): Promise<{ accessToken: string; refreshToken: string; user: any }> {
     const { email, password } = authCredentialDto;
     const user = await this.userRepository.findOne({ email });
 
@@ -78,15 +85,13 @@ export class AuthService {
       await this.userRepository.setHashedRefreshToken(user.id, refreshToken);
 
       //set cookie
-      const userInfo = {
+      const loggedUser = {
         email: user.email,
         userId: user.id,
         profileImageUrl: user.profileImageUrl,
       };
 
-      console.log(userInfo, 'is userInfo');
-
-      return { accessToken, refreshToken, userInfo };
+      return { accessToken, refreshToken, user: loggedUser };
     } else {
       throw new UnauthorizedException('login failed');
     }
