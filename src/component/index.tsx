@@ -4,4 +4,3 @@ export * from "./Nav";
 export * from "./Sidebar";
 export * from "./SidebarItem";
 export * from "./TodoItem";
-export * from "./TodoList";

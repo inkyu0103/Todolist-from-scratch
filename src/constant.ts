@@ -26,3 +26,15 @@ export const toggleMap = {
 export const BASE_URL = "http://localhost:8080";
 
 export const ENTER_KEY_CODE = 13;
+
+export const routes = {
+  GET_TODOS: "/todo",
+};
+
+export const todoFilterFunctions: any = {
+  getAll: () => true,
+  getCompleted: ({ is_completed }: { is_completed: boolean }) =>
+    is_completed === true,
+  getUnCompleted: ({ is_completed }: { is_completed: boolean }) =>
+    is_completed === false,
+};

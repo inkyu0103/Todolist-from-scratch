@@ -4,11 +4,6 @@ import { useDispatch } from "react-redux";
 import { getAll, getCompleted, getUnCompleted } from "../redux/slice/todoSlice";
 
 export const Nav = () => {
-  /*현재 redux action에서 setAtll, setCompleted,setUncompleted 이 부분에 대해서...
-  
-    Nav를 클릭한다 -> Nav 상태를 dispatch한다 -> 컴포넌트에서 상태를 받아와
-  */
-
   const [navIndex, setNavIndex] = useState<number>(0);
   const dispatch = useDispatch();
 
@@ -89,6 +84,7 @@ const AppNavTitle = styled.h4`
   display: flex;
   align-items: center;
   height: 100%;
+  cursor: pointer;
   color: ${({ selectedIdx, idx }: { selectedIdx: number; idx: number }) =>
     selectedIdx === idx ? "black" : "grey"};
   border-bottom: ${({
@@ -106,5 +102,3 @@ const AppNavTitle = styled.h4`
     height: 50px;
   }
 `;
-
-// 클릭 -> 데이터를 다시 뿌림

@@ -1,6 +1,6 @@
 export interface User {
   email: string;
-  id: number;
+  id: string;
 }
 
 export interface SignInForm {
@@ -14,7 +14,12 @@ export interface SignUpForm {
 }
 
 export interface ChangePasswordForm {
-  id: number;
+  userId: string;
   currentPassword: string;
   changedPassword: string;
+}
+
+export interface ChangeProfileForm {
+  userId: string;
+  profileImageUrl: string;
 }

@@ -18,14 +18,19 @@ export const clearAuthToken = () => {
 
 class CustomAxios {
   async get(url: string, config?: AxiosRequestConfig) {
-    const response = await axios.get(url, {
-      ...config,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const response = await axios.get(url, {
+        ...config,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    return response.data;
+      return response.data;
+    } catch (e: any) {
+      // 확인하기
+      console.log(e.response);
+    }
   }
 
   async post(url: string, body: any, config?: AxiosRequestConfig) {
