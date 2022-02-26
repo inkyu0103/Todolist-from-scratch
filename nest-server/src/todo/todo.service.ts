@@ -83,30 +83,6 @@ export class TodoService {
     }
   }
 
-  async getCompletedTodos(user: User): Promise<Todo[]> {
-    const query = this.todoRepository.createQueryBuilder('todo');
-    query
-      .where('todo.userId = :userId', { userId: user.id })
-      .andWhere("date_trunc('day',created_at)::date = current_date")
-      .andWhere('is_completed = true')
-      .orderBy('created_at', 'ASC');
-
-    const todos = await query.getMany();
-    return todos;
-  }
-
-  async getUncompletedTodos(user: User): Promise<Todo[]> {
-    const query = this.todoRepository.createQueryBuilder('todo');
-    query
-      .where('todo.userId = :userId', { userId: user.id })
-      .andWhere("date_trunc('day',created_at)::date = current_date")
-      .andWhere('is_completed = false')
-      .orderBy('created_at', 'ASC');
-
-    const todos = await query.getMany();
-    return todos;
-  }
-
   async getTodoById(id: number, user: User): Promise<Todo> {
     return this.todoRepository.findOne({ id, user });
   }
@@ -145,6 +121,7 @@ export class TodoService {
     todo.priority = priority;
 
     await this.todoRepository.save(todo);
+    console.log(todo, 'is todo');
     return todo;
   }
 
