@@ -5,6 +5,7 @@ import { changePasswordRequest } from "../redux/slice/authSlice";
 import { useSelector } from "react-redux";
 import { BasicButton } from "../Button/BasicButton";
 import { RootState } from "../redux/store";
+import { useEditTodoMutation } from "../query/todo";
 
 export const EditProfile = () => {
   const {
@@ -15,6 +16,8 @@ export const EditProfile = () => {
 
   const userId = useSelector((state: RootState) => state.authReducer.userId);
   const dispatch = useDispatch();
+
+  const { mutate } = useEditTodoMutation();
 
   const onSubmit = ({
     current,

@@ -2,12 +2,12 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import { BasicButton } from "../Button/BasicButton";
 import { useForm } from "react-hook-form";
-import { addTodoRequest } from "../redux/slice/todoSlice";
-import { useDispatch } from "react-redux";
+import { useAddTodoMutation } from "../query/todo";
 
 export const AddTask = () => {
   const [importance, setImportance] = useState<number>(1);
-  const dispatch = useDispatch();
+
+  const { mutate } = useAddTodoMutation();
 
   const {
     register,
@@ -32,7 +32,7 @@ export const AddTask = () => {
     content: string;
     priority: number;
   }) => {
-    dispatch(addTodoRequest({ content, priority }));
+    mutate({ content, priority });
   };
 
   return (

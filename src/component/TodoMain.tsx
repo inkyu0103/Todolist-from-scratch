@@ -1,34 +1,36 @@
 import styled from "@emotion/styled";
 import { Create } from "../Button/Create";
-import { TodoList } from ".";
+import { TodoItem } from ".";
 import { useParams, useHistory } from "react-router";
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useCallback } from "react";
+
 import {
-  deleteTodoRequest,
-  getTodosRequest,
-  toggleTodoRequest,
-} from "../redux/slice/todoSlice";
+  useDeleteTodoMutation,
+  useGetTodosQuery,
+  useToggleTodoMutation,
+} from "../query/todo";
+import { todoFilterFunctions } from "../constant";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export const TodoMain = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams<{ id: string }>();
-  const todos = useSelector(
-    (state: RootState) => state.todoReducer.showedTodos
+
+  const { data, isLoading } = useGetTodosQuery();
+  const { mutate: toggleTodoMutation } = useToggleTodoMutation();
+  const { mutate: deleteTodoMutation } = useDeleteTodoMutation();
+  const todoFilterState = useSelector(
+    (state: RootState) => state.todoReducer.todoFilterState
   );
 
-  useEffect(() => {
-    dispatch(getTodosRequest());
-  }, [dispatch]);
+  const handleToggleClick = (todoId: string, is_completed: boolean) => {
+    toggleTodoMutation({ todoId, isChecked: is_completed });
+  };
 
-  const handleToggleClick = useCallback(
-    (todoId) => {
-      dispatch(toggleTodoRequest(todoId));
-    },
-    [dispatch]
-  );
+  const handleDeleteClick = (todoId: string) => {
+    deleteTodoMutation({ todoId });
+  };
 
   const handleEditClick = useCallback(
     (todoId) => {
@@ -41,21 +43,26 @@ export const TodoMain = () => {
     history.push(`/${id}/addtask`);
   }, [id, history]);
 
-  const handleDeleteClick = useCallback(
-    (todoId) => {
-      dispatch(deleteTodoRequest(todoId));
-    },
-    [dispatch]
-  );
-
   return (
     <TodoMainContainer>
-      <TodoList
-        todoItems={todos}
-        handleEditClick={handleEditClick}
-        handleToggleClick={handleToggleClick}
-        handleDeleteClick={handleDeleteClick}
-      />
+      <TodoListContainer>
+        {!isLoading &&
+          data
+            .filter(todoFilterFunctions[todoFilterState])
+            .map(({ id: todoId, content, is_completed, priority }: any) => (
+              <TodoItem
+                key={todoId}
+                content={content}
+                isCheck={is_completed}
+                priority={priority}
+                handleEditClick={() => handleEditClick(todoId)}
+                handleToggleClick={() => {
+                  handleToggleClick(todoId, is_completed);
+                }}
+                handleDeleteClick={() => handleDeleteClick(todoId)}
+              />
+            ))}
+      </TodoListContainer>
 
       <Create handleCreateClick={handleCreateClick} />
     </TodoMainContainer>
@@ -66,6 +73,14 @@ const TodoMainContainer = styled.main`
   position: relative;
   width: 100%;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TodoListContainer = styled.section`
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

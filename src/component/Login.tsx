@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { signInRequest } from "../redux/slice/authSlice"; 
+import { useSigninMutaion } from "../query/auth";
 
 export const Login = () => {
   const {
@@ -9,7 +8,8 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const dispatch = useDispatch();
+
+  const { mutate } = useSigninMutaion();
 
   const onSubmit = ({
     email,
@@ -18,7 +18,7 @@ export const Login = () => {
     email: string;
     password: string;
   }) => {
-    dispatch(signInRequest({ email, password }));
+    mutate({ email, password });
   };
 
   return (

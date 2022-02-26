@@ -2,9 +2,8 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import { BasicButton } from "../Button/BasicButton";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { editTodoRequest } from "../redux/slice/todoSlice";
 import { useParams } from "react-router";
+import { useEditTodoMutation } from "../query/todo";
 
 export const EditTask = () => {
   const [priority, setPriority] = useState<number>(1);
@@ -16,7 +15,7 @@ export const EditTask = () => {
 
   const { todoId } = useParams<{ todoId: string }>();
 
-  const dispatch = useDispatch();
+  const { mutate } = useEditTodoMutation();
 
   const todoPriorityMap = new Map([
     [0, "보통"],
@@ -35,7 +34,7 @@ export const EditTask = () => {
     content: string;
     priority: number;
   }) => {
-    dispatch(editTodoRequest({ todoId, content, priority }));
+    mutate({ todoId, content, priority });
   };
 
   return (

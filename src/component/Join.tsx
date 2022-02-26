@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { signUpRequest } from "../redux/slice/authSlice";
+import { useSignupMutation } from "../query/auth";
 
 export const Join = () => {
   const {
@@ -9,7 +8,7 @@ export const Join = () => {
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const dispatch = useDispatch();
+  const { mutate } = useSignupMutation();
 
   const onSubmit = ({
     email,
@@ -18,8 +17,7 @@ export const Join = () => {
     email: string;
     password: string;
   }) => {
-    console.log(email, password);
-    dispatch(signUpRequest({ email, password }));
+    mutate({ email, password });
   };
 
   return (
