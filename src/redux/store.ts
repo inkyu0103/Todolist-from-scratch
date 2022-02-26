@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "@redux-saga/core";
 import { rootReducer } from "./slice/rootSlice";
-import rootSaga from "./saga/index";
 
 export const history = createBrowserHistory();
 
@@ -13,7 +12,5 @@ export const store = configureStore({
   middleware: [sagaMiddleware],
   devTools: true,
 });
-
-sagaMiddleware.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
